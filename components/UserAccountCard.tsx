@@ -10,24 +10,35 @@ import { IoIosArrowDown } from "react-icons/io";
 import UserAvatarCard from "./UserAvatarCard";
 import UserAccountMenu from "./UserAccountMenu";
 
-export default function UserAccountCard() {
+interface UserAccountCardProps {
+  showNameEmailArrow: boolean;
+}
+
+export default function UserAccountCard({
+  showNameEmailArrow = true,
+}: UserAccountCardProps) {
   return (
     <div className="flex gap-2 items-center mx-3">
-      <UserAvatarCard />
+      {showNameEmailArrow && (
+        <UserAvatarCard showNameEmail={showNameEmailArrow} />
+      )}
       <Popover>
         <PopoverTrigger>
-          <IoIosArrowDown
-            size={20}
-            className=" text-textColor-400 ml-6 
+          {showNameEmailArrow ? (
+            <IoIosArrowDown
+              size={20}
+              className=" text-textColor-400 ml-6 
             hover:duration-100 hover:cursor-pointer hover:bg-gray-100 hover:rounded-2xl hover:ring-[5px] hover:ring-textColor-100 hover:text-textColor-base"
-          />
+            />
+          ) : (
+            <UserAvatarCard showNameEmail={showNameEmailArrow} />
+          )}
         </PopoverTrigger>
         <PopoverContent
           side="right"
-          sideOffset={12}
+          sideOffset={showNameEmailArrow ? 12 : -10}
           align={"start"}
-          alignOffset={10}
-          className="ml-12 mb-2.5 shadow-sm h-[450px] w-[19rem] rounded-2xl"
+          className="ml-12 mb-[13.5px] shadow-sm h-[452px] w-[19rem] rounded-2xl"
         >
           <UserAccountMenu />
         </PopoverContent>
