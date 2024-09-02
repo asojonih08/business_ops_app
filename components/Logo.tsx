@@ -1,10 +1,8 @@
-import Image from "next/image";
 import React from "react";
-import logo160 from "@/public/pfm_icon160.png";
-import logo2 from "@/public/pfm_icon2.png";
-import logo2_160 from "@/public/pfm_icon2-160.png";
 import { Separator } from "./ui/separator";
 import LogoIcon from "./LogoIcon";
+
+//TODO: create size modes: small, medium, large, ...
 
 interface LogoProps {
   height: number;

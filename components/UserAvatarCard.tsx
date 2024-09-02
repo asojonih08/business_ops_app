@@ -10,7 +10,7 @@ export default function UserAvatarCard({
   showNameEmail = true,
 }: UserAvatarCardProps) {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 items-center">
       <Avatar className="h-12 w-12">
         <AvatarImage src={placeholder_avatar.src} />
         <AvatarFallback>CN</AvatarFallback>

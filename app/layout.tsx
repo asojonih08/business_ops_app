@@ -12,9 +12,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-[#F1F1F1] min-h-screen flex">
+      {/* bg-[#F1F1F1] */}
+      <body className="bg-[#E9EDF2] min-h-screen min-w-screen flex justify-between items-center">
         <Sidebar />
-        <main>{children}</main>
+        <main className="h-[100vh] w-[92vw] px-6 mx-auto overflow-hidden">
+          {children}
+        </main>
       </body>
     </html>
   );

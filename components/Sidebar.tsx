@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import React, { useState } from "react";
 import "@/app/globals.css";
 import { motion, AnimatePresence } from "framer-motion";
@@ -24,11 +23,14 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Arrow } from "@radix-ui/react-tooltip";
+
 import Logo from "./Logo";
 import UserAccount from "./UserAccountCard";
 import SiteSearch from "./SiteSearch";
 import LogoIcon from "./LogoIcon";
 import NavigationLink from "./NavigationLink";
+
+// TODO: fix transition for logo scaling
 
 const ICON_SIZE = 19;
 
@@ -52,8 +54,8 @@ const navigationLinks = [
     authRole: "user",
   },
   {
-    title: "Proposal",
-    href: "/proposal",
+    title: "Estimate",
+    href: "/estimate",
     icon: <RiCalculatorLine size={ICON_SIZE} />,
     authRole: "user",
   },
@@ -94,7 +96,7 @@ const sidebarAnimation = {
     },
   },
   closed: {
-    width: "4.82rem",
+    width: "4.9rem",
     transition: {
       duration: 0.2,
       damping: 100,
@@ -111,12 +113,12 @@ export default function Sidebar() {
     <motion.nav
       variants={sidebarAnimation}
       animate={isExpanded ? "open" : "closed"}
-      className="text-[19px] text-textColor-300 font-semibold h-[98vh] ml-4 my-auto w-[20rem] bg-white rounded-2xl shadow-sm overflow-hidden"
+      className="text-[19px] text-textColor-600 font-semibold h-[98vh] ml-4 my-auto w-[20rem] bg-white rounded-2xl shadow-sm overflow-hidden"
     >
       <AnimatePresence>
         <ul
-          className={`flex flex-col gap-2.5 mx-4 py-6 h-full justify-between ${
-            !isExpanded && "w-[2.8rem]"
+          className={`flex flex-col gap-2.5 mx-4 py-6 h-full justify-between  ${
+            isExpanded ? "overflow-hidden" : "w-[2.83rem]"
           }`}
         >
           <div
@@ -124,6 +126,7 @@ export default function Sidebar() {
               isExpanded ? "gap-2.5" : "gap-3.5 items-center"
             }`}
           >
+            {/* Logo */}
             <div className="p-1.5 mb-2.5 flex items-center justify-between text-textColor-base">
               {isExpanded ? (
                 <motion.div
@@ -154,7 +157,13 @@ export default function Sidebar() {
                         side="right"
                         sideOffset={30}
                       >
-                        <Arrow style={{ fill: "white" }} />
+                        <Arrow
+                          style={{
+                            fill: "white",
+                            filter: "drop-shadow(0 0 4px gray)",
+                            clipPath: "inset(0 -10px -10px -10px)",
+                          }}
+                        />
                         <p className="text-textColor-base">Expand</p>
                       </TooltipContent>
                     </Tooltip>
@@ -168,13 +177,14 @@ export default function Sidebar() {
                   exit={{ opacity: 0 }}
                 >
                   <TbArrowBarToLeft
-                    className="text-textColor-300 hover:cursor-pointer"
+                    className="text-textColor-600 hover:cursor-pointer"
                     size={27}
                     onClick={() => setIsExpanded(!isExpanded)}
                   />
                 </motion.div>
               )}
             </div>
+            {/* Search */}
             {isExpanded ? (
               <motion.div>
                 <SiteSearch />
@@ -185,83 +195,48 @@ export default function Sidebar() {
                 whileHover={{ scale: 1.1 }}
                 onClick={() => setIsExpanded(!isExpanded)}
               >
-                <IoSearch
-                  size={ICON_SIZE + 3}
-                  className="text-textColor-300 "
-                />
+                <IoSearch size={ICON_SIZE + 3} className="text-textColor-600" />
               </motion.div>
             )}
             {navigationLinks.map((navigationLink, index) =>
               linksAmount - 2 !== index && linksAmount - 1 !== index ? (
-                <TooltipProvider
-                  key={navigationLink.href}
-                  delayDuration={isExpanded ? 1000000000 : 150}
-                >
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <NavigationLink
-                        pathname={pathname}
-                        title={navigationLink.title}
-                        href={navigationLink.href}
-                        icon={navigationLink.icon}
-                        isExpanded={isExpanded}
-                      />
-                    </TooltipTrigger>
-                    <TooltipContent
-                      className="border-transparent"
-                      side="right"
-                      sideOffset={30}
-                    >
-                      <Arrow style={{ fill: "white" }} />
-                      <p className="text-textColor-base">
-                        {navigationLink.title}
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <NavigationLink
+                  key={navigationLink.title}
+                  pathname={pathname}
+                  title={navigationLink.title}
+                  href={navigationLink.href}
+                  icon={navigationLink.icon}
+                  isExpanded={isExpanded}
+                />
               ) : null
             )}
-            <Separator className="w-[96%] h-[1.8px] mx-auto my-3.5 bg-textColor-100" />
+            <Separator className="w-[96%] h-[1.5px] mx-auto my-3.5 bg-textColor-400/20" />
           </div>
           {/* Admin and Settings Links */}
           <div
-            className={`flex flex-col ${isExpanded ? "gap-2.5" : "gap-3.5"}`}
+            className={`flex flex-col ${
+              isExpanded ? "gap-2.5" : "gap-3.5 items-center"
+            }`}
           >
             {navigationLinks.map(
               (navigationLink, index) =>
                 index >= linksAmount - 2 && (
-                  <TooltipProvider
-                    key={navigationLink.href}
-                    delayDuration={isExpanded ? 1000000000 : 150}
-                  >
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <NavigationLink
-                          pathname={pathname}
-                          title={navigationLink.title}
-                          href={navigationLink.href}
-                          icon={navigationLink.icon}
-                          isExpanded={isExpanded}
-                        />
-                      </TooltipTrigger>
-                      <TooltipContent
-                        className="border-transparent"
-                        side="right"
-                        sideOffset={30}
-                      >
-                        <Arrow style={{ fill: "white" }} />
-                        <p className="text-textColor-base">
-                          {navigationLink.title}
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <NavigationLink
+                    key={navigationLink.title}
+                    pathname={pathname}
+                    title={navigationLink.title}
+                    href={navigationLink.href}
+                    icon={navigationLink.icon}
+                    isExpanded={isExpanded}
+                  />
                 )
             )}
-
-            <Separator className="w-[96%] h-[1.8px] mx-auto my-3.5 bg-textColor-100" />
+            <Separator className="w-[96%] h-[1.8px] mx-auto my-3.5 bg-textColor-400/20" />
+            {/* User Account */}
             <motion.div
-              className={`${isExpanded ? "px-1.5" : "-ml-[13.55px] -mt-0.5"}`}
+              className={`overflow-visible ${
+                isExpanded ? "px-1.5" : "-mt-0.5 ml-[0.25px]"
+              }`}
             >
               <UserAccount showNameEmailArrow={isExpanded} />
             </motion.div>

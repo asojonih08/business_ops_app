@@ -18,7 +18,7 @@ export default function UserAccountCard({
   showNameEmailArrow = true,
 }: UserAccountCardProps) {
   return (
-    <div className="flex gap-2 items-center mx-3">
+    <div className="flex gap-2 items-center justify-between mx-3">
       {showNameEmailArrow && (
         <UserAvatarCard showNameEmail={showNameEmailArrow} />
       )}
@@ -27,7 +27,7 @@ export default function UserAccountCard({
           {showNameEmailArrow ? (
             <IoIosArrowDown
               size={20}
-              className=" text-textColor-400 ml-6 
+              className=" text-textColor-400 
             hover:duration-100 hover:cursor-pointer hover:bg-gray-100 hover:rounded-2xl hover:ring-[5px] hover:ring-textColor-100 hover:text-textColor-base"
             />
           ) : (
