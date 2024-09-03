@@ -15,7 +15,7 @@ export default function RootLayout({
       {/* bg-[#F1F1F1] */}
       <body className="bg-[#E9EDF2] min-h-screen min-w-screen flex justify-between items-center">
         <Sidebar />
-        <main className="h-[100vh] w-[92vw] px-6 mx-auto overflow-hidden">
+        <main className="h-[97vh] w-[94vw] px-6 mx-auto overflow-hidden">
           {children}
         </main>
       </body>

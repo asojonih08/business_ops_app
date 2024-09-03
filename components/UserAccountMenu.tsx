@@ -16,49 +16,51 @@ import { Separator } from "./ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { usePathname } from "next/navigation";
 
-const ICON_SIZE = 19;
+const ICON_SIZE_3XL = 19;
+const ICON_SIZE = 14;
+
 
 const navigationLinks = [
   {
     title: "Profile",
     href: "/profile",
-    icon: <CgProfile size={ICON_SIZE} />,
+    icon: <CgProfile style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />,
   },
   {
     title: "Account Settings",
     href: "/account",
-    icon: <RiListSettingsLine size={ICON_SIZE} />,
+    icon: <RiListSettingsLine style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />,
   },
   {
     title: "Notification Settings",
     href: "/notifications",
-    icon: <PiBroadcast size={ICON_SIZE} />,
+    icon: <PiBroadcast style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />,
   },
   {
     title: "Support",
     href: "/support",
-    icon: <MdOutlineSupportAgent size={ICON_SIZE} />,
+    icon: <MdOutlineSupportAgent style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />,
   },
 ];
 
 const toggles = [
   {
     title: "Notifications",
-    icon: <FaRegBell size={ICON_SIZE} />,
+    icon: <FaRegBell style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />,
   },
   {
     title: "Dark Mode",
-    icon: <AiOutlineMoon size={ICON_SIZE} />,
+    icon: <AiOutlineMoon style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />,
   },
 ];
 
 export default function UserAccountMenu() {
   const pathname = usePathname();
   return (
-    <nav className="text-base text-textColor-300 font-semibold">
-      <ul className="flex flex-col gap-1 m-2">
-        <li className="mb-2">
-          <UserAvatarCard />
+    <nav className="text-[13px] 3xl:text-[18px] text-textColor-600 font-semibold">
+      <ul className="flex flex-col gap-1 m-1 3xl:m-2">
+        <li className="mt-1 my-2 px-2">
+          <UserAvatarCard showNameEmail />
         </li>
 
         {navigationLinks.map((navigationLink, index) => (
@@ -105,7 +107,7 @@ export default function UserAccountMenu() {
             </span>
 
             {(index + 1) % 2 === 0 && index !== 0 && (
-              <Separator className="my-2" />
+              <Separator className="my-1.5 3xl:my-2" />
             )}
           </li>
         ))}
@@ -115,10 +117,10 @@ export default function UserAccountMenu() {
         >
           <span className="flex justify-between items-center p-1.5 ml-2">
             <span className="flex gap-4 items-center ">
-              <IoLogOutOutline size={ICON_SIZE} />
+              <IoLogOutOutline style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />
               Logout Account
             </span>
-            <MdOutlineKeyboardArrowRight size={ICON_SIZE} />
+            <MdOutlineKeyboardArrowRight style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />
           </span>
         </li>
       </ul>

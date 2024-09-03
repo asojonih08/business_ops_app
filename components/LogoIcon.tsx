@@ -3,18 +3,16 @@ import React from "react";
 import logosvg from "@/public/pfm_icon2transp.svg";
 
 interface LogoProps {
-  height: number;
-  width: number;
+className: string;
 }
 
-export default function LogoIcon({ height, width }: LogoProps) {
+export default function LogoIcon({ className }: LogoProps) {
   return (
     <Image
-      className="hover:subpixel-antialiased"
+      className={`hover:subpixel-antialiased ${className}`}
       src={logosvg}
       alt="Pacific Fine Millwork Logo"
-      height={height}
-      width={width}
+
     ></Image>
   );
 }

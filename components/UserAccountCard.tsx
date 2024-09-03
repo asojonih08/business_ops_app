@@ -10,6 +10,9 @@ import { IoIosArrowDown } from "react-icons/io";
 import UserAvatarCard from "./UserAvatarCard";
 import UserAccountMenu from "./UserAccountMenu";
 
+const ICON_SIZE = 14;
+const ICON_SIZE_3XL = 19;
+
 interface UserAccountCardProps {
   showNameEmailArrow: boolean;
 }
@@ -26,9 +29,9 @@ export default function UserAccountCard({
         <PopoverTrigger>
           {showNameEmailArrow ? (
             <IoIosArrowDown
-              size={20}
-              className=" text-textColor-400 
-            hover:duration-100 hover:cursor-pointer hover:bg-gray-100 hover:rounded-2xl hover:ring-[5px] hover:ring-textColor-100 hover:text-textColor-base"
+            style={{fontSize: ICON_SIZE}}
+              className={`3xl:text-[${ICON_SIZE_3XL}px] text-textColor-400 
+            hover:duration-100 hover:cursor-pointer hover:bg-gray-100 hover:rounded-2xl hover:ring-[5px] hover:ring-textColor-100 hover:text-textColor-base`}
             />
           ) : (
             <UserAvatarCard showNameEmail={showNameEmailArrow} />
@@ -38,7 +41,7 @@ export default function UserAccountCard({
           side="right"
           sideOffset={showNameEmailArrow ? 12 : -10}
           align={"start"}
-          className="ml-12 mb-[13.5px] shadow-sm h-[452px] w-[19rem] rounded-2xl"
+          className="ml-12 mb-[13.5px] shadow-sm h-[410px] w-[17rem] 3xl:h-[452px] 3xl:w-[19rem] rounded-2xl"
         >
           <UserAccountMenu />
         </PopoverContent>
