@@ -33,55 +33,60 @@ import NavigationLink from "./NavigationLink";
 // TODO: fix transition for logo scaling
 
 const ICON_SIZE = 14;
-const ICON_SIZE_3XL = 19;
+const ICON_SIZE_2XL = 19;
+const iconClassName = `text-[${ICON_SIZE}px] xl:text-[${ICON_SIZE_2XL}px]`;
 
 const navigationLinks = [
   {
     title: "Dashboard",
     href: "/",
-    icon: <AiOutlineHome style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />,
+    icon: <AiOutlineHome className={iconClassName} />,
     authRole: "user",
   },
   {
     title: "Projects",
     href: "/projects",
-    icon: <AiOutlineProject style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />,
+    icon: <AiOutlineProject className={iconClassName} />,
     authRole: "user",
   },
   {
     title: "Clients",
     href: "/clients",
-    icon: <AiOutlineUser style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />,
+    icon: <AiOutlineUser className={iconClassName} />,
     authRole: "user",
   },
   {
     title: "Estimate",
     href: "/estimate",
-    icon: <RiCalculatorLine style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />,
+    icon: <RiCalculatorLine className={iconClassName} />,
     authRole: "user",
   },
   {
     title: "Invoices",
     href: "/invoices",
-    icon: <LiaFileInvoiceDollarSolid style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />,
+    icon: <LiaFileInvoiceDollarSolid className={iconClassName} />,
     authRole: "user",
   },
   {
     title: "Operation",
     href: "/operation",
-    icon: <CgBriefcase style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />,
+    icon: <CgBriefcase className={iconClassName} />,
     authRole: "admin",
   },
   {
     title: "Admin",
     href: "/admin",
-    icon: <MdOutlineAdminPanelSettings style={{fontSize: ICON_SIZE + 2}} className={`3xl:text-[${ICON_SIZE_3XL + 2}px]`} />,
+    icon: (
+      <MdOutlineAdminPanelSettings
+        className={`text-[${ICON_SIZE + 2}px] xl:text-[${ICON_SIZE_2XL + 2}px]`}
+      />
+    ),
     authRole: "admin",
   },
   {
     title: "Settings",
     href: "/settings",
-    icon: <FiSettings size={ICON_SIZE} />,
+    icon: <FiSettings className={iconClassName} />,
     authRole: "user",
   },
 ];
@@ -114,11 +119,11 @@ export default function Sidebar() {
     <motion.nav
       variants={sidebarAnimation}
       animate={isExpanded ? "open" : "closed"}
-      className="text-sm 3xl:text-[19px] text-textColor-600 font-semibold h-[97vh] my-auto ml-4 w-[20rem] bg-white rounded-2xl shadow-sm overflow-hidden"
+      className="text-sm xl:text-[19px] text-textColor-600 font-semibold h-[97vh] my-auto ml-4 w-[20rem] bg-white rounded-2xl shadow-sm overflow-hidden"
     >
       <AnimatePresence>
         <ul
-          className={`py-5 3xl:py-6 flex flex-col gap-2.5 mx-4 h-full justify-between  ${
+          className={`py-5 xl:py-6 flex flex-col gap-2.5 mx-4 h-full justify-between  ${
             isExpanded ? "overflow-hidden" : "w-[2.83rem]"
           }`}
         >
@@ -128,14 +133,18 @@ export default function Sidebar() {
             }`}
           >
             {/* Logo */}
-            <div className="p-1.5 mb-2 3xl:mb-2.5 flex items-center justify-between text-textColor-base">
+            <div className="p-1.5 mb-2 xl:mb-2.5 flex items-center justify-between text-textColor-base">
               {isExpanded ? (
                 <motion.div
                   initial={{ opacity: 1 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  <Logo className={"h-9 w-9 3xl:h-10 3xl:w-10"} textClassName="text-[11.5px] 3xl:text-[15px]" separatorClassName={"w-[0.8px] h-11 3xl:w-[1px] 3xl:h-14"}/>
+                  <Logo
+                    className={"h-9 w-9 xl:h-10 xl:w-10"}
+                    textClassName="text-[11.5px] xl:text-[15px]"
+                    separatorClassName={"w-[0.8px] h-11 xl:w-[1px] xl:h-14"}
+                  />
                 </motion.div>
               ) : (
                 <motion.div
@@ -151,10 +160,10 @@ export default function Sidebar() {
                   >
                     <Tooltip>
                       <TooltipTrigger>
-                        <LogoIcon className="h-6 w-6 3xl:h-8 3xl:w-8" />
+                        <LogoIcon className="h-6 w-6 xl:h-8 xl:w-8" />
                       </TooltipTrigger>
                       <TooltipContent
-                        className="border-transparent h-7 3xl:h-8 flex items-center"
+                        className="border-transparent h-7 xl:h-8 flex items-center"
                         side="right"
                         sideOffset={30}
                       >
@@ -165,7 +174,9 @@ export default function Sidebar() {
                             clipPath: "inset(0 -10px -10px -10px)",
                           }}
                         />
-                        <p className="text-textColor-700 text-[13px] 3xl:text-[18px]">Expand</p>
+                        <p className="text-textColor-700 text-[13px] xl:text-[18px]">
+                          Expand
+                        </p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
@@ -178,8 +189,10 @@ export default function Sidebar() {
                   exit={{ opacity: 0 }}
                 >
                   <TbArrowBarToLeft
-                    
-                    style={{fontSize: ICON_SIZE + 8}} className={`3xl:text-[${ICON_SIZE_3XL + 8}px] text-textColor-600 hover:cursor-pointer`}
+                    style={{ fontSize: ICON_SIZE + 8 }}
+                    className={`xl:text-[${
+                      ICON_SIZE_2XL + 8
+                    }px] text-textColor-600 hover:cursor-pointer`}
                     onClick={() => setIsExpanded(!isExpanded)}
                   />
                 </motion.div>
@@ -211,12 +224,12 @@ export default function Sidebar() {
                 />
               ) : null
             )}
-            <Separator className="w-[96%] h-[1px] 3xl:h-[1.5px] mx-auto my-3 3xl:my-3.5 bg-textColor-400/20" />
+            <Separator className="w-[96%] h-[1px] xl:h-[1.5px] mx-auto my-3 xl:my-3.5 bg-textColor-400/20" />
           </div>
           {/* Admin and Settings Links */}
           <div
             className={`flex flex-col ${
-              isExpanded ? "gap-2.5" : "gap-2.5 3xl:gap-3.5 items-center"
+              isExpanded ? "gap-2.5" : "gap-2.5 xl:gap-3.5 items-center"
             }`}
           >
             {navigationLinks.map(
@@ -232,7 +245,7 @@ export default function Sidebar() {
                   />
                 )
             )}
-            <Separator className="w-[96%] h-[1px] 3xl:h-[1.8px] mx-auto my-3 3xl:my-3.5 bg-textColor-400/20" />
+            <Separator className="w-[96%] h-[1px] xl:h-[1.8px] mx-auto my-3 xl:my-3.5 bg-textColor-400/20" />
             {/* User Account */}
             <motion.div
               className={`overflow-visible 

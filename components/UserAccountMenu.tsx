@@ -18,48 +18,48 @@ import { usePathname } from "next/navigation";
 
 const ICON_SIZE_3XL = 19;
 const ICON_SIZE = 14;
-
+const iconClassName = `text-[${ICON_SIZE}px] xl:text-[${ICON_SIZE_3XL}px]`;
 
 const navigationLinks = [
   {
     title: "Profile",
     href: "/profile",
-    icon: <CgProfile style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />,
+    icon: <CgProfile className={iconClassName} />,
   },
   {
     title: "Account Settings",
     href: "/account",
-    icon: <RiListSettingsLine style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />,
+    icon: <RiListSettingsLine className={iconClassName} />,
   },
   {
     title: "Notification Settings",
     href: "/notifications",
-    icon: <PiBroadcast style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />,
+    icon: <PiBroadcast className={iconClassName} />,
   },
   {
     title: "Support",
     href: "/support",
-    icon: <MdOutlineSupportAgent style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />,
+    icon: <MdOutlineSupportAgent className={iconClassName} />,
   },
 ];
 
 const toggles = [
   {
     title: "Notifications",
-    icon: <FaRegBell style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />,
+    icon: <FaRegBell className={iconClassName} />,
   },
   {
     title: "Dark Mode",
-    icon: <AiOutlineMoon style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />,
+    icon: <AiOutlineMoon className={iconClassName} />,
   },
 ];
 
 export default function UserAccountMenu() {
   const pathname = usePathname();
   return (
-    <nav className="text-[13px] 3xl:text-[18px] text-textColor-600 font-semibold">
-      <ul className="flex flex-col gap-1 m-1 3xl:m-2">
-        <li className="mt-1 my-2 px-2">
+    <nav className="text-[13px] xl:text-[15px] text-textColor-600 font-semibold">
+      <ul className="flex flex-col gap-1 m-1 xl:m-2">
+        <li className="mb-1 xl:my-2 px-2">
           <UserAvatarCard showNameEmail />
         </li>
 
@@ -83,7 +83,7 @@ export default function UserAccountMenu() {
                   {navigationLink.icon}
                   {navigationLink.title}
                 </span>
-                <MdOutlineKeyboardArrowRight size={ICON_SIZE} />
+                <MdOutlineKeyboardArrowRight className={iconClassName} />
               </Link>
             </li>
 
@@ -107,7 +107,7 @@ export default function UserAccountMenu() {
             </span>
 
             {(index + 1) % 2 === 0 && index !== 0 && (
-              <Separator className="my-1.5 3xl:my-2" />
+              <Separator className="my-1.5 xl:my-2" />
             )}
           </li>
         ))}
@@ -117,10 +117,10 @@ export default function UserAccountMenu() {
         >
           <span className="flex justify-between items-center p-1.5 ml-2">
             <span className="flex gap-4 items-center ">
-              <IoLogOutOutline style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />
+              <IoLogOutOutline className={iconClassName} />
               Logout Account
             </span>
-            <MdOutlineKeyboardArrowRight style={{fontSize: ICON_SIZE}} className={`3xl:text-[${ICON_SIZE_3XL}px]`} />
+            <MdOutlineKeyboardArrowRight className={iconClassName} />
           </span>
         </li>
       </ul>
