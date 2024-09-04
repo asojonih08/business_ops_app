@@ -65,7 +65,7 @@ export default function NavigationLink({
           </li>
         </TooltipTrigger>
         <TooltipContent
-          className="border-transparent h-7 xl:h-9 flex items-center"
+          className="border-transparent h-7 2xl:h-9 flex items-center"
           side="right"
           sideOffset={30}
         >
@@ -76,7 +76,7 @@ export default function NavigationLink({
               clipPath: "inset(0 -10px -10px -10px)",
             }}
           />
-          <p className="text-textColor-700 text-[13px] xl:text-[18px]">
+          <p className="text-textColor-700 text-[13px] 2xl:text-[18px]">
             {title}
           </p>
         </TooltipContent>
