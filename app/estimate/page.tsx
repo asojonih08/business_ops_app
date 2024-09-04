@@ -32,15 +32,17 @@ export default function Page() {
           <ProjectTotals />
         </div>
 
-        <div className="px-6 py-5 2xl:px-8 2xl:py-7 rounded-2xl h-[42%] bg-white flex flex-col gap-4 2xl:gap-6">
+        <div className="px-6 py-5 2xl:px-8 2xl:py-8 rounded-2xl h-[42%] bg-white flex flex-col gap-4 2xl:gap-6">
           <div className="flex items-center">
             <h1 className="text-base 2xl:text-[22px] font-bold text-textColor-base">
               Estimate Summary
             </h1>
-            <span className="h-8 2xl:h-10"></span>
+            <span className="h-8 2xl:h-6"></span>
           </div>
-          <Separator className="w-full h-[1.3px] 2xl:h-[1.8px]  mx-auto bg-textColor-300/10" />
-          <div className="text-[10px] 2xl:text-[13px] rounded-2xl bg-accent-50 drop-shadow-sm w-full h-[83%] py-2 pb-5 2xl:py-6 2xl:pb-10">
+
+          <Separator className="w-full h-[1.3px] 2xl:h-[2px] mx-auto bg-textColor-300/15" />
+
+          <div className="text-[10px] 2xl:text-[13px] rounded-2xl bg-accent-50 drop-shadow-sm w-full h-[86%] py-2 pb-5 2xl:py-6 2xl:pb-10">
             {summaryLabels_1.map((label) => (
               <div key={label} className="w-[95%] mx-auto">
                 <span className="flex justify-between">
@@ -72,7 +74,10 @@ export default function Page() {
                     )
                 )}
               </div>
-              <Separator orientation="vertical" className="h-12 w-[1.2px] 2xl:h-16 2xl:w-[1.5px]" />
+              <Separator
+                orientation="vertical"
+                className="h-12 w-[1.2px] 2xl:h-16 2xl:w-[1.5px]"
+              />
               <div className="flex flex-col items-center w-[46%]">
                 {summaryLabels_2.map(
                   (label, index) =>
@@ -92,7 +97,7 @@ export default function Page() {
               </div>
             </div>
             <Separator className="w-full h-[1.5px] 2xl:h-[2px] bg-textColor-200/70 bg-opacity-10" />
-            <span className="flex w-[95%] justify-between mx-auto mt-7">
+            <span className="flex w-[95%] justify-between mx-auto mt-9">
               <span className="text-base 2xl:text-xl text-textColor-900 font-bold tracking-wider">
                 Total
               </span>
