@@ -1,3 +1,4 @@
+import { MaterialsProvider } from "@/components/MaterialsContext";
 import Sidebar from "../components/Sidebar";
 
 export const metadata = {
@@ -16,7 +17,9 @@ export default function RootLayout({
       <body className="bg-[#E9EDF2] min-h-screen min-w-screen flex justify-between items-center">
         <Sidebar />
         <main className="h-[97vh] w-[94vw] px-6 mx-auto overflow-hidden">
+          <MaterialsProvider>
           {children}
+          </MaterialsProvider>
         </main>
       </body>
     </html>

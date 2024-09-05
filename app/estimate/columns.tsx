@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select";
 
 import { ColumnDef } from "@tanstack/react-table";
+import { useMaterials } from "@/components/MaterialsContext";
 
 export type Material = {
   num: number | null;
@@ -119,12 +120,19 @@ export const columns: ColumnDef<Material>[] = [
 
   {
     id: "delete",
-    cell: ({ row }) => (
-      <div className="text-center h-5">
+    cell: ({ row }) => {
+      const {materials, setMaterials} = useMaterials();
+      function handleDeleteMaterial(num:number){
+        if (materials.length === 1) return;
+        const newMaterials = materials.filter((material)=>num !== material["num"]);
+        const updatedNumMaterials = newMaterials.map((material, index) => {return {...material, num: index + 1}});
+        setMaterials(updatedNumMaterials);
+      }
+      return <div onClick={()=>handleDeleteMaterial(row.getValue("num"))} className="text-center h-5">
         <Button className="h-5 text-textColor-300 hover:text-textColor-500 hover:duration-300">
           <RiDeleteBin4Line className="h-5 w-5" />
         </Button>
       </div>
-    ),
+  },
   },
 ];

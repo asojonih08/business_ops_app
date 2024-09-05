@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { useMaterials } from "./MaterialsContext";
 
 const initialMaterialsState: Material = {
   num: 1,
@@ -23,9 +24,7 @@ const initialMaterialsState: Material = {
   amount: null,
 };
 export default function AddMaterialsForm() {
-  const [materials, setMaterials] = useState<Material[]>([
-    initialMaterialsState,
-  ]);
+  const {materials, setMaterials} = useMaterials();
 
   function handleAddMaterialClick() {
     let count = materials.length + 1;

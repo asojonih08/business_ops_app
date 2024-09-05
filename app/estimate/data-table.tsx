@@ -31,14 +31,14 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <Table className="">
+    <Table>
       <TableHeader>
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow className="h-12" key={headerGroup.id}>
             {headerGroup.headers.map((header, index) => {
               return (
                 <TableHead
-                  className={`${
+                  className={`w-36 ${
                     index !== 0 ? "border-l-2" : ""
                   } border-textColor-100 font-bold`}
                   key={header.id}
@@ -55,11 +55,11 @@ export function DataTable<TData, TValue>({
           </TableRow>
         ))}
       </TableHeader>
-      <TableBody className="text-textColor-500 font-medium">
+      <TableBody className="w-36 text-textColor-500 font-medium">
         {table.getRowModel().rows?.length ? (
           table.getRowModel().rows.map((row, index) => (
             <TableRow
-              className={`h-14 ${index % 2 === 1 ? "bg-accent-50/50" : ""}`}
+              className={`w-36 h-14 ${index % 2 === 1 ? "bg-accent-50/50" : ""}`}
               key={row.id}
               data-state={row.getIsSelected() && "selected"}
             >
