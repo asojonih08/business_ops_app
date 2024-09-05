@@ -9,6 +9,7 @@ async function getData(): Promise<Material[]> {
   // Fetch data from your API here.
   return [
     {
+      num: 1,
       type: "728ed52f",
       description: "pending",
       quantity: 100,
@@ -16,6 +17,7 @@ async function getData(): Promise<Material[]> {
       amount: 100,
     },
     {
+      num: 2,
       type: "728ed52f",
       description: "pending",
       quantity: 100,
@@ -23,6 +25,7 @@ async function getData(): Promise<Material[]> {
       amount: 100,
     },
     {
+      num: 3,
       type: "728ed52f",
       description: "pending",
       quantity: 100,
@@ -30,6 +33,7 @@ async function getData(): Promise<Material[]> {
       amount: 100,
     },
     {
+      num: 4,
       type: "728ed52f",
       description: "pending",
       quantity: 100,
@@ -37,6 +41,7 @@ async function getData(): Promise<Material[]> {
       amount: 100,
     },
     {
+      num: 5,
       type: "728ed52f",
       description: "pending",
       quantity: 100,
@@ -44,6 +49,7 @@ async function getData(): Promise<Material[]> {
       amount: 100,
     },
     {
+      num: 6,
       type: "728ed52f",
       description: "pending",
       quantity: 100,

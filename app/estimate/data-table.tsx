@@ -40,13 +40,6 @@ export function DataTable<TData, TValue>({
                 return (
                   <TableHead
                     className={`${
-                      header.column.getIndex() === 0 ||
-                      header.column.getIndex() === 3 ||
-                      header.column.getIndex() === 4 ||
-                      header.column.getIndex() === 5
-                        ? "text-right"
-                        : "text-left"
-                    } ${
                       index !== 0 ? "border-l-2" : ""
                     } border-textColor-100 font-bold`}
                     key={header.id}
@@ -73,14 +66,7 @@ export function DataTable<TData, TValue>({
               >
                 {row.getVisibleCells().map((cell, index) => (
                   <TableCell
-                    className={`${
-                      cell.column.getIndex() === 0 ||
-                      cell.column.getIndex() === 3 ||
-                      cell.column.getIndex() === 4 ||
-                      cell.column.getIndex() === 5
-                        ? "text-end"
-                        : "text-left"
-                    } ${index !== 0 ? "border-l-2" : ""} border-textColor-100`}
+                    className={`${index !== 0 ? "border-l-2" : ""} border-textColor-100`}
                     key={cell.id}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
