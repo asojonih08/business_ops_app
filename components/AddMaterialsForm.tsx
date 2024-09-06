@@ -23,6 +23,13 @@ const initialMaterialsState: Material = {
   rate: null,
   amount: null,
 };
+
+/*TODO: 
+Clear all button
+Limit list view of materials and add scroll functionality
+Add Save button
+*/
+
 export default function AddMaterialsForm() {
   const { materials, setMaterials } = useMaterials();
 
