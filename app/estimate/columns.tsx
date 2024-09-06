@@ -13,13 +13,118 @@ import {
 
 import { ColumnDef } from "@tanstack/react-table";
 import { useMaterials } from "@/components/MaterialsContext";
+import { useEffect, useState } from "react";
+import { Input } from "@/components/ui/input";
+
+interface EditableCellProps {
+  variant: string;
+  type?: string;
+  disabled?: boolean;
+  className?: string;
+  getValue: () => any;
+  cellProps: {
+    row: any;
+    column: any;
+    table: any;
+  };
+}
+
+function EditableCell({
+  variant = "input",
+  type = "text",
+  disabled = false,
+  className = "",
+  getValue,
+  cellProps,
+}: EditableCellProps) {
+  const initialValue = !getValue() ? "" : getValue();
+  const { row, column, table } = cellProps;
+  const [value, setValue] = useState(!initialValue ? "" : initialValue);
+  const { materials, setMaterials } = useMaterials();
+
+  const onBlur = () => {
+    table.options.meta?.updateData(row.index, column.id, value);
+
+    const isRate = column.id === "rate";
+    const isQuantity = column.id == "quantity";
+
+    if (isQuantity || isRate) {
+      const quantity = isQuantity ? Number(value) : row.getValue("quantity");
+      const rate = isRate ? Number(value) : row.getValue("rate");
+      if (quantity && rate)
+        setMaterials((oldMaterials) =>
+          oldMaterials.map((material, index) =>
+            row.index === index
+              ? {
+                  ...material,
+                  amount:
+                    (isQuantity
+                      ? Number(value)
+                      : Number(row.getValue("quantity"))) *
+                    (isRate ? Number(value) : Number(row.getValue("rate"))),
+                }
+              : material
+          )
+        );
+    }
+  };
+
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
+  switch (variant) {
+    case "input":
+      return (
+        <Input
+          disabled={disabled}
+          className={`${className}`}
+          type={type}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onBlur={onBlur}
+        />
+      );
+    case "select":
+      return (
+        <Select value={value} onValueChange={(val) => setValue(val)}>
+          <SelectTrigger
+            onBlur={onBlur}
+            className={`${className} h-7 -mr-12 text-sm`}
+          >
+            <SelectValue
+              className="focus-visible:ring-0 text-sm"
+              placeholder=""
+            />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem
+              value="light"
+              className="text-sm data-[highlighted]:bg-textColor-50 data-[highlighted]:text-textColor-600 text-textColor-500 selection:text-textColor-100 font-medium hover:bg-textColor-50 hover:rounded-lg"
+            >
+              Light
+            </SelectItem>
+            <SelectItem
+              value="addNew"
+              className="text-sm text-textColor-500 font-medium hover:bg-textColor-50 hover:rounded-lg"
+            >
+              <div className="flex items-center gap-1">
+                <FaRegPlusSquare size={13} />
+                <span className="text-sm">Add New</span>
+              </div>
+            </SelectItem>
+          </SelectContent>{" "}
+        </Select>
+      );
+  }
+}
 
 export type Material = {
   num: number | null;
   type: string | null;
   description: string | null;
-  quantity: number | null;
-  rate: number | null;
+  quantity: string | null;
+  rate: string | null;
   amount: number | null;
 };
 
@@ -33,106 +138,121 @@ export const columns: ColumnDef<Material>[] = [
   },
   {
     accessorKey: "type",
-    header: "Type",
-    cell: ({ row }) => (
-      <div className="overflow-hidden">
-        <Select>
-          {" "}
-          <SelectTrigger className="border-0 hover:border-[1.5px] focus-visible:ring-0 focus-visible:ring-transparent focus-visible:border-transparent h-6 w-[140px] -mr-12 text-sm">
-            <SelectValue className="text-sm" placeholder="" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem
-              value="light"
-              className="text-sm data-[highlighted]:bg-textColor-50 data-[highlighted]:text-textColor-600 text-textColor-500 selection:text-textColor-100 font-medium hover:bg-textColor-50 hover:rounded-lg"
-            >
-              Light
-            </SelectItem>
-            <SelectItem
-              value="dark"
-              className="text-sm text-textColor-500 font-medium hover:bg-textColor-50 hover:rounded-lg"
-            >
-              Dark
-            </SelectItem>
-            <SelectItem
-              value="system"
-              className="text-sm text-textColor-500 font-medium hover:bg-textColor-50 hover:rounded-lg"
-            >
-              System
-            </SelectItem>
-            <SelectItem
-              value="addNew"
-              className="text-sm text-textColor-500 font-medium hover:bg-textColor-50 hover:rounded-lg"
-            >
-              <div className="flex items-center gap-1">
-                <FaRegPlusSquare size={13} />
-                <span className="text-sm">Add New</span>
-              </div>
-            </SelectItem>
-          </SelectContent>{" "}
-        </Select>
-      </div>
+    header: () => <div className="font-bold">Type</div>,
+    cell: ({ row, column, table }) => (
+      <EditableCell
+        className="rounded-none 
+        hover:shadow-md hover:border-textColor-300 hover:border-[1.5px] 
+        focus-visible:shadow-md focus-visible:ring-primary-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
+        variant={"select"}
+        getValue={() => row.getValue("type")}
+        cellProps={{ row, column, table }}
+      />
     ),
   },
   {
     accessorKey: "description",
-    header: () => <div className="text-right font-bold">Description</div>,
-    cell: ({ row }) => (
-      <div className="text-right font-medium">
-        {row.getValue("description")}
-      </div>
+    header: () => <div className="text-left font-bold">Description</div>,
+    size: 20,
+    cell: ({ row, column, table }) => (
+      <EditableCell
+        variant={"input"}
+        className="text-left font-medium overflow-hidden h-7 px-1.5 rounded-none 
+        hover:shadow-md hover:border-textColor-300 hover:border-[1.5px] 
+        focus-visible:shadow-md focus-visible:ring-primary-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
+        getValue={() => row.getValue("description")}
+        cellProps={{ row, column, table }}
+      ></EditableCell>
     ),
   },
   {
     accessorKey: "quantity",
     header: () => <div className="text-right font-bold">Quantity</div>,
-    cell: ({ row }) => (
-      <div className="text-right font-medium">{row.getValue("quantity")}</div>
+    cell: ({ row, column, table }) => (
+      <EditableCell
+        className="text-right font-medium overflow-hidden h-7 px-1.5 rounded-none
+        hover:shadow-md  hover:border-textColor-300 hover:border-[1.5px] 
+        focus-visible:shadow-md focus-visible:ring-primary-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
+        variant="input"
+        getValue={() => row.getValue("quantity")}
+        cellProps={{ row, column, table }}
+      />
     ),
   },
   {
     accessorKey: "rate",
     header: () => <div className="text-right font-bold">Rate</div>,
-    cell: ({ row }) => {
-      const rate = parseFloat(row.getValue("rate"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(rate);
-      if (!rate) return null;
-      return <div className="text-right font-medium">{formatted}</div>;
+    cell: ({ row, column, table }) => {
+      return (
+        <EditableCell
+          className="text-right font-medium overflow-hidden h-7 px-1.5 rounded-none
+          hover:shadow-md hover:border-textColor-300 hover:border-[1.5px] 
+          focus-visible:shadow-md focus-visible:ring-primary-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
+          variant="input"
+          getValue={() => row.getValue("rate")}
+          cellProps={{ row, column, table }}
+        />
+      );
     },
   },
   {
     accessorKey: "amount",
 
     header: () => <div className="text-right font-bold">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-      if (!amount) return null;
-      return <div className="text-right font-medium">{formatted}</div>;
+    cell: ({ row, column, table }) => {
+      return (
+        <EditableCell
+          className="disabled:cursor-default disabled:text-textColor-base text-right font-medium overflow-hidden h-7 px-1.5 rounded-none
+        hover:border-textColor-300 hover:border-[1.5px] 
+          focus-visible:shadow-md focus-visible:ring-primary-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
+          disabled
+          variant="input"
+          getValue={() => row.getValue("amount")}
+          cellProps={{ row, column, table }}
+        />
+      );
     },
   },
 
   {
     id: "delete",
     cell: ({ row }) => {
-      const {materials, setMaterials} = useMaterials();
-      function handleDeleteMaterial(num:number){
+      const { materials, setMaterials } = useMaterials();
+      function handleDeleteMaterial(num: number) {
         if (materials.length === 1) return;
-        const newMaterials = materials.filter((material)=>num !== material["num"]);
-        const updatedNumMaterials = newMaterials.map((material, index) => {return {...material, num: index + 1}});
+        console.log(
+          "num",
+          num,
+          "type",
+          row.getValue("type"),
+          "description",
+          row.getValue("description"),
+          "quantity",
+          row.getValue("quantity"),
+          "rate",
+          row.getValue("rate"),
+          "amount",
+          row.getValue("amount")
+        );
+
+        const newMaterials = materials.filter(
+          (material) => num !== material["num"]
+        );
+        const updatedNumMaterials = newMaterials.map((material, index) => {
+          return { ...material, num: index + 1 };
+        });
         setMaterials(updatedNumMaterials);
       }
-      return <div onClick={()=>handleDeleteMaterial(row.getValue("num"))} className="text-center h-5">
-        <Button className="h-5 text-textColor-300 hover:text-textColor-500 hover:duration-300">
-          <RiDeleteBin4Line className="h-5 w-5" />
-        </Button>
-      </div>
-  },
+      return (
+        <div
+          onClick={() => handleDeleteMaterial(row.getValue("num"))}
+          className="text-center h-5"
+        >
+          <Button className="h-5 text-textColor-300 hover:text-textColor-500 hover:duration-300">
+            <RiDeleteBin4Line className="h-5 w-5" />
+          </Button>
+        </div>
+      );
+    },
   },
 ];

@@ -53,7 +53,7 @@ export default function Page() {
                     $ 245.63
                   </span>
                 </span>
-                <Separator className="w-full h-[0.5px] my-1 2xl:my-2" />
+                <Separator className="w-full h-[0.5px] my-1" />
               </div>
             ))}
             <div className="flex items-center w-[95%] justify-between mx-auto my-7">

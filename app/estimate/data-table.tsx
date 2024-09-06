@@ -14,20 +14,35 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useMaterials } from "@/components/MaterialsContext";
+import { columns } from "./columns";
+import { useEffect, useState } from "react";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-}
+export function DataTable() {
+  const { materials, setMaterials } = useMaterials();
+  const [data, setData] = useState(materials);
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
+  useEffect(() => setData(materials), [materials]);
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    meta: {
+      updateData: (rowIndex: number, columnId: number, value: any) => {
+        setMaterials((old) =>
+          old.map((row, index) => {
+            if (index === rowIndex) {
+              return {
+                ...old[rowIndex]!,
+                [columnId]: value,
+              };
+            }
+            return row;
+          })
+        );
+      },
+    },
   });
 
   return (
@@ -38,7 +53,7 @@ export function DataTable<TData, TValue>({
             {headerGroup.headers.map((header, index) => {
               return (
                 <TableHead
-                  className={`w-36 ${
+                  className={`w-20 p-2.5 ${
                     index !== 0 ? "border-l-2" : ""
                   } border-textColor-100 font-bold`}
                   key={header.id}
@@ -59,7 +74,9 @@ export function DataTable<TData, TValue>({
         {table.getRowModel().rows?.length ? (
           table.getRowModel().rows.map((row, index) => (
             <TableRow
-              className={`w-36 h-14 ${index % 2 === 1 ? "bg-accent-50/50" : ""}`}
+              className={`w-36 h-14 ${
+                index % 2 === 1 ? "bg-accent-50/50" : ""
+              }`}
               key={row.id}
               data-state={row.getIsSelected() && "selected"}
             >
@@ -67,7 +84,7 @@ export function DataTable<TData, TValue>({
                 <TableCell
                   className={`${
                     index !== 0 ? "border-l-2" : ""
-                  } border-textColor-100`}
+                  } border-textColor-100 p-2.5`}
                   key={cell.id}
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}

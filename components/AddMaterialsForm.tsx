@@ -2,7 +2,7 @@
 
 import { Material, columns } from "@/app/estimate/columns";
 import { DataTable } from "@/app/estimate/data-table";
-import React, { useState } from "react";
+import React from "react";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
 import { FiPlus } from "react-icons/fi";
@@ -17,23 +17,29 @@ import { useMaterials } from "./MaterialsContext";
 
 const initialMaterialsState: Material = {
   num: 1,
-  type: null,
-  description: null,
-  quantity: null,
-  rate: null,
-  amount: null,
+  type: "",
+  description: "",
+  quantity: "",
+  rate: "",
+  amount: 0,
 };
 export default function AddMaterialsForm() {
-  const {materials, setMaterials} = useMaterials();
+  const { materials, setMaterials } = useMaterials();
 
   function handleAddMaterialClick() {
     let count = materials.length + 1;
     setMaterials([...materials, { ...initialMaterialsState, num: count }]);
   }
+
+  const subtotal = materials.reduce(
+    (prev, material) => (material.amount ? material.amount + prev : prev + 0),
+    0
+  );
+
   return (
     <div className="flex flex-col gap-4">
       <div className="rounded-md border-b-[3px] border-textColor-300/50">
-        <DataTable columns={columns} data={materials} />
+        <DataTable />
       </div>
       <span className="flex justify-between items-start mt-3 gap-8">
         <div className="flex items-center gap-2">
@@ -55,7 +61,7 @@ export default function AddMaterialsForm() {
 
         <div className="-mt-2.5 grid grid-rows-3 grid-cols-2 grid-flow-row items-end text-right gap-5 gap-x-14 mr-12 text-textColor-700 font-semibold text-lg overflow-x-hidden w-[30%]">
           <span className="">Subtotal</span>
-          <span className="">$850.00</span>
+          <span className="">$ {subtotal}</span>
           <span className="flex flex-col gap-1.5 items-end justify-end">
             <span className="text-xs font-medium">Material Markup?</span>
             <Select>
