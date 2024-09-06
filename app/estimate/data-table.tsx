@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -17,6 +16,8 @@ import {
 import { useMaterials } from "@/components/MaterialsContext";
 import { columns } from "./columns";
 import { useEffect, useState } from "react";
+
+// TODO: check quantity and rate for valid number input
 
 export function DataTable() {
   const { materials, setMaterials } = useMaterials();
@@ -74,7 +75,7 @@ export function DataTable() {
         {table.getRowModel().rows?.length ? (
           table.getRowModel().rows.map((row, index) => (
             <TableRow
-              className={`w-36 h-14 ${
+              className={`w-36 h-14 hover:bg-primary-50/40 ${
                 index % 2 === 1 ? "bg-accent-50/50" : ""
               }`}
               key={row.id}

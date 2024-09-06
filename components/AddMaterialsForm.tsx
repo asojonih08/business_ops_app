@@ -17,11 +17,11 @@ import { useMaterials } from "./MaterialsContext";
 
 const initialMaterialsState: Material = {
   num: 1,
-  type: "",
-  description: "",
-  quantity: "",
-  rate: "",
-  amount: 0,
+  type: null,
+  description: null,
+  quantity: null,
+  rate: null,
+  amount: null,
 };
 export default function AddMaterialsForm() {
   const { materials, setMaterials } = useMaterials();
@@ -32,7 +32,8 @@ export default function AddMaterialsForm() {
   }
 
   const subtotal = materials.reduce(
-    (prev, material) => (material.amount ? material.amount + prev : prev + 0),
+    (prev, material) =>
+      material.amount ? Number(material.amount) + prev : prev + 0,
     0
   );
 
@@ -46,8 +47,8 @@ export default function AddMaterialsForm() {
           <Separator className="bg-textColor-100 w-[12vw] h-[1.8px]" />
           <Button
             onClick={handleAddMaterialClick}
-            className="h-[38px] bg-white border-textColor-100 border-[1.8px] shadow-sm rounded-xl flex gap-1 items-center p-2.5  
-            hover:bg-textColor-50/60 hover:border-textColor-100 hover:duration-100 hover:shadow-none"
+            className="h-7 bg-white border-textColor-100 border-[1.8px] shadow-sm rounded-none flex gap-1 items-center p-2.5  
+            hover:shadow-sm hover:border-textColor-300/60 hover:border-[1.5px] hover:duration-100"
           >
             <span className="text-textColor-600 text-[14.5]">
               <FiPlus />
@@ -61,11 +62,15 @@ export default function AddMaterialsForm() {
 
         <div className="-mt-2.5 grid grid-rows-3 grid-cols-2 grid-flow-row items-end text-right gap-5 gap-x-14 mr-12 text-textColor-700 font-semibold text-lg overflow-x-hidden w-[30%]">
           <span className="">Subtotal</span>
-          <span className="">$ {subtotal}</span>
+          <span className="">$ {subtotal.toFixed(2)}</span>
           <span className="flex flex-col gap-1.5 items-end justify-end">
             <span className="text-xs font-medium">Material Markup?</span>
             <Select>
-              <SelectTrigger className="text-sm border-2 border-textColor-100 h-6 w-[120px]">
+              <SelectTrigger
+                className="text-left font-medium overflow-hidden h-7 w-28 px-1.5 rounded-none 
+                hover:shadow-md hover:border-textColor-300 hover:border-[1.5px] 
+                focus:shadow-md focus:ring-primary-500/50 focus:ring-[1.5px] focus:-ring-offset-1"
+              >
                 <SelectValue className="text-sm" placeholder="" />
               </SelectTrigger>
               <SelectContent>

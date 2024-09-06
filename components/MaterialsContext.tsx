@@ -16,7 +16,7 @@ const inititalState: Material = {
   description: null,
   quantity: null,
   rate: null,
-  amount: 0,
+  amount: null,
 };
 
 function MaterialsProvider({ children }: { children: ReactNode }) {

@@ -45,23 +45,61 @@ function EditableCell({
   const onBlur = () => {
     table.options.meta?.updateData(row.index, column.id, value);
 
+    const isType = column.id === "type";
+    if (
+      isType &&
+      row.getValue("quantity") === null &&
+      row.getValue("rate") === null
+    ) {
+      console.log(
+        "type",
+        value,
+        "quantity",
+        row.getValue("quantity"),
+        "rate",
+        row.getValue("rate")
+      );
+
+      setMaterials((oldMaterials) =>
+        oldMaterials.map((material, index) =>
+          row.index === index
+            ? {
+                ...material,
+                type: value,
+                quantity: "1",
+                rate: "0",
+                amount: "0.00",
+              }
+            : material
+        )
+      );
+    }
+
     const isRate = column.id === "rate";
-    const isQuantity = column.id == "quantity";
+    const isQuantity = column.id === "quantity";
 
     if (isQuantity || isRate) {
-      const quantity = isQuantity ? Number(value) : row.getValue("quantity");
-      const rate = isRate ? Number(value) : row.getValue("rate");
-      if (quantity && rate)
+      const quantity = isQuantity
+        ? Number(value === "" ? 0 : value)
+        : row.getValue("quantity");
+      const rate = isRate
+        ? Number(value === "" ? 0 : value)
+        : row.getValue("rate");
+
+      if (quantity !== null && rate !== null)
         setMaterials((oldMaterials) =>
           oldMaterials.map((material, index) =>
             row.index === index
               ? {
                   ...material,
-                  amount:
+                  quantity: quantity === 0 ? "0" : quantity,
+                  rate: rate === 0 ? "0.00" : rate,
+                  amount: (
                     (isQuantity
                       ? Number(value)
                       : Number(row.getValue("quantity"))) *
-                    (isRate ? Number(value) : Number(row.getValue("rate"))),
+                    (isRate ? Number(value) : Number(row.getValue("rate")))
+                  ).toFixed(2),
                 }
               : material
           )
@@ -125,7 +163,7 @@ export type Material = {
   description: string | null;
   quantity: string | null;
   rate: string | null;
-  amount: number | null;
+  amount: string | null;
 };
 
 export const columns: ColumnDef<Material>[] = [
@@ -143,7 +181,7 @@ export const columns: ColumnDef<Material>[] = [
       <EditableCell
         className="rounded-none 
         hover:shadow-md hover:border-textColor-300 hover:border-[1.5px] 
-        focus-visible:shadow-md focus-visible:ring-primary-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
+        focus:shadow-md focus:ring-primary-500/70 focus:ring-[1.5px] focus:-ring-offset-1"
         variant={"select"}
         getValue={() => row.getValue("type")}
         cellProps={{ row, column, table }}
@@ -202,8 +240,8 @@ export const columns: ColumnDef<Material>[] = [
     cell: ({ row, column, table }) => {
       return (
         <EditableCell
-          className="disabled:cursor-default disabled:text-textColor-base text-right font-medium overflow-hidden h-7 px-1.5 rounded-none
-        hover:border-textColor-300 hover:border-[1.5px] 
+          className="disabled:cursor-default disabled:opacity-100 text-right font-medium overflow-hidden h-7 px-1.5 rounded-none
+        
           focus-visible:shadow-md focus-visible:ring-primary-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
           disabled
           variant="input"

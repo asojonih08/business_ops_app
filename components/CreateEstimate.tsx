@@ -2,71 +2,23 @@ import React from "react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { columns, Material } from "@/app/estimate/columns";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 import { DataTable } from "@/app/estimate/data-table";
-
-async function getData(): Promise<Material[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      num: 1,
-      type: "728ed52f",
-      description: "pending",
-      quantity: 100,
-      rate: 100,
-      amount: 100,
-    },
-    {
-      num: 2,
-      type: "728ed52f",
-      description: "pending",
-      quantity: 100,
-      rate: 100,
-      amount: 100,
-    },
-    {
-      num: 3,
-      type: "728ed52f",
-      description: "pending",
-      quantity: 100,
-      rate: 100,
-      amount: 100,
-    },
-    {
-      num: 4,
-      type: "728ed52f",
-      description: "pending",
-      quantity: 100,
-      rate: 100,
-      amount: 100,
-    },
-    {
-      num: 5,
-      type: "728ed52f",
-      description: "pending",
-      quantity: 100,
-      rate: 100,
-      amount: 100,
-    },
-    {
-      num: 6,
-      type: "728ed52f",
-      description: "pending",
-      quantity: 100,
-      rate: 100,
-      amount: 100,
-    },
-
-    // ...
-  ];
-}
+import AddMaterialsForm from "./AddMaterialsForm";
 
 const inputClassName =
   "h-8 2xl:h-10 placeholder:text-sm 2xl:placeholder:text-base placeholder:text-textColor-600/40 bg-[#F8F9FD] border-transparent rounded-lg \
 focus-visible:ring-transparent focus-visible:border-primary-300/70 focus-visible:border-[0.5px]";
 
-export default async function CreateEstimate() {
-  const data = await getData();
+export default function CreateEstimate() {
   return (
     <>
       {" "}
@@ -81,8 +33,23 @@ export default async function CreateEstimate() {
         <h2 className="text-xs 2xl:text-base font-bold text-textColor-700 mb-5">
           Material Cost
         </h2>
-        <div className="bg-[#F8F9FD] w-full h-[21vh] rounded-2xl drop-shadow-sm p-5 overflow-y-scroll">
-          <DataTable columns={columns} data={data} />
+        <div className="bg-[#F8F9FD] w-full h-[21vh] rounded-2xl drop-shadow-sm p-5 flec flex-col items-center justify-center">
+          <Dialog>
+            <DialogTrigger>
+              <span>Materials Total: $4500</span>
+              View/Edit Materials
+            </DialogTrigger>
+            <DialogContent className="max-w-[100vw] w-[80%] h-[90%] text-center">
+              <DialogHeader>
+                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                <DialogDescription>
+                  This action cannot be undone. This will permanently delete
+                  your account and remove your data from our servers.
+                </DialogDescription>
+              </DialogHeader>
+              <AddMaterialsForm />
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
       <div>
