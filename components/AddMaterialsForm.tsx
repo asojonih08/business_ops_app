@@ -2,7 +2,7 @@
 
 import { Material, columns } from "@/app/estimate/columns";
 import { DataTable } from "@/app/estimate/data-table";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
 import { FiPlus, FiSave } from "react-icons/fi";
@@ -13,8 +13,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+
 import { useMaterials } from "./MaterialsContext";
 import { IoIosSave } from "react-icons/io";
+import { ScrollArea } from "./ui/scroll-area";
+import { Textarea } from "./ui/textarea";
+import { Label } from "./ui/label";
 
 const initialMaterialsState: Material = {
   num: 1,
@@ -47,28 +51,39 @@ export default function AddMaterialsForm() {
 
   return (
     <div className="flex flex-col gap-4 h-[100vh]">
-      <div className="bg-textColor-50/40 border-b-[3px] border-textColor-300/50 h-[40%] max-h-[40%] overflow-y-scroll">
+      <ScrollArea className="bg-textColor-50/40 border-b-[3px] border-textColor-300/50 h-[50%] max-h-[50%]">
         <DataTable />
-      </div>
+        <span className="h-0"></span>
+      </ScrollArea>
       <span className="flex justify-between items-start mt-3 gap-8">
-        <div className="flex items-center gap-2">
-          <Separator className="bg-textColor-100 w-[12vw] h-[1.8px]" />
-          <Button
-            onClick={handleAddMaterialClick}
-            className="h-7 bg-white border-textColor-100 border-[1.8px] shadow-sm rounded-none flex gap-1 items-center p-2.5  
+        <div className="flex flex-col gap-9">
+          <div className="flex items-center gap-2">
+            <Separator className="bg-textColor-100 w-[12vw] h-[1.8px]" />
+            <Button
+              onClick={handleAddMaterialClick}
+              className="h-7 bg-white border-textColor-100 border-[1.8px] shadow-sm rounded-none flex gap-1 items-center p-2.5  
             hover:shadow-sm hover:border-textColor-300/60 hover:border-[1.5px] hover:duration-100"
-          >
-            <span className="text-textColor-600 text-[14.5]">
-              <FiPlus />
-            </span>{" "}
-            <span className="font-bold text-[12.5px] text-textColor-700 tracking-wide">
-              Add Material
-            </span>
-          </Button>
-          <Separator className="bg-textColor-100 w-[12vw] h-[1.8px]" />
+            >
+              <span className="text-textColor-600 text-[14.5]">
+                <FiPlus />
+              </span>{" "}
+              <span className="font-bold text-[12.5px] text-textColor-700 tracking-wide">
+                Add Material
+              </span>
+            </Button>
+            <Separator className="bg-textColor-100 w-[12vw] h-[1.8px]" />
+          </div>
+          <div>
+            <Label className="text-textColor-700 font-medium">Notes</Label>
+            <Textarea
+              className="resize-none rounded-none h-[140px] border-[1.8px]
+              hover:shadow-sm hover:border-textColor-300 hover:border-[1.8px] 
+              focus-visible:shadow-md focus-visible:ring-primary-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
+            />
+          </div>
         </div>
 
-        <div className="-mt-2.5 grid grid-rows-3 grid-cols-2 grid-flow-row items-end text-right gap-5 gap-x-14 mr-12 text-textColor-700 font-semibold text-lg overflow-x-hidden w-[30%]">
+        <div className="-mt-2.5 grid grid-rows-3 grid-cols-2 grid-flow-row items-end text-right gap-3.5 gap-x-14 mr-12 text-textColor-700 font-semibold text-base overflow-x-hidden w-[30%]">
           <span className="">Subtotal</span>
           <span className="">$ {subtotal.toFixed(2)}</span>
           <span className="flex flex-col gap-1.5 items-end justify-end">
@@ -96,11 +111,17 @@ export default function AddMaterialsForm() {
           <span className="">$850.00</span>
         </div>
       </span>
-      <span className="mt-6 flex items-center justify-end">
-        <Button className="roundded-sm bg-accent-base text-white text-base font-semibold tracking-wide duration-150 shadow-md
-        hover:bg-accent-700">
-          <div className="flex items-center gap-1"><IoIosSave size={15} /><span>Save</span></div>
-      </Button></span>
+      <span className="mt-4 mr-12 flex items-center justify-end">
+        <Button
+          className="roundded-sm bg-accent-base text-white text-base font-semibold tracking-wide duration-150 shadow-md
+        hover:bg-accent-700"
+        >
+          <div className="flex items-center gap-1">
+            <IoIosSave size={15} />
+            <span>Save</span>
+          </div>
+        </Button>
+      </span>
     </div>
   );
 }

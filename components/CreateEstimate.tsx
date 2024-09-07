@@ -11,8 +11,20 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { DataTable } from "@/app/estimate/data-table";
+import { MdHardware } from "react-icons/md";
+import { BsPaintBucket } from "react-icons/bs";
+import { GiWoodBeam } from "react-icons/gi";
+import { GiNails } from "react-icons/gi";
+import { PiPaintBucketBold } from "react-icons/pi";
+import { FaBucket } from "react-icons/fa6";
+import { PiPaintBucketFill } from "react-icons/pi";
+import { BiSolidCabinet } from "react-icons/bi";
+import { RiArchiveDrawerFill } from "react-icons/ri";
+import { IoHammerSharp } from "react-icons/io5";
+import { RiHammerFill } from "react-icons/ri";
+import { FaBrush } from "react-icons/fa6";
 import AddMaterialsForm from "./AddMaterialsForm";
+import { Separator } from "@radix-ui/react-select";
 
 const inputClassName =
   "h-8 2xl:h-10 placeholder:text-sm 2xl:placeholder:text-base placeholder:text-textColor-600/40 bg-[#F8F9FD] border-transparent rounded-lg \
@@ -39,14 +51,25 @@ export default function CreateEstimate() {
               <span>Materials Total: $4500</span>
               View/Edit Materials
             </DialogTrigger>
-            <DialogContent className="max-w-[100vw] w-[80%] h-[90%] text-center">
-              <DialogHeader>
-                <DialogTitle>Are you absolutely sure?</DialogTitle>
-                <DialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
-                </DialogDescription>
+            <DialogContent className="max-w-full w-[100vw] h-[100vh]">
+              <DialogHeader className="mt-10 flex flex-row items-baseline gap-3">
+                <div className="rounded-xl text-textColor-800 border-textColor-200/50 drop-shadow-md border p-2 grid grid-cols-2 grid-rows-2 gap-1">
+                  <MdHardware size={18} />
+                  <BiSolidCabinet size={18} />
+                  <PiPaintBucketFill size={18} />
+                  <FaBrush size={18} />
+                </div>
+                <div>
+                  <DialogTitle className="text-xl text-textColor-base">
+                    Materials
+                  </DialogTitle>
+                  <DialogDescription>
+                    Add materials for{" "}
+                    <span className="text-primary-500">Cabinet001</span>
+                  </DialogDescription>
+                </div>
               </DialogHeader>
+              <Separator className="w-full h-[1.5px] bg-textColor-50 mb-20 mt-6" />
               <AddMaterialsForm />
             </DialogContent>
           </Dialog>

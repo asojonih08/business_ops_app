@@ -15,15 +15,26 @@ import {
 } from "@/components/ui/table";
 import { useMaterials } from "@/components/MaterialsContext";
 import { columns } from "./columns";
-import { useEffect, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 
 // TODO: check quantity and rate for valid number input
 
 export function DataTable() {
   const { materials, setMaterials } = useMaterials();
   const [data, setData] = useState(materials);
+  const bottomOfTableRef = useRef<HTMLTableElement>(null);
+  const prevDataLength = useRef<number>(data.length);
 
   useEffect(() => setData(materials), [materials]);
+  useEffect(() => {
+    if (data.length > prevDataLength.current)
+      bottomOfTableRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+    // Update the previous data length to the current length
+    prevDataLength.current = data.length;
+  }, [data, prevDataLength]);
 
   const table = useReactTable({
     data,
@@ -47,7 +58,7 @@ export function DataTable() {
   });
 
   return (
-    <Table className="border-b">
+    <Table ref={bottomOfTableRef} className="border-b">
       <TableHeader>
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow className="h-12" key={headerGroup.id}>
