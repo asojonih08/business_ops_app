@@ -34,17 +34,17 @@ export default function Page() {
 
         <div className="px-6 py-5 2xl:px-8 2xl:py-8 rounded-2xl h-[42%] bg-white flex flex-col gap-4 2xl:gap-6">
           <div className="flex items-center">
-            <h1 className="text-base 2xl:text-[22px] font-bold text-textColor-base">
+            <h1 className="text-[15px] 2xl:text-[22px] font-bold text-textColor-base">
               Estimate Summary
             </h1>
-            <span className="h-8 2xl:h-6"></span>
+            <span className="h-5 2xl:h-6"></span>
           </div>
 
           <Separator className="w-full h-[1.3px] 2xl:h-[2px] mx-auto bg-textColor-300/15" />
 
-          <div className="text-[10px] 2xl:text-[13px] rounded-2xl bg-accent-50 drop-shadow-sm w-full h-[86%] py-2 pb-5 2xl:py-6 2xl:pb-10">
-            {summaryLabels_1.map((label) => (
-              <div key={label} className="w-[95%] mx-auto">
+          <div className="text-[9.5px] 2xl:text-[13px] rounded-2xl bg-accent-50 drop-shadow-sm w-full h-[82%] py-2 pb-5 2xl:py-6 2xl:pb-10">
+            {summaryLabels_1.map((label, index) => (
+              <div key={label} className={`${index % 2 === 1 ? "bg-textColor-100" : ""} w-[95%] mx-auto mb-0.5`}>
                 <span className="flex justify-between">
                   <span className="text-textColor-400 font-medium">
                     {label}
@@ -53,10 +53,10 @@ export default function Page() {
                     $ 245.63
                   </span>
                 </span>
-                <Separator className="w-full h-[0.5px] my-1" />
+                <Separator className="w-full h-[0.5px]" />
               </div>
             ))}
-            <div className="flex items-center w-[95%] justify-between mx-auto my-7">
+            <div className="flex items-center w-[95%] justify-between mx-auto my-3">
               <div className="flex flex-col items-center w-[46%]">
                 {summaryLabels_2.map(
                   (label, index) =>
@@ -97,7 +97,7 @@ export default function Page() {
               </div>
             </div>
             <Separator className="w-full h-[1.5px] 2xl:h-[2px] bg-textColor-200/70 bg-opacity-10" />
-            <span className="flex w-[95%] justify-between mx-auto mt-9">
+            <span className="flex w-[95%] justify-between mx-auto mt-4">
               <span className="text-base 2xl:text-xl text-textColor-900 font-bold tracking-wider">
                 Total
               </span>

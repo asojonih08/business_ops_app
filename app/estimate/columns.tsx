@@ -79,9 +79,11 @@ function EditableCell({
     const isQuantity = column.id === "quantity";
 
     if (isQuantity || isRate) {
+
       const quantity = isQuantity
         ? Number(value === "" ? 0 : value)
         : row.getValue("quantity");
+        
       const rate = isRate
         ? Number(value === "" ? 0 : value)
         : row.getValue("rate");

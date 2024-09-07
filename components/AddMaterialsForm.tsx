@@ -5,7 +5,7 @@ import { DataTable } from "@/app/estimate/data-table";
 import React from "react";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
-import { FiPlus } from "react-icons/fi";
+import { FiPlus, FiSave } from "react-icons/fi";
 import {
   Select,
   SelectContent,
@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { useMaterials } from "./MaterialsContext";
+import { IoIosSave } from "react-icons/io";
 
 const initialMaterialsState: Material = {
   num: 1,
@@ -45,8 +46,8 @@ export default function AddMaterialsForm() {
   );
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="rounded-md border-b-[3px] border-textColor-300/50">
+    <div className="flex flex-col gap-4 h-[100vh]">
+      <div className="bg-textColor-50/40 border-b-[3px] border-textColor-300/50 h-[40%] max-h-[40%] overflow-y-scroll">
         <DataTable />
       </div>
       <span className="flex justify-between items-start mt-3 gap-8">
@@ -95,6 +96,11 @@ export default function AddMaterialsForm() {
           <span className="">$850.00</span>
         </div>
       </span>
+      <span className="mt-6 flex items-center justify-end">
+        <Button className="roundded-sm bg-accent-base text-white text-base font-semibold tracking-wide duration-150 shadow-md
+        hover:bg-accent-700">
+          <div className="flex items-center gap-1"><IoIosSave size={15} /><span>Save</span></div>
+      </Button></span>
     </div>
   );
 }

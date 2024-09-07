@@ -47,7 +47,7 @@ export function DataTable() {
   });
 
   return (
-    <Table>
+    <Table className="border-b">
       <TableHeader>
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow className="h-12" key={headerGroup.id}>

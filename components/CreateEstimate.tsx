@@ -33,7 +33,7 @@ export default function CreateEstimate() {
         <h2 className="text-xs 2xl:text-base font-bold text-textColor-700 mb-5">
           Material Cost
         </h2>
-        <div className="bg-[#F8F9FD] w-full h-[21vh] rounded-2xl drop-shadow-sm p-5 flec flex-col items-center justify-center">
+        <div className="bg-[#F8F9FD] w-full h-[12vh] rounded-2xl drop-shadow-sm p-5 flec flex-col items-center justify-center">
           <Dialog>
             <DialogTrigger>
               <span>Materials Total: $4500</span>
