@@ -45,14 +45,14 @@ export default function CreateEstimate() {
         <h2 className="text-xs 2xl:text-base font-bold text-textColor-700 mb-5">
           Material Cost
         </h2>
-        <div className="bg-[#F8F9FD] w-full h-[12vh] rounded-2xl drop-shadow-sm p-5 flec flex-col items-center justify-center">
+        <div className="bg-[#F8F9FD] w-full h-[12vh] rounded-2xl drop-shadow-sm p-5 flex flex-col items-center justify-center">
           <Dialog>
             <DialogTrigger>
               <span>Materials Total: $4500</span>
               View/Edit Materials
             </DialogTrigger>
             <DialogContent className="max-w-full w-[100vw] h-[100vh]">
-              <DialogHeader className="mt-10 flex flex-row items-baseline gap-3">
+              <DialogHeader className="mt-10 flex flex-row items-baseline gap-2 2xl:gap-3">
                 <div className="rounded-xl text-textColor-800 border-textColor-200/50 drop-shadow-md border p-2 grid grid-cols-2 grid-rows-2 gap-1">
                   <MdHardware size={18} />
                   <BiSolidCabinet size={18} />
@@ -60,7 +60,7 @@ export default function CreateEstimate() {
                   <FaBrush size={18} />
                 </div>
                 <div>
-                  <DialogTitle className="text-xl text-textColor-base">
+                  <DialogTitle className="2xl:text-xl text-textColor-base">
                     Materials
                   </DialogTitle>
                   <DialogDescription>
@@ -69,7 +69,7 @@ export default function CreateEstimate() {
                   </DialogDescription>
                 </div>
               </DialogHeader>
-              <Separator className="w-full h-[1.5px] bg-textColor-50 mb-20 mt-6" />
+              <Separator className="w-full h-[1.5px] bg-textColor-50 mb-0 2xl:mb-10 mt-6" />
               <AddMaterialsForm />
             </DialogContent>
           </Dialog>

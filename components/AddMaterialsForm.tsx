@@ -50,8 +50,8 @@ export default function AddMaterialsForm() {
   );
 
   return (
-    <div className="flex flex-col gap-4 h-[100vh]">
-      <ScrollArea className="bg-textColor-50/40 border-b-[3px] border-textColor-300/50 h-[50%] max-h-[50%]">
+    <div className="flex flex-col gap-2 2xl:gap-4 h-[100vh]">
+      <ScrollArea className="bg-textColor-50/40 border-b-[3px] border-textColor-300/50 h-[38%] max-h-[38%]">
         <DataTable />
         <span className="h-0"></span>
       </ScrollArea>
@@ -76,17 +76,17 @@ export default function AddMaterialsForm() {
           <div>
             <Label className="text-textColor-700 font-medium">Notes</Label>
             <Textarea
-              className="resize-none rounded-none h-[140px] border-[1.8px]
+              className="resize-none rounded-none h-[120px] 2xl:h-[140px] border-[1.8px]
               hover:shadow-sm hover:border-textColor-300 hover:border-[1.8px] 
               focus-visible:shadow-md focus-visible:ring-primary-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
             />
           </div>
         </div>
 
-        <div className="-mt-2.5 grid grid-rows-3 grid-cols-2 grid-flow-row items-end text-right gap-3.5 gap-x-14 mr-12 text-textColor-700 font-semibold text-base overflow-x-hidden w-[30%]">
-          <span className="">Subtotal</span>
-          <span className="">$ {subtotal.toFixed(2)}</span>
-          <span className="flex flex-col gap-1.5 items-end justify-end">
+        <div className="grid grid-rows-4 grid-cols-2 grid-flow-row gap-2 2xl:gap-2 gap-x-12 2xl:gap-x-14 -mt-4 2xl:-mt-2.5 items-end text-right mr-12 text-textColor-700 font-semibold text-base overflow-x-hidden w-[30%]">
+          <span className="order-1">Subtotal</span>
+          <span className="order-2">$ {subtotal.toFixed(2)}</span>
+          <span className="order-3 flex flex-col gap-1.5 items-end justify-end">
             <span className="text-xs font-medium">Material Markup?</span>
             <Select>
               <SelectTrigger
@@ -106,12 +106,11 @@ export default function AddMaterialsForm() {
               </SelectContent>{" "}
             </Select>
           </span>
-          <span className="">$50.00</span>
-          <span className="">Total</span>
-          <span className="">$850.00</span>
-        </div>
-      </span>
-      <span className="mt-4 mr-12 flex items-center justify-end">
+          <span className="order-4 pb-1">$50.00</span>
+          <span className="order-5">Total</span>
+          <span className="order-6">$850.00</span>
+          <span className="order-7"></span>
+          <span className="order-8 mt-6">
         <Button
           className="roundded-sm bg-accent-base text-white text-base font-semibold tracking-wide duration-150 shadow-md
         hover:bg-accent-700"
@@ -121,7 +120,11 @@ export default function AddMaterialsForm() {
             <span>Save</span>
           </div>
         </Button>
+        </span>
+        </div>
       </span>
+      
+      
     </div>
   );
 }
