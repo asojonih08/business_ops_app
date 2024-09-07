@@ -32,7 +32,7 @@ focus-visible:ring-transparent focus-visible:border-primary-300/70 focus-visible
 
 export default function CreateEstimate() {
   return (
-    <>
+    <div className="flex flex-col gap-4 2xl:gap-6 justify-between">
       {" "}
       <h1 className="text-textColor-800 tracking-wide font-bold text-xs 2xl:text-sm">
         Create New Estimate
@@ -45,7 +45,7 @@ export default function CreateEstimate() {
         <h2 className="text-xs 2xl:text-base font-bold text-textColor-700 mb-5">
           Material Cost
         </h2>
-        <div className="bg-[#F8F9FD] w-full h-[12vh] rounded-2xl drop-shadow-sm p-5 flex flex-col items-center justify-center">
+        <div className="bg-[#F8F9FD] w-full h-[12vh] rounded-2xl drop-shadow-sm flex flex-col items-center justify-center">
           <Dialog>
             <DialogTrigger>
               <span>Materials Total: $4500</span>
@@ -54,10 +54,10 @@ export default function CreateEstimate() {
             <DialogContent className="max-w-full w-[100vw] h-[100vh]">
               <DialogHeader className="mt-10 flex flex-row items-baseline gap-2 2xl:gap-3">
                 <div className="rounded-xl text-textColor-800 border-textColor-200/50 drop-shadow-md border p-2 grid grid-cols-2 grid-rows-2 gap-1">
-                  <MdHardware size={18} />
-                  <BiSolidCabinet size={18} />
-                  <PiPaintBucketFill size={18} />
-                  <FaBrush size={18} />
+                  <MdHardware className="h-[13px] w-[13px] 2xl:h-[18px] 2xl:w-[18px]" />
+                  <BiSolidCabinet className="h-[13px] w-[13px] 2xl:h-[18px] 2xl:w-[18px]" />
+                  <PiPaintBucketFill className="h-[13px] w-[13px] 2xl:h-[18px] 2xl:w-[18px]" />
+                  <FaBrush className="h-[13px] w-[13px] 2xl:h-[18px] 2xl:w-[18px]" />
                 </div>
                 <div>
                   <DialogTitle className="2xl:text-xl text-textColor-base">
@@ -69,7 +69,7 @@ export default function CreateEstimate() {
                   </DialogDescription>
                 </div>
               </DialogHeader>
-              <Separator className="w-full h-[1.5px] bg-textColor-50 mb-0 2xl:mb-10 mt-6" />
+              <Separator className="w-full h-[1.5px] bg-textColor-50 mb-0 2xl:mb-8 mt-6" />
               <AddMaterialsForm />
             </DialogContent>
           </Dialog>
@@ -155,12 +155,12 @@ export default function CreateEstimate() {
       </div>
       <span className="flex justify-end">
         <Button
-          className="bg-accent-base rounded-lg w-[66px] 2xl:w-20 text-xs 2xl:text-base text-white font-bold tracking-wide duration-150
+          className="bg-accent-base shadow-md rounded-lg w-[66px] 2xl:w-20 text-xs 2xl:text-base text-white font-semibold tracking-wide duration-150
       hover:bg-accent-700"
         >
           Add Item
         </Button>
       </span>
-    </>
+    </div>
   );
 }

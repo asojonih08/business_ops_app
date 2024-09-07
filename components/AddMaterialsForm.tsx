@@ -51,7 +51,7 @@ export default function AddMaterialsForm() {
 
   return (
     <div className="flex flex-col gap-2 2xl:gap-4 h-[100vh]">
-      <ScrollArea className="bg-textColor-50/40 border-b-[3px] border-textColor-300/50 h-[38%] max-h-[38%]">
+      <ScrollArea className="bg-textColor-50/40 border-b-[3px] border-textColor-300/50 h-[38%] max-h-[38%] 2xl:h-[46%] 2xl:max-h-[46%]">
         <DataTable />
         <span className="h-0"></span>
       </ScrollArea>
@@ -111,20 +111,18 @@ export default function AddMaterialsForm() {
           <span className="order-6">$850.00</span>
           <span className="order-7"></span>
           <span className="order-8 mt-6">
-        <Button
-          className="roundded-sm bg-accent-base text-white text-base font-semibold tracking-wide duration-150 shadow-md
+            <Button
+              className="roundded-sm bg-accent-base text-white text-base font-semibold tracking-wide duration-150 shadow-md
         hover:bg-accent-700"
-        >
-          <div className="flex items-center gap-1">
-            <IoIosSave size={15} />
-            <span>Save</span>
-          </div>
-        </Button>
-        </span>
+            >
+              <div className="flex items-center gap-1">
+                <IoIosSave size={15} />
+                <span>Save</span>
+              </div>
+            </Button>
+          </span>
         </div>
       </span>
-      
-      
     </div>
   );
 }

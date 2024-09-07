@@ -1,9 +1,14 @@
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { IoSearch } from "react-icons/io5";
+import { IoIosSend } from "react-icons/io";
+import { RiSendPlaneFill } from "react-icons/ri";
 import CreateEstimate from "@/components/CreateEstimate";
 import { Separator } from "@/components/ui/separator";
 import ProjectTotals from "@/components/ProjectTotals";
+import { Select, SelectTrigger } from "@/components/ui/select";
+import { SelectValue } from "@radix-ui/react-select";
+import { Button } from "@/components/ui/button";
 
 const ICON_SIZE = 14;
 const ICON_SIZE_xl = 19;
@@ -44,7 +49,12 @@ export default function Page() {
 
           <div className="text-[9.5px] 2xl:text-[13px] rounded-2xl bg-accent-50 drop-shadow-sm w-full h-[82%] py-2 pb-5 2xl:py-6 2xl:pb-10">
             {summaryLabels_1.map((label, index) => (
-              <div key={label} className={`${index % 2 === 1 ? "bg-textColor-100" : ""} w-[95%] mx-auto mb-0.5`}>
+              <div
+                key={label}
+                className={`${
+                  index % 2 === 1 ? "bg-textColor-100" : ""
+                } w-[95%] mx-auto mb-0.5`}
+              >
                 <span className="flex justify-between">
                   <span className="text-textColor-400 font-medium">
                     {label}
@@ -129,8 +139,22 @@ export default function Page() {
           <Separator className="w-full h-[1.3px] 2xl:h-[1.8px]  mx-auto bg-textColor-300/10" />
         </div>
       </div>
-      <div className="px-8 py-7 h-full bg-white w-[45%] rounded-2xl flex flex-col gap-4 2xl:gap-6">
-        <CreateEstimate />
+      <div className="w-[45%] flex flex-col gap-2">
+        <div className="pt-7 h-[94%] bg-white rounded-2xl flex flex-col justify-between">
+          <div className="px-8">
+            <CreateEstimate />
+          </div>
+        </div>
+        <span className="flex justify-end items-center gap-5 mt-5 h-[6%] bg-white rounded-2xl pr-8">
+          <Button className="w-28 h-8 shadow-md border-2 border-textColor-800 hover:bg-slate-50 rounded-sm font-medium tracking-wide">
+            Save
+          </Button>
+          <Button className="w-28 h-8 shadow-md hover:bg-[#33b8a6] bg-[#31DAC3] border-none rounded-sm text-white font-medium tracking-wide">
+            <span className="flex items-center gap-1.5">
+              <span>Proposal</span> <RiSendPlaneFill size={15} />
+            </span>
+          </Button>
+        </span>
       </div>
     </div>
   );
