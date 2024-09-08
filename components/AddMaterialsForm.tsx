@@ -16,6 +16,8 @@ import {
 
 import { useMaterials } from "./MaterialsContext";
 import { IoIosSave } from "react-icons/io";
+import { LuSave } from "react-icons/lu";
+import { PiFloppyDisk, PiFloppyDiskBold } from "react-icons/pi";
 import { ScrollArea } from "./ui/scroll-area";
 import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
@@ -31,8 +33,8 @@ const initialMaterialsState: Material = {
 
 /*TODO: 
 Clear all button
-Limit list view of materials and add scroll functionality
-Add Save button
+x Limit list view of materials and add scroll functionality 
+x Add Save button
 */
 
 export default function AddMaterialsForm() {
@@ -112,13 +114,15 @@ export default function AddMaterialsForm() {
           <span className="order-7"></span>
           <span className="order-8 mt-6">
             <Button
-              className="roundded-sm bg-accent-base text-white text-base font-semibold tracking-wide duration-150 shadow-md
-        hover:bg-accent-700"
+              className="bg-white border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg w-[66px] 2xl:w-[90px] text-xs 2xl:text-base text-textColor-600 font-medium tracking-wide duration-150
+      hover:border-accent-600/60 hover:text-textColor-900"
             >
-              <div className="flex items-center gap-1">
-                <IoIosSave size={15} />
+              <span className="flex items-center gap-1.5">
+                {/* <LuSave size={16} />
+                <PiFloppyDisk size={16} /> */}
+                <PiFloppyDiskBold size={16.5} />
                 <span>Save</span>
-              </div>
+              </span>
             </Button>
           </span>
         </div>

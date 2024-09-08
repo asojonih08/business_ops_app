@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { FormEvent, useState } from "react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -12,67 +13,94 @@ import {
 } from "@/components/ui/dialog";
 
 import { MdHardware } from "react-icons/md";
-import { BsPaintBucket } from "react-icons/bs";
-import { GiWoodBeam } from "react-icons/gi";
-import { GiNails } from "react-icons/gi";
-import { PiPaintBucketBold } from "react-icons/pi";
-import { FaBucket } from "react-icons/fa6";
 import { PiPaintBucketFill } from "react-icons/pi";
 import { BiSolidCabinet } from "react-icons/bi";
-import { RiArchiveDrawerFill } from "react-icons/ri";
-import { IoHammerSharp } from "react-icons/io5";
-import { RiHammerFill } from "react-icons/ri";
 import { FaBrush } from "react-icons/fa6";
+import { MdOutlinePostAdd } from "react-icons/md";
+
 import AddMaterialsForm from "./AddMaterialsForm";
 import { Separator } from "@radix-ui/react-select";
+import { FaRegEdit } from "react-icons/fa";
+import ProportionBar from "./ui/proportion-bar";
 
 const inputClassName =
   "h-8 2xl:h-10 placeholder:text-sm 2xl:placeholder:text-base placeholder:text-textColor-600/40 bg-[#F8F9FD] border-transparent rounded-lg \
-focus-visible:ring-transparent focus-visible:border-primary-300/70 focus-visible:border-[0.5px]";
+focus-visible:shadow-md focus-visible:ring-primary-500/50 focus-visible:ring-[1.3px] focus-visible:-ring-offset-1";
 
 export default function CreateEstimate() {
+  const [itemName, setItemName] = useState<string>("Cabinet 001");
+  const itemNameLength = itemName.length;
+  const widthForItemName = itemNameLength * 5;
+
   return (
     <div className="flex flex-col gap-4 2xl:gap-6 justify-between">
       {" "}
       <h1 className="text-textColor-800 tracking-wide font-bold text-xs 2xl:text-sm">
         Create New Estimate
       </h1>
-      <h1 className="text-base 2xl:text-2xl font-bold text-textColor-base">
+      <h1 className="text-base 2xl:text-2xl font-bold text-textColor-base flex gap-1">
         {" "}
-        Item <span className="text-primary-500">Cabinet 001</span>
+        Item <span className="text-primary-500 text-2xl">Cabinet001</span>
       </h1>
       <div>
         <h2 className="text-xs 2xl:text-base font-bold text-textColor-700 mb-5">
           Material Cost
         </h2>
-        <div className="bg-[#F8F9FD] w-full h-[12vh] rounded-2xl drop-shadow-sm flex flex-col items-center justify-center">
-          <Dialog>
-            <DialogTrigger>
-              <span>Materials Total: $4500</span>
-              View/Edit Materials
-            </DialogTrigger>
-            <DialogContent className="max-w-full w-[100vw] h-[100vh]">
-              <DialogHeader className="mt-10 flex flex-row items-baseline gap-2 2xl:gap-3">
-                <div className="rounded-xl text-textColor-800 border-textColor-200/50 drop-shadow-md border p-2 grid grid-cols-2 grid-rows-2 gap-1">
-                  <MdHardware className="h-[13px] w-[13px] 2xl:h-[18px] 2xl:w-[18px]" />
-                  <BiSolidCabinet className="h-[13px] w-[13px] 2xl:h-[18px] 2xl:w-[18px]" />
-                  <PiPaintBucketFill className="h-[13px] w-[13px] 2xl:h-[18px] 2xl:w-[18px]" />
-                  <FaBrush className="h-[13px] w-[13px] 2xl:h-[18px] 2xl:w-[18px]" />
-                </div>
-                <div>
-                  <DialogTitle className="2xl:text-xl text-textColor-base">
-                    Materials
-                  </DialogTitle>
-                  <DialogDescription>
-                    Add materials for{" "}
-                    <span className="text-primary-500">Cabinet001</span>
-                  </DialogDescription>
-                </div>
-              </DialogHeader>
-              <Separator className="w-full h-[1.5px] bg-textColor-50 mb-0 2xl:mb-8 mt-6" />
-              <AddMaterialsForm />
-            </DialogContent>
-          </Dialog>
+        <div className="bg-[#F8F9FD] w-full h-[18vh] rounded-2xl drop-shadow-sm flex flex-col gap-3 p-4">
+          <span className="flex justify-between items-center">
+            <h2 className="2xl:text-[16.5px] font-bold text-textColor-800">
+              Materials Summary
+            </h2>
+            <Dialog>
+              <DialogTrigger
+                className="h-9 flex items-center justify-center gap-1.5 font-medium border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg w-[66px] 2xl:w-[110px] text-[10px] 2xl:text-[13.5px] text-textColor-600 tracking-wide duration-150
+              hover:border-accent-600/60 hover:text-textColor-900"
+              >
+                <FaRegEdit />
+                <span>View/Edit</span>
+              </DialogTrigger>
+              <DialogContent className="max-w-full w-[100vw] h-[100vh]">
+                <DialogHeader className="mt-10 flex flex-row items-baseline gap-2 2xl:gap-3">
+                  <div className="rounded-xl text-textColor-800 border-textColor-200/50 drop-shadow-md border p-2 grid grid-cols-2 grid-rows-2 gap-1">
+                    <MdHardware className="h-[13px] w-[13px] 2xl:h-[18px] 2xl:w-[18px]" />
+                    <BiSolidCabinet className="h-[13px] w-[13px] 2xl:h-[18px] 2xl:w-[18px]" />
+                    <PiPaintBucketFill className="h-[13px] w-[13px] 2xl:h-[18px] 2xl:w-[18px]" />
+                    <FaBrush className="h-[13px] w-[13px] 2xl:h-[18px] 2xl:w-[18px]" />
+                  </div>
+                  <div>
+                    <DialogTitle className="2xl:text-xl text-textColor-base">
+                      Materials
+                    </DialogTitle>
+                    <DialogDescription>
+                      Add materials for{" "}
+                      <span className="text-primary-500">Cabinet001</span>
+                    </DialogDescription>
+                  </div>
+                </DialogHeader>
+                <Separator className="w-full h-[1.5px] bg-textColor-50 mb-0 2xl:mb-8 mt-6" />
+                <AddMaterialsForm />
+              </DialogContent>
+            </Dialog>
+          </span>
+          <Separator className="w-full h-[1px] mx-auto bg-textColor-200/70" />
+
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col">
+              <span className="text-base tracking-tight">
+                Total material cost
+              </span>
+              <span className="font-medium text-3xl flex items-center gap-1">
+                <span className="text-[26px]">$ </span>1,872
+              </span>
+            </div>
+            <ProportionBar
+              items={[
+                { label: "Type 2", value: 30 },
+                { label: "Type 3", value: 20 },
+                { label: "Type 1", value: 10 },
+              ]}
+            />
+          </div>
         </div>
       </div>
       <div>
@@ -155,10 +183,13 @@ export default function CreateEstimate() {
       </div>
       <span className="flex justify-end">
         <Button
-          className="bg-accent-base shadow-md rounded-lg w-[66px] 2xl:w-20 text-xs 2xl:text-base text-white font-semibold tracking-wide duration-150
-      hover:bg-accent-700"
+          className="bg-white border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg w-[66px] 2xl:w-[120px] text-xs 2xl:text-base text-textColor-600 font-medium tracking-wide duration-150
+      hover:border-accent-600/60 hover:text-textColor-900"
         >
-          Add Item
+          <span className="flex items-center gap-1.5">
+            <MdOutlinePostAdd size={17} />
+            <span>Add Item</span>
+          </span>
         </Button>
       </span>
     </div>

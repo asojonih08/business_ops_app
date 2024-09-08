@@ -78,7 +78,9 @@ const navigationLinks = [
     href: "/admin",
     icon: (
       <MdOutlineAdminPanelSettings
-        className={`text-[${ICON_SIZE + 2}px] 2xl:text-[${ICON_SIZE_2XL + 2}px]`}
+        className={`text-[${ICON_SIZE + 2}px] 2xl:text-[${
+          ICON_SIZE_2XL + 2
+        }px]`}
       />
     ),
     authRole: "admin",
