@@ -3,55 +3,39 @@ import { Separator } from "./ui/separator";
 
 export default function ProjectTotals() {
   return (
-    <span className="rounded-2xl border-[2px] drop-shadow-sm border-opacity-25 border-textColor-100/40 py-6 px-6 2xl:px-8 flex justify-between items-center w-full h-full font-medium text-xs text-textColor-base">
-      <div className="flex items-center gap-3.5">
-        <Separator
-          orientation="vertical"
-          className="bg-primary-500 w-[4px] h-16 2xl:h-[80px] rounded-xl"
-        />
-        <div className="flex flex-col gap-3.5">
-          <h2 className="tracking-widest text-primary-500">Total</h2>
-          <span className="text-base 2xl:text-3xl text-primary-500">
-            <span className="text-lg 2xl:text-[32px]">$&nbsp;</span>18,700.66
+    <div className="w-full h-full justify-center flex flex-col gap-4">
+      <div className="flex flex-col gap-2.5">
+        <span className="text-[13px] font-semibold tracking-wide">Total</span>
+        <span className="text-[37px] font-semibold text-textColor-base tracking-wide">
+          $2,478.67
+        </span>
+      </div>
+      <div className="flex gap-[6.5%]">
+        <div className="flex flex-col">
+          <span className="text-[11.5px] text-textColor-800/85 font-medium tracking-wide">
+            Breakeven
+          </span>
+          <span className="text-[24px] font-medium text-textColor-base">
+            -$345.56
+          </span>
+        </div>
+        <div className="flex flex-col">
+          <span className="text-[11.5px] text-textColor-800/85 font-medium tracking-wide">
+            Profit
+          </span>
+          <span className="text-[24px] font-medium text-textColor-base">
+            -$1,145.89
+          </span>
+        </div>
+        <div className="flex flex-col">
+          <span className="text-[11.5px] text-textColor-800/85 font-medium tracking-wide">
+            Sales Tax
+          </span>
+          <span className="text-[24px] font-medium text-textColor-base">
+            $1,098.32
           </span>
         </div>
       </div>
-      <div className="flex items-center gap-3.5">
-        <Separator
-          orientation="vertical"
-          className="bg-green-600 w-[4px] h-16 2xl:h-[80px] rounded-xl"
-        />
-        <div className="flex flex-col gap-3.5 text-green-500">
-          <h2 className="tracking-widest">Profit</h2>
-          <span className="text-lg 2xl:text-3xl text-green-600">
-            <span className="text-lg 2xl:text-[32px]">$&nbsp;</span>2,388.08
-          </span>
-        </div>
-      </div>
-      <div className="flex items-center gap-3.5">
-        <Separator
-          orientation="vertical"
-          className="bg-textColor-700 w-[4px] h-16 2xl:h-[80px] rounded-xl"
-        />
-        <div className="flex flex-col gap-3.5">
-          <h2 className="tracking-widest text-textColor-700">Breakeven</h2>
-          <span className="text-base 2xl:text-3xl text-textColor-700">
-            <span className="text-lg 2xl:text-[32px]">$&nbsp;</span>16,312.58
-          </span>
-        </div>
-      </div>
-      <div className="flex items-center gap-3.5">
-        <Separator
-          orientation="vertical"
-          className="bg-yellow-500 w-[4px] h-16 2xl:h-[80px] rounded-xl"
-        />
-        <div className="flex flex-col gap-3.5 text-yellow-400">
-          <h2 className="tracking-widest">Sales Tax</h2>
-          <span className="text-base 2xl:text-3xl text-yellow-500 flex items-center">
-            <span className="text-lg 2xl:text-[32px]">$&nbsp;</span> 35.64
-          </span>
-        </div>
-      </div>
-    </span>
+    </div>
   );
 }

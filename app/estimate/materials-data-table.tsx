@@ -14,12 +14,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useMaterials } from "@/components/MaterialsContext";
-import { columns } from "./columns";
-import { RefObject, useEffect, useRef, useState } from "react";
+import { columns } from "./materials-columns";
+import { useEffect, useRef, useState } from "react";
 
 // TODO: check quantity and rate for valid number input
 
-export function DataTable() {
+export function MaterialsDataTable() {
   const { materials, setMaterials } = useMaterials();
   const [data, setData] = useState(materials);
   const bottomOfTableRef = useRef<HTMLTableElement>(null);

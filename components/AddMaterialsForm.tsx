@@ -1,7 +1,7 @@
 "use client";
 
-import { Material, columns } from "@/app/estimate/columns";
-import { DataTable } from "@/app/estimate/data-table";
+import { Material, columns } from "@/app/estimate/materials-columns";
+import { MaterialsDataTable } from "@/app/estimate/materials-data-table";
 import React, { useEffect, useRef } from "react";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
@@ -15,8 +15,6 @@ import {
 } from "./ui/select";
 
 import { useMaterials } from "./MaterialsContext";
-import { IoIosSave } from "react-icons/io";
-import { LuSave } from "react-icons/lu";
 import { PiFloppyDisk, PiFloppyDiskBold } from "react-icons/pi";
 import { ScrollArea } from "./ui/scroll-area";
 import { Textarea } from "./ui/textarea";
@@ -53,8 +51,8 @@ export default function AddMaterialsForm() {
 
   return (
     <div className="flex flex-col gap-2 2xl:gap-4 h-[100vh]">
-      <ScrollArea className="bg-textColor-50/40 border-b-[3px] border-textColor-300/50 h-[38%] max-h-[38%] 2xl:h-[46%] 2xl:max-h-[46%]">
-        <DataTable />
+      <ScrollArea className="bg-textColor-50/40 pt-5 border-y-[3px] border-textColor-300/50 h-[38%] max-h-[38%] 2xl:h-[46%] 2xl:max-h-[46%]">
+        <MaterialsDataTable />
         <span className="h-0"></span>
       </ScrollArea>
       <span className="flex justify-between items-start mt-3 gap-8">

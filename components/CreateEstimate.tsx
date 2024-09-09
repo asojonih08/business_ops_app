@@ -1,5 +1,19 @@
 "use client";
-import React, { FormEvent, useState } from "react";
+import React, {
+  ChangeEvent,
+  EventHandler,
+  FormEvent,
+  FormEventHandler,
+  Key,
+  KeyboardEvent,
+  KeyboardEventHandler,
+  LegacyRef,
+  ReactEventHandler,
+  RefAttributes,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -24,29 +38,68 @@ import { FaRegEdit } from "react-icons/fa";
 import ProportionBar from "./ui/proportion-bar";
 
 const inputClassName =
-  "h-8 2xl:h-10 placeholder:text-sm 2xl:placeholder:text-base placeholder:text-textColor-600/40 bg-[#F8F9FD] border-transparent rounded-lg \
-focus-visible:shadow-md focus-visible:ring-primary-500/50 focus-visible:ring-[1.3px] focus-visible:-ring-offset-1";
+  "h-8 2xl:h-10 2xl:text-[17px] text-textColor-700 focus:text-textColor-800 font-medium placeholder:text-sm 2xl:placeholder:text-base placeholder:text-textColor-600/40 bg-accent-200/15 border-transparent rounded-lg \
+focus-visible:shadow-md focus-visible:ring-primary-500/50 focus-visible:ring-[1.3px] focus-visible:-ring-offset-1 focus:bg-accent-200/30";
 
 export default function CreateEstimate() {
   const [itemName, setItemName] = useState<string>("Cabinet 001");
+  const [editPressed, setEditPressed] = useState<boolean>(false);
+  const itemNameInputRef = useRef<HTMLInputElement>(null);
   const itemNameLength = itemName.length;
-  const widthForItemName = itemNameLength * 5;
+  let itemNameInputWidth;
+  if (itemNameLength <= 12) itemNameInputWidth = "28%";
+  else if (itemNameLength < 19) itemNameInputWidth = "38%";
+  else itemNameInputWidth = "48%";
+
+  useEffect(() => itemNameInputRef.current?.focus(), [editPressed]);
+
+  function handleItemNameEnterPress(e: KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Enter") setEditPressed((editPressed) => !editPressed);
+  }
 
   return (
     <div className="flex flex-col gap-4 2xl:gap-6 justify-between">
-      {" "}
-      <h1 className="text-textColor-800 tracking-wide font-bold text-xs 2xl:text-sm">
-        Create New Estimate
-      </h1>
-      <h1 className="text-base 2xl:text-2xl font-bold text-textColor-base flex gap-1">
-        {" "}
-        Item <span className="text-primary-500 text-2xl">Cabinet001</span>
+      <h1 className="text-base 2xl:text-2xl font-bold text-textColor-base flex gap-1 items-center 2xl:mb-4">
+        Item{" "}
+        {editPressed ? (
+          <Input
+            ref={itemNameInputRef}
+            style={{
+              width: itemNameInputWidth,
+            }}
+            className={`text-primary-500 text-2xl h-8 px-[0.5px] focus-visible:shadow-sm focus-visible:ring-primary-500/50 focus-visible:ring-[1.3px] focus-visible:-ring-offset-1 focus:bg-accent-200/15`}
+            value={itemName}
+            onBlur={() => setEditPressed((editPressed) => !editPressed)}
+            onKeyUp={handleItemNameEnterPress}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              console.log(itemName);
+              setItemName(e.target.value);
+            }}
+          ></Input>
+        ) : (
+          <>
+            <span className="text-primary-500 text-base 2xl:text-2xl border-textColor-300/40 px-0.5 border rounded-md">
+              {itemName}
+            </span>
+            <div
+              onClick={() => {
+                setEditPressed((editPressed) => !editPressed);
+              }}
+              className="border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg p-0.5 pl-1.5 pb-1 mt-0.5"
+            >
+              <FaRegEdit
+                className="h-[20px] w-[20.5px] text-textColor-600 
+                        hover:text-textColor-base"
+              />
+            </div>
+          </>
+        )}
       </h1>
       <div>
         <h2 className="text-xs 2xl:text-base font-bold text-textColor-700 mb-5">
           Material Cost
         </h2>
-        <div className="bg-[#F8F9FD] w-full h-[18vh] rounded-2xl drop-shadow-sm flex flex-col gap-3 p-4">
+        <div className="bg-accent-200/15 w-full h-[18vh] rounded-2xl drop-shadow-sm flex flex-col gap-3 p-4">
           <span className="flex justify-between items-center">
             <h2 className="2xl:text-[16.5px] font-bold text-textColor-800">
               Materials Summary
@@ -188,7 +241,7 @@ export default function CreateEstimate() {
         >
           <span className="flex items-center gap-1.5">
             <MdOutlinePostAdd size={17} />
-            <span>Add Item</span>
+            <span>Save Item</span>
           </span>
         </Button>
       </span>
