@@ -79,7 +79,7 @@ export default function ProjectItems() {
           </span>
           <Button
             className="h-8 flex items-center justify-center gap-1 px-1 font-medium border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg w-[66px] 2xl:w-[102px] text-textColor-600 tracking-wide duration-150
-      hover:border-accent-600/60 hover:text-textColor-900"
+          hover:border-accent-600/60 hover:text-textColor-900"
           >
             <FaPlus className="mt-[1px]" size={13.5} />
             <span className="text-[10px] 2xl:text-[13.5px]">Add Item</span>

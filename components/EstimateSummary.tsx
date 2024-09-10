@@ -48,7 +48,7 @@ export default function EstimateSummary() {
             {/* <Separator className="w-full h-[0.5px]" /> */}
           </div>
         ))}
-        <div className="2xl:text-[14.5px] flex items-center w-[95%] justify-between mx-auto my-7 2xl:my-9">
+        <div className="2xl:text-[14.5px] flex items-center w-[95%] justify-between mx-auto my-4 2xl:my-9">
           <div className="flex flex-col items-center w-[46%]">
             {summaryLabels_2.map(
               (label, index) =>
@@ -88,8 +88,9 @@ export default function EstimateSummary() {
             )}
           </div>
         </div>
+        <div className="flex flex-col gap-4 2xl:gap-8">
         <Separator className="w-full h-[1.5px] 2xl:h-[2px] bg-textColor-200/70 bg-opacity-10" />
-        <span className="flex w-[92%] justify-between mx-auto mt-8">
+        <span className="flex w-[92%] justify-between mx-auto">
           <span className="text-base 2xl:text-xl text-textColor-900 font-bold tracking-wider">
             Total
           </span>
@@ -97,6 +98,7 @@ export default function EstimateSummary() {
             $18,700.66
           </span>
         </span>
+        </div>
       </div>
     </div>
   );

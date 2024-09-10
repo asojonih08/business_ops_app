@@ -42,8 +42,23 @@ const inputClassName =
 focus-visible:shadow-md focus-visible:ring-primary-500/50 focus-visible:ring-[1.3px] focus-visible:-ring-offset-1 focus:bg-accent-200/30";
 
 export default function CreateEstimate() {
+
   const [itemName, setItemName] = useState<string>("Cabinet 001");
   const [editPressed, setEditPressed] = useState<boolean>(false);
+  const [laborHours, setLaborHours] = useState<number>(0);
+  const [installationHours, setInstallationHours] = useState<number>(0);
+  const [subcontractorCost, setSubcontractorCost] = useState<number>(0);
+  const [independentContractorCost, setIndependentContractorCost] = useState<number>(0);
+  const [deliveryCost, setDeliveryCost] = useState<number>(0);
+  const [gasCost, setGasCost] = useState<number>(0);
+  const [equipmentRentalCost, setEquipmentRentalCost] = useState<number>(0);
+  const [miscellaneousCost, setMiscellaneousCost] = useState<number>(0);
+
+
+
+
+
+
   const itemNameInputRef = useRef<HTMLInputElement>(null);
   const itemNameLength = itemName.length;
   let itemNameInputWidth;
@@ -53,13 +68,14 @@ export default function CreateEstimate() {
 
   useEffect(() => itemNameInputRef.current?.focus(), [editPressed]);
 
+
   function handleItemNameEnterPress(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter") setEditPressed((editPressed) => !editPressed);
   }
 
   return (
     <div className="flex flex-col gap-4 2xl:gap-6 justify-between">
-      <h1 className="text-base 2xl:text-2xl font-bold text-textColor-base flex gap-1 items-center 2xl:mb-4">
+      <div className="text-base 2xl:text-2xl font-bold text-textColor-base flex gap-1 items-center 2xl:mb-4">
         Item{" "}
         {editPressed ? (
           <Input
@@ -67,7 +83,8 @@ export default function CreateEstimate() {
             style={{
               width: itemNameInputWidth,
             }}
-            className={`text-primary-500 text-2xl h-8 px-[0.5px] focus-visible:shadow-sm focus-visible:ring-primary-500/50 focus-visible:ring-[1.3px] focus-visible:-ring-offset-1 focus:bg-accent-200/15`}
+            className={`text-primary-500 text-base 2xl:text-2xl h-6 2xl:h-8 px-[0.5px] font-bold border border-transparent
+            focus-visible:shadow-sm focus-visible:ring-primary-500/50 focus-visible:ring-[1.3px] focus-visible:-ring-offset-1 focus:bg-accent-200/15 focus-visible:border-`}
             value={itemName}
             onBlur={() => setEditPressed((editPressed) => !editPressed)}
             onKeyUp={handleItemNameEnterPress}
@@ -78,38 +95,40 @@ export default function CreateEstimate() {
           ></Input>
         ) : (
           <>
-            <span className="text-primary-500 text-base 2xl:text-2xl border-textColor-300/40 px-0.5 border rounded-md">
+            <span 
+              className="text-primary-500 text-base font-bold 2xl:text-2xl h-6 2xl:h-8 border-textColor-300/40 px-0.5 border rounded-md shadow-sm shadow-transparent
+              ring-[1.3px] ring-transparent -ring-offset-1">
               {itemName}
             </span>
             <div
               onClick={() => {
                 setEditPressed((editPressed) => !editPressed);
               }}
-              className="border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg p-0.5 pl-1.5 pb-1 mt-0.5"
+              className="border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg p-0.5 pl-1.5 pb-1"
             >
               <FaRegEdit
-                className="h-[20px] w-[20.5px] text-textColor-600 
+                className="h-[14px] w-[14.5px] 2xl:h-[20px] 2xl:w-[20.5px] text-textColor-600 
                         hover:text-textColor-base"
               />
             </div>
           </>
         )}
-      </h1>
+      </div>
       <div>
-        <h2 className="text-xs 2xl:text-base font-bold text-textColor-700 mb-5">
+        <h2 className="text-xs 2xl:text-base font-bold text-textColor-700 mb-3 2xl:mb-5">
           Material Cost
         </h2>
-        <div className="bg-accent-200/15 w-full h-[18vh] rounded-2xl drop-shadow-sm flex flex-col gap-3 p-4">
+        <div className="bg-accent-200/15 w-full h-[18vh] rounded-2xl drop-shadow-sm flex flex-col gap-0.5 2xl:gap-3 p-3 2xl:p-4">
           <span className="flex justify-between items-center">
-            <h2 className="2xl:text-[16.5px] font-bold text-textColor-800">
+            <h2 className="text-xs 2xl:text-[16.5px] font-bold text-textColor-800">
               Materials Summary
             </h2>
             <Dialog>
               <DialogTrigger
-                className="h-9 flex items-center justify-center gap-1.5 font-medium border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg w-[66px] 2xl:w-[110px] text-[10px] 2xl:text-[13.5px] text-textColor-600 tracking-wide duration-150
+                className="h-8 2xl:h-9 flex items-center justify-center gap-1.5 font-medium border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg w-[76px] 2xl:w-[110px] text-[10px] 2xl:text-[13.5px] text-textColor-600 tracking-wide duration-150
               hover:border-accent-600/60 hover:text-textColor-900"
               >
-                <FaRegEdit />
+                <FaRegEdit className="h-[10px] w-[10px] 2xl:h-[13.5px] 2xl:w-[13.5px]" />
                 <span>View/Edit</span>
               </DialogTrigger>
               <DialogContent className="max-w-full w-[100vw] h-[100vh]">
@@ -137,16 +156,17 @@ export default function CreateEstimate() {
           </span>
           <Separator className="w-full h-[1px] mx-auto bg-textColor-200/70" />
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2 2xl:gap-4">
             <div className="flex flex-col">
-              <span className="text-base tracking-tight">
+              <span className="text-xs 2xl:text-base tracking-tight">
                 Total material cost
               </span>
-              <span className="font-medium text-3xl flex items-center gap-1">
-                <span className="text-[26px]">$ </span>1,872
+              <span className="font-medium text-[23px] 2xl:text-3xl flex items-center gap-1">
+                <span className="text-[20px] 2xl:text-[26px]">$ </span>1,872
               </span>
             </div>
             <ProportionBar
+            barHeight={16}
               items={[
                 { label: "Type 2", value: 30 },
                 { label: "Type 3", value: 20 },
@@ -166,6 +186,8 @@ export default function CreateEstimate() {
             <Input
               type="number"
               placeholder="Labor Hours"
+              onChange={(e:ChangeEvent<HTMLInputElement>)=>setLaborHours(Number(e.target.value))}
+              value={laborHours}
               className={inputClassName}
             />
           </div>
@@ -174,6 +196,8 @@ export default function CreateEstimate() {
             <Input
               type="number"
               placeholder="Installation Hours"
+              onChange={(e:ChangeEvent<HTMLInputElement>)=>setInstallationHours(Number(e.target.value))}
+              value={installationHours}
               className={inputClassName}
             />
           </div>
@@ -185,6 +209,8 @@ export default function CreateEstimate() {
           <Input
             type="number"
             placeholder="Subcontractor"
+            onChange={(e:ChangeEvent<HTMLInputElement>)=>setSubcontractorCost(Number(e.target.value))}
+            value={subcontractorCost}
             className={inputClassName}
           />
         </div>
@@ -193,6 +219,8 @@ export default function CreateEstimate() {
           <Input
             type="number"
             placeholder="Independent Contractor"
+            onChange={(e:ChangeEvent<HTMLInputElement>)=>setIndependentContractorCost(Number(e.target.value))}
+            value={independentContractorCost}
             className={inputClassName}
           />
         </div>
@@ -207,12 +235,19 @@ export default function CreateEstimate() {
             <Input
               type="number"
               placeholder="Delivery"
+              onChange={(e:ChangeEvent<HTMLInputElement>)=>setDeliveryCost(Number(e.target.value))}
+              value={deliveryCost}
               className={inputClassName}
             />
           </div>
           <div className="flex flex-col w-1/2 gap-2 text-textColor-500">
             <Label className="text-xs 2xl:text-sm">Gas</Label>
-            <Input type="number" placeholder="Gas" className={inputClassName} />
+            <Input 
+              type="number" 
+              placeholder="Gas" 
+              onChange={(e:ChangeEvent<HTMLInputElement>)=>setGasCost(Number(e.target.value))}
+              value={gasCost}
+              className={inputClassName} />
           </div>
         </div>
       </div>
@@ -222,6 +257,8 @@ export default function CreateEstimate() {
           <Input
             type="number"
             placeholder="Equipment Rental"
+            onChange={(e:ChangeEvent<HTMLInputElement>)=>setEquipmentRentalCost(Number(e.target.value))}
+            value={equipmentRentalCost}
             className={inputClassName}
           />
         </div>
@@ -230,13 +267,15 @@ export default function CreateEstimate() {
           <Input
             type="number"
             placeholder="Miscellaneous"
+            onChange={(e:ChangeEvent<HTMLInputElement>)=>setMiscellaneousCost(Number(e.target.value))}
+            value={miscellaneousCost}
             className={inputClassName}
           />
         </div>
       </div>
       <span className="flex justify-end">
         <Button
-          className="bg-white border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg w-[66px] 2xl:w-[120px] text-xs 2xl:text-base text-textColor-600 font-medium tracking-wide duration-150
+          className="h-9  2xl:h-11 bg-white border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg w-[92px] 2xl:w-[120px] text-xs 2xl:text-base text-textColor-600 font-medium tracking-wide duration-150
       hover:border-accent-600/60 hover:text-textColor-900"
         >
           <span className="flex items-center gap-1.5">
