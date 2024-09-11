@@ -1,15 +1,15 @@
 import React from "react";
-import { Separator } from "./ui/separator";
 
 //Total:Amount 2.84615
 //Subtotals:Amount 2.08695
 //Total:Subtotal 1.541666
-export default function ProjectTotals() {
+export default function ProposalTotals() {
   return (
-  
     <div className="w-full h-full justify-center flex flex-col gap-2 2xl:gap-4 overflow-hidden">
       <div className="flex flex-col gap-1.5 2xl:gap-2.5">
-        <span className="text-[8.5px] 2xl:text-[13px] font-semibold tracking-wide">Total</span>
+        <span className="text-[8.5px] 2xl:text-[13px] font-semibold tracking-wide">
+          Total
+        </span>
         <span className="text-[24px] 2xl:text-[37px] font-semibold text-textColor-base tracking-wide">
           $2,478.67
         </span>

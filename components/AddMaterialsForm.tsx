@@ -1,7 +1,7 @@
 "use client";
 
-import { Material, columns } from "@/app/estimate/materials-columns";
-import { MaterialsDataTable } from "@/app/estimate/materials-data-table";
+import { Material, columns } from "@/app/proposals/materials-columns";
+import { MaterialsDataTable } from "@/app/proposals/materials-data-table";
 import React, { useEffect, useRef } from "react";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";

@@ -3,8 +3,8 @@ import { Separator } from "./ui/separator";
 import { IoSearch } from "react-icons/io5";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { ProjectItemsDataTable } from "@/app/estimate/project-items-data-table";
-import { columns } from "@/app/estimate/project-items-columns";
+import { ProposalItemsDataTable } from "@/app/proposals/proposal-items-data-table";
+import { columns } from "@/app/proposals/proposal-items-columns";
 import { FiSend } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa6";
 
@@ -54,7 +54,7 @@ const mockProjectItemsData = [
 const ICON_SIZE = 14;
 const ICON_SIZE_xl = 19;
 
-export default function ProjectItems() {
+export default function ProposalItems() {
   return (
     <div className=" h-full w-full flex flex-col justify-between">
       <div className="flex flex-col gap-4 2xl:gap-6">
@@ -86,7 +86,7 @@ export default function ProjectItems() {
           </Button>
         </div>
         <Separator className="w-full h-[1.3px] 2xl:h-[1.8px] -mt-3 mx-auto bg-textColor-300/10" />
-        <ProjectItemsDataTable data={mockProjectItemsData} columns={columns} />
+        <ProposalItemsDataTable data={mockProjectItemsData} columns={columns} />
       </div>
       <div className="flex flex-col gap-7">
         <div>

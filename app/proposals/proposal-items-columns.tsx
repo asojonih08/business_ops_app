@@ -9,7 +9,6 @@ import {
 } from "react-icons/ri";
 import { BsThreeDots } from "react-icons/bs";
 
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,7 +24,7 @@ import { FaEdit, FaRegEdit } from "react-icons/fa";
 import { GrTrash } from "react-icons/gr";
 import { FaRegTrashCan } from "react-icons/fa6";
 
-export type ProjectItem = {
+export type ProposalItem = {
   num: number | null;
   name: string | null;
   room: string | null;
@@ -34,7 +33,7 @@ export type ProjectItem = {
   status: string | null;
 };
 
-export const columns: ColumnDef<ProjectItem>[] = [
+export const columns: ColumnDef<ProposalItem>[] = [
   {
     accessorKey: "num",
     header: () => (
@@ -100,8 +99,8 @@ export const columns: ColumnDef<ProjectItem>[] = [
         <span
           className={`${
             row.getValue("status") === "draft"
-              ? "text-yellow-700 rounded-md bg-yellow-200/30 px-[7px] py-[1px]"
-              : "text-[#11523D] rounded-md bg-[#EBFEF6] px-[7px] py-[1px]"
+              ? "text-yellow-700/80 rounded-xl bg-yellow-200/30 px-[7px] py-[1px] border border-yellow-700/15"
+              : "text-[#11523D]/80 rounded-xl bg-[#EBFEF6] px-[7px] py-[1px] border border-[#11523D]/15"
           }`}
         >
           {row.getValue("status")}

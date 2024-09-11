@@ -15,6 +15,8 @@ import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { FiSettings } from "react-icons/fi";
 import { IoSearch } from "react-icons/io5";
 
+import { SquareChartGantt } from "lucide-react";
+
 import { Separator } from "./ui/separator";
 import {
   Tooltip,
@@ -29,6 +31,7 @@ import UserAccount from "./UserAccountCard";
 import SiteSearch from "./SiteSearch";
 import LogoIcon from "./LogoIcon";
 import NavigationLink from "./NavigationLink";
+import { BiDetail } from "react-icons/bi";
 
 // TODO: fix transition for logo scaling
 
@@ -56,8 +59,14 @@ const navigationLinks = [
     authRole: "user",
   },
   {
-    title: "Estimate",
-    href: "/estimate",
+    title: "Proposals",
+    href: "/proposals",
+    icon: <BiDetail className={iconClassName} />,
+    authRole: "user",
+  },
+  {
+    title: "Estimates",
+    href: "/estimates",
     icon: <RiCalculatorLine className={iconClassName} />,
     authRole: "user",
   },
