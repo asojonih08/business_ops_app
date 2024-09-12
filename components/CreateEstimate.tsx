@@ -1,15 +1,7 @@
 "use client";
 import React, {
   ChangeEvent,
-  EventHandler,
-  FormEvent,
-  FormEventHandler,
-  Key,
   KeyboardEvent,
-  KeyboardEventHandler,
-  LegacyRef,
-  ReactEventHandler,
-  RefAttributes,
   useEffect,
   useRef,
   useState,
@@ -17,6 +9,7 @@ import React, {
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { Separator } from "./ui/separator";
 import {
   Dialog,
   DialogContent,
@@ -25,25 +18,66 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Check, ChevronsUpDown } from "lucide-react"
+ 
+import { cn } from "@/lib/utils"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+ 
+const frameworks = [
+  {
+    value: "cabinet",
+    label: "Cabinet",
+  },
+  {
+    value: "table",
+    label: "Table",
+  },
+  {
+    value: "flooring",
+    label: "Flooring",
+  },
+  {
+    value: "kitchen",
+    label: "Kitchen",
+  },
+  {
+    value: "coffee table",
+    label: "Coffee Table",
+  },
+]
+
 
 import { MdHardware } from "react-icons/md";
 import { PiPaintBucketFill } from "react-icons/pi";
 import { BiSolidCabinet } from "react-icons/bi";
 import { FaBrush } from "react-icons/fa6";
 import { MdOutlinePostAdd } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
 
 import AddMaterialsForm from "./AddMaterialsForm";
-import { Separator } from "@radix-ui/react-select";
-import { FaRegEdit } from "react-icons/fa";
 import ProportionBar from "./ui/proportion-bar";
 
 const inputClassName =
-  "h-8 2xl:h-10 2xl:text-[17px] text-textColor-700 focus:text-textColor-800 font-medium placeholder:text-sm 2xl:placeholder:text-base placeholder:text-textColor-600/40 bg-accent-200/15 border-transparent rounded-lg \
+  "h-6 text-[10px] 2xl:h-10 2xl:text-[17px] text-textColor-700 focus:text-textColor-800 font-medium placeholder:text-sm 2xl:placeholder:text-base placeholder:text-textColor-600/40 bg-accent-200/15 border-transparent rounded-md \
 focus-visible:shadow-md focus-visible:ring-primary-500/50 focus-visible:ring-[1.3px] focus-visible:-ring-offset-1 focus:bg-accent-200/30";
 
 export default function CreateEstimate() {
 
   const [itemName, setItemName] = useState<string>("Cabinet 001");
+  const [open, setOpen] = React.useState(false)
+  const [value, setValue] = React.useState("")
   const [editPressed, setEditPressed] = useState<boolean>(false);
   const [laborHours, setLaborHours] = useState<number>(0);
   const [installationHours, setInstallationHours] = useState<number>(0);
@@ -74,7 +108,7 @@ export default function CreateEstimate() {
   }
 
   return (
-    <div className="flex flex-col gap-4 2xl:gap-6 justify-between">
+    <div className="flex flex-col gap-3 2xl:gap-6 justify-between">
       <div className="text-base 2xl:text-2xl font-bold text-textColor-base flex gap-1 items-center 2xl:mb-4">
         Item{" "}
         {editPressed ? (
@@ -113,14 +147,111 @@ export default function CreateEstimate() {
             </div>
           </>
         )}
+        <Separator orientation={"vertical"} className="h-7 mx-1.5" />
+      </div>
+      <span className="text-[11px] 2xl:text-base font-bold text-textColor-700">Attributes</span>
+      <div className="flex gap-1.5">
+
+
+      <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className={`"w-[200px] justify-between text-[11px] h-7` }
+        >
+          {value
+            ? frameworks.find((framework) => framework.value === value)?.label
+            : "Select Classification"}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[200px] p-0">
+        <Command>
+          <CommandInput placeholder="Search class..." />
+          <CommandList>
+            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandGroup>
+              {frameworks.map((framework) => (
+                <CommandItem
+                  key={framework.value}
+                  value={framework.value}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? "" : currentValue)
+                    setOpen(false)
+                  }}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      value === framework.value ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                  {framework.label}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className={`"w-[200px] justify-between text-[11px] h-7` }
+        >
+          {value
+            ? frameworks.find((framework) => framework.value === value)?.label
+            : "Select Room"}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[200px] p-0">
+        <Command>
+          <CommandInput placeholder="Search room..." />
+          <CommandList>
+            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandGroup>
+              {frameworks.map((framework) => (
+                <CommandItem
+                  key={framework.value}
+                  value={framework.value}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? "" : currentValue)
+                    setOpen(false)
+                  }}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      value === framework.value ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                  {framework.label}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+
+
+
+
+
       </div>
       <div>
-        <h2 className="text-xs 2xl:text-base font-bold text-textColor-700 mb-3 2xl:mb-5">
+        <h2 className="text-[11px] 2xl:text-base font-bold text-textColor-700 mb-3 2xl:mb-5">
           Material Cost
         </h2>
         <div className="bg-accent-200/15 w-full h-[18vh] rounded-2xl drop-shadow-sm flex flex-col gap-0.5 2xl:gap-3 p-3 2xl:p-4">
           <span className="flex justify-between items-center">
-            <h2 className="text-xs 2xl:text-[16.5px] font-bold text-textColor-800">
+            <h2 className="text-[11px] 2xl:text-[16.5px] font-bold text-textColor-800">
               Materials Summary
             </h2>
             <Dialog>
@@ -154,15 +285,15 @@ export default function CreateEstimate() {
               </DialogContent>
             </Dialog>
           </span>
-          <Separator className="w-full h-[1px] mx-auto bg-textColor-200/70" />
+          <Separator className="w-full h-[1px] my-1 mx-auto bg-textColor-200/70" />
 
           <div className="flex flex-col gap-2 2xl:gap-4">
             <div className="flex flex-col">
-              <span className="text-xs 2xl:text-base tracking-tight">
+              <span className="text-[11px] 2xl:text-base tracking-tight">
                 Total material cost
               </span>
-              <span className="font-medium text-[23px] 2xl:text-3xl flex items-center gap-1">
-                <span className="text-[20px] 2xl:text-[26px]">$ </span>1,872
+              <span className="font-medium text-[20px] 2xl:text-3xl flex items-center gap-1">
+                <span className="text-[17px] 2xl:text-[26px]">$ </span>1,872
               </span>
             </div>
             <ProportionBar
@@ -177,22 +308,22 @@ export default function CreateEstimate() {
         </div>
       </div>
       <div>
-        <h2 className="text-xs 2xl:text-base font-bold text-textColor-700 mb-5">
+        <h2 className="text-xs 2xl:text-base font-bold text-textColor-700 mb-3 2xl:mb-5">
           Labor Cost
         </h2>
         <div className="flex justify-between gap-4">
           <div className="flex flex-col w-1/2 gap-2 text-textColor-500">
-            <Label className="text-xs 2xl:text-sm">Labor Hours</Label>
+            <Label className="text-[10px] 2xl:text-sm">Fabrication Hours</Label>
             <Input
               type="number"
-              placeholder="Labor Hours"
+              placeholder="Fabrication Hours"
               onChange={(e:ChangeEvent<HTMLInputElement>)=>setLaborHours(Number(e.target.value))}
               value={laborHours}
               className={inputClassName}
             />
           </div>
           <div className="flex flex-col w-1/2 gap-2 text-textColor-500">
-            <Label className="text-xs 2xl:text-sm">Installation Hours</Label>
+            <Label className="text-[10px] 2xl:text-sm">Installation Hours</Label>
             <Input
               type="number"
               placeholder="Installation Hours"
@@ -205,7 +336,7 @@ export default function CreateEstimate() {
       </div>
       <div className="flex justify-between gap-4">
         <div className="flex flex-col w-1/2 gap-2 text-textColor-500">
-          <Label className="text-xs 2xl:text-sm">Subcontractor</Label>
+          <Label className="text-[10px] 2xl:text-sm">Subcontractor</Label>
           <Input
             type="number"
             placeholder="Subcontractor"
@@ -215,7 +346,7 @@ export default function CreateEstimate() {
           />
         </div>
         <div className="flex flex-col w-1/2 gap-2 text-textColor-500">
-          <Label className="text-xs 2xl:text-sm">Independent Contractor</Label>
+          <Label className="text-[10px] 2xl:text-sm">Independent Contractor</Label>
           <Input
             type="number"
             placeholder="Independent Contractor"
@@ -226,12 +357,12 @@ export default function CreateEstimate() {
         </div>
       </div>
       <div>
-        <h2 className="text-xs 2xl:text-base font-bold text-textColor-700 mb-5">
+        <h2 className="text-xs 2xl:text-base font-bold text-textColor-700 mb-3 2xl:mb-5">
           Additional Cost
         </h2>
         <div className="flex justify-between gap-4">
           <div className="flex flex-col w-1/2 gap-2 text-textColor-500">
-            <Label className="text-xs 2xl:text-sm">Delivery</Label>
+            <Label className="text-[10px] 2xl:text-sm">Delivery</Label>
             <Input
               type="number"
               placeholder="Delivery"
@@ -241,7 +372,7 @@ export default function CreateEstimate() {
             />
           </div>
           <div className="flex flex-col w-1/2 gap-2 text-textColor-500">
-            <Label className="text-xs 2xl:text-sm">Gas</Label>
+            <Label className="text-[10px] 2xl:text-sm">Gas</Label>
             <Input 
               type="number" 
               placeholder="Gas" 
@@ -253,7 +384,7 @@ export default function CreateEstimate() {
       </div>
       <div className="flex justify-between gap-4">
         <div className="flex flex-col w-1/2 gap-2 text-textColor-500">
-          <Label className="text-xs 2xl:text-sm">Equipment Rental</Label>
+          <Label className="text-[10px] 2xl:text-sm">Equipment Rental</Label>
           <Input
             type="number"
             placeholder="Equipment Rental"
@@ -263,7 +394,7 @@ export default function CreateEstimate() {
           />
         </div>
         <div className="flex flex-col w-1/2 gap-2 text-textColor-500">
-          <Label className="text-[11px] 2xl:text-sm">Miscellaneous</Label>
+          <Label className="text-[10px] 2xl:text-sm">Miscellaneous</Label>
           <Input
             type="number"
             placeholder="Miscellaneous"
