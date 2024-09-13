@@ -1,0 +1,103 @@
+"use client";
+import React, { useState } from "react";
+
+import {
+  Calculator,
+  Calendar,
+  CreditCard,
+  Settings,
+  Smile,
+  User,
+} from "lucide-react";
+
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import placeholder_avatar1 from "@/public/placeholder_avatar.png";
+import placeholder_avatar2 from "@/public/placeholder_avatar_man1.png";
+import placeholder_avatar3 from "@/public/placeholder_avatar_woman2.png";
+import placeholder_avatar4 from "@/public/placeholder_avatar_man2.png";
+import { Button } from "./ui/button";
+
+const placeholder_avatars = [
+  placeholder_avatar1,
+  placeholder_avatar2,
+  placeholder_avatar3,
+  placeholder_avatar4,
+];
+
+function ClientCard({ avatarimg, name, company = "", email = "" }: any) {
+  return (
+    <div className="flex gap-2 items-center">
+      <Avatar className="h-12 w-13 2xl:h-13 2xl:w-13">
+        <AvatarImage src={avatarimg.src} />
+        <AvatarFallback className="h-12 w-12 2xl:h-13 2xl:w-13">
+          <p>CN</p>
+        </AvatarFallback>
+      </Avatar>
+      {true && (
+        <div className="flex flex-col py-2 items-start">
+          <span className="text-xs 2xl:text-[18px] text-textColor-base font-semibold">
+            {name}
+          </span>
+          <span className="text-[9px] 2xl:text-[12px] text-textColor-400">
+            {company.length > 0 ? company : email}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function ClientSelect() {
+  const [selectedKey, setSelectedKey] = useState(-1);
+  function handleSelectClient(index: number) {
+    console.log(index);
+    setSelectedKey(index);
+  }
+  return (
+    <Command className="rounded-lg border shadow-md md:min-w-[380px] h-full overflow-visible">
+      <CommandInput
+        className="text-accent-600 placeholder:text-accent-500 font-medium text-[16px]"
+        placeholder="Search for a client..."
+      />
+      <CommandList className="max-h-96">
+        <CommandEmpty>No results found.</CommandEmpty>
+
+        {[0, 1, 2, 3].map((value, index) => (
+          <CommandItem
+            key={index}
+            className={`${
+              selectedKey === index
+                ? "border-[2px] border-primary-500/50"
+                : "border-transparent hover:bg-[#F8F9FA]"
+            }  hover:border-primary-500/50 my-1 mx-1.5 rounded-xl border-[2px] h-20 p-0`}
+          >
+            <Button
+              onClick={() => {
+                console.log(value);
+                setSelectedKey(value);
+              }}
+              className="w-full h-full justify-start"
+            >
+              <ClientCard
+                avatarimg={placeholder_avatars[index]}
+                name={"Jennifer Clomin"}
+                company={"Design Co."}
+              />
+            </Button>
+          </CommandItem>
+        ))}
+      </CommandList>
+    </Command>
+  );
+}

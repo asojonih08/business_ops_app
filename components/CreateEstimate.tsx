@@ -18,9 +18,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Check, ChevronsUpDown } from "lucide-react"
- 
-import { cn } from "@/lib/utils"
+import { Check, ChevronsUpDown } from "lucide-react";
+
+import { cn } from "@/lib/utils";
 import {
   Command,
   CommandEmpty,
@@ -28,14 +28,14 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
- 
-const frameworks = [
+} from "@/components/ui/popover";
+
+const classifications = [
   {
     value: "cabinet",
     label: "Cabinet",
@@ -49,15 +49,33 @@ const frameworks = [
     label: "Flooring",
   },
   {
+    value: "coffee table",
+    label: "Coffee Table",
+  },
+];
+
+const rooms = [
+  {
+    value: "master bedroom",
+    label: "Master Bedroom",
+  },
+  {
+    value: "master bathroom",
+    label: "Master Bathroom",
+  },
+  {
+    value: "living room",
+    label: "Living Room",
+  },
+  {
     value: "kitchen",
     label: "Kitchen",
   },
   {
-    value: "coffee table",
-    label: "Coffee Table",
+    value: "dining room",
+    label: "Dining Room",
   },
-]
-
+];
 
 import { MdHardware } from "react-icons/md";
 import { PiPaintBucketFill } from "react-icons/pi";
@@ -74,24 +92,21 @@ const inputClassName =
 focus-visible:shadow-md focus-visible:ring-primary-500/50 focus-visible:ring-[1.3px] focus-visible:-ring-offset-1 focus:bg-accent-200/30";
 
 export default function CreateEstimate() {
-
   const [itemName, setItemName] = useState<string>("Cabinet 001");
-  const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
+  const [openClassification, setOpenClassification] = React.useState(false);
+  const [openRoom, setOpenRoom] = React.useState(false);
+  const [classificationValue, setClassificationValue] = React.useState("");
+  const [roomValue, setRoomValue] = React.useState("");
   const [editPressed, setEditPressed] = useState<boolean>(false);
   const [laborHours, setLaborHours] = useState<number>(0);
   const [installationHours, setInstallationHours] = useState<number>(0);
   const [subcontractorCost, setSubcontractorCost] = useState<number>(0);
-  const [independentContractorCost, setIndependentContractorCost] = useState<number>(0);
+  const [independentContractorCost, setIndependentContractorCost] =
+    useState<number>(0);
   const [deliveryCost, setDeliveryCost] = useState<number>(0);
   const [gasCost, setGasCost] = useState<number>(0);
   const [equipmentRentalCost, setEquipmentRentalCost] = useState<number>(0);
   const [miscellaneousCost, setMiscellaneousCost] = useState<number>(0);
-
-
-
-
-
 
   const itemNameInputRef = useRef<HTMLInputElement>(null);
   const itemNameLength = itemName.length;
@@ -101,7 +116,6 @@ export default function CreateEstimate() {
   else itemNameInputWidth = "48%";
 
   useEffect(() => itemNameInputRef.current?.focus(), [editPressed]);
-
 
   function handleItemNameEnterPress(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter") setEditPressed((editPressed) => !editPressed);
@@ -129,9 +143,10 @@ export default function CreateEstimate() {
           ></Input>
         ) : (
           <>
-            <span 
+            <span
               className="text-primary-500 text-base font-bold 2xl:text-2xl h-6 2xl:h-8 border-textColor-300/40 px-0.5 border rounded-md shadow-sm shadow-transparent
-              ring-[1.3px] ring-transparent -ring-offset-1">
+              ring-[1.3px] ring-transparent -ring-offset-1"
+            >
               {itemName}
             </span>
             <div
@@ -149,102 +164,10 @@ export default function CreateEstimate() {
         )}
         <Separator orientation={"vertical"} className="h-7 mx-1.5" />
       </div>
-      <span className="text-[11px] 2xl:text-base font-bold text-textColor-700">Attributes</span>
-      <div className="flex gap-1.5">
+      <span className="text-[11px] 2xl:text-base font-bold text-textColor-700">
+        Attributes
+      </span>
 
-
-      <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className={`"w-[200px] justify-between text-[11px] h-7` }
-        >
-          {value
-            ? frameworks.find((framework) => framework.value === value)?.label
-            : "Select Classification"}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
-          <CommandInput placeholder="Search class..." />
-          <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
-            <CommandGroup>
-              {frameworks.map((framework) => (
-                <CommandItem
-                  key={framework.value}
-                  value={framework.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue)
-                    setOpen(false)
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      value === framework.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {framework.label}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className={`"w-[200px] justify-between text-[11px] h-7` }
-        >
-          {value
-            ? frameworks.find((framework) => framework.value === value)?.label
-            : "Select Room"}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
-          <CommandInput placeholder="Search room..." />
-          <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
-            <CommandGroup>
-              {frameworks.map((framework) => (
-                <CommandItem
-                  key={framework.value}
-                  value={framework.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue)
-                    setOpen(false)
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      value === framework.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {framework.label}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
-
-
-
-
-
-      </div>
       <div>
         <h2 className="text-[11px] 2xl:text-base font-bold text-textColor-700 mb-3 2xl:mb-5">
           Material Cost
@@ -297,7 +220,7 @@ export default function CreateEstimate() {
               </span>
             </div>
             <ProportionBar
-            barHeight={16}
+              barHeight={16}
               items={[
                 { label: "Type 2", value: 30 },
                 { label: "Type 3", value: 20 },
@@ -317,17 +240,23 @@ export default function CreateEstimate() {
             <Input
               type="number"
               placeholder="Fabrication Hours"
-              onChange={(e:ChangeEvent<HTMLInputElement>)=>setLaborHours(Number(e.target.value))}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setLaborHours(Number(e.target.value))
+              }
               value={laborHours}
               className={inputClassName}
             />
           </div>
           <div className="flex flex-col w-1/2 gap-2 text-textColor-500">
-            <Label className="text-[10px] 2xl:text-sm">Installation Hours</Label>
+            <Label className="text-[10px] 2xl:text-sm">
+              Installation Hours
+            </Label>
             <Input
               type="number"
               placeholder="Installation Hours"
-              onChange={(e:ChangeEvent<HTMLInputElement>)=>setInstallationHours(Number(e.target.value))}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setInstallationHours(Number(e.target.value))
+              }
               value={installationHours}
               className={inputClassName}
             />
@@ -340,17 +269,23 @@ export default function CreateEstimate() {
           <Input
             type="number"
             placeholder="Subcontractor"
-            onChange={(e:ChangeEvent<HTMLInputElement>)=>setSubcontractorCost(Number(e.target.value))}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setSubcontractorCost(Number(e.target.value))
+            }
             value={subcontractorCost}
             className={inputClassName}
           />
         </div>
         <div className="flex flex-col w-1/2 gap-2 text-textColor-500">
-          <Label className="text-[10px] 2xl:text-sm">Independent Contractor</Label>
+          <Label className="text-[10px] 2xl:text-sm">
+            Independent Contractor
+          </Label>
           <Input
             type="number"
             placeholder="Independent Contractor"
-            onChange={(e:ChangeEvent<HTMLInputElement>)=>setIndependentContractorCost(Number(e.target.value))}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setIndependentContractorCost(Number(e.target.value))
+            }
             value={independentContractorCost}
             className={inputClassName}
           />
@@ -366,19 +301,24 @@ export default function CreateEstimate() {
             <Input
               type="number"
               placeholder="Delivery"
-              onChange={(e:ChangeEvent<HTMLInputElement>)=>setDeliveryCost(Number(e.target.value))}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setDeliveryCost(Number(e.target.value))
+              }
               value={deliveryCost}
               className={inputClassName}
             />
           </div>
           <div className="flex flex-col w-1/2 gap-2 text-textColor-500">
             <Label className="text-[10px] 2xl:text-sm">Gas</Label>
-            <Input 
-              type="number" 
-              placeholder="Gas" 
-              onChange={(e:ChangeEvent<HTMLInputElement>)=>setGasCost(Number(e.target.value))}
+            <Input
+              type="number"
+              placeholder="Gas"
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setGasCost(Number(e.target.value))
+              }
               value={gasCost}
-              className={inputClassName} />
+              className={inputClassName}
+            />
           </div>
         </div>
       </div>
@@ -388,7 +328,9 @@ export default function CreateEstimate() {
           <Input
             type="number"
             placeholder="Equipment Rental"
-            onChange={(e:ChangeEvent<HTMLInputElement>)=>setEquipmentRentalCost(Number(e.target.value))}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setEquipmentRentalCost(Number(e.target.value))
+            }
             value={equipmentRentalCost}
             className={inputClassName}
           />
@@ -398,7 +340,9 @@ export default function CreateEstimate() {
           <Input
             type="number"
             placeholder="Miscellaneous"
-            onChange={(e:ChangeEvent<HTMLInputElement>)=>setMiscellaneousCost(Number(e.target.value))}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setMiscellaneousCost(Number(e.target.value))
+            }
             value={miscellaneousCost}
             className={inputClassName}
           />
