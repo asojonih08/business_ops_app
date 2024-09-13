@@ -1,11 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import { Checkbox } from "./ui/checkbox";
-import { MaterialsDataTable } from "@/app/proposals/materials-data-table";
 import { motion } from "framer-motion";
+import { ItemClassificationsDataTable } from "@/app/proposals/create-proposal/items-input-data-table";
 
 export default function ItemsInput() {
   const [showItemsInputTable, setShowItemsInputTable] = useState(false);
+
   return (
     <div className="flex flex-col gap-10 w-full h-full items-center">
       <div className="items-center justify-center flex space-x-2 w-full">
@@ -29,7 +30,7 @@ export default function ItemsInput() {
           animate={{ transition: { duration: 0.5 }, opacity: 100 }}
           className="w-full"
         >
-          <MaterialsDataTable />
+          <ItemClassificationsDataTable />
         </motion.div>
       )}
     </div>

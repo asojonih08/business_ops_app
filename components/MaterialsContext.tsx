@@ -1,5 +1,5 @@
 "use client";
-import { Material } from "@/app/estimate/columns";
+import { Material } from "@/app/proposals/materials-columns";
 import { createContext, useState, ReactNode, useContext } from "react";
 interface MaterialContextType {
   materials: Material[];
