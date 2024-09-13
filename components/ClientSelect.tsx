@@ -38,9 +38,9 @@ const placeholder_avatars = [
 function ClientCard({ avatarimg, name, company = "", email = "" }: any) {
   return (
     <div className="flex gap-2 items-center">
-      <Avatar className="h-12 w-13 2xl:h-13 2xl:w-13">
+      <Avatar className="h-10 w-10 2xl:h-13 2xl:w-13">
         <AvatarImage src={avatarimg.src} />
-        <AvatarFallback className="h-12 w-12 2xl:h-13 2xl:w-13">
+        <AvatarFallback className="h-10 w-10 2xl:h-13 2xl:w-13">
           <p>CN</p>
         </AvatarFallback>
       </Avatar>
@@ -65,13 +65,13 @@ export default function ClientSelect() {
     setSelectedKey(index);
   }
   return (
-    <Command className="rounded-lg border shadow-md md:min-w-[380px] h-full overflow-visible">
+    <Command className="rounded-lg border shadow-md md:min-w-[300px] h-full overflow-visible">
       <CommandInput
-        className="text-accent-600 placeholder:text-accent-500 font-medium text-[16px]"
+        className="text-accent-600 placeholder:text-accent-500 font-medium text-xs 2xl:text-[16px]"
         placeholder="Search for a client..."
       />
       <CommandList className="max-h-96">
-        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandEmpty className="font-medium text-xs 2xl:text-[16px] p-4 text-accent-800">No results found.</CommandEmpty>
 
         {[0, 1, 2, 3].map((value, index) => (
           <CommandItem
@@ -80,7 +80,7 @@ export default function ClientSelect() {
               selectedKey === index
                 ? "border-[2px] border-primary-500/50"
                 : "border-transparent hover:bg-[#F8F9FA]"
-            }  hover:border-primary-500/50 my-1 mx-1.5 rounded-xl border-[2px] h-20 p-0`}
+            }  hover:border-primary-500/50 my-1 mx-1.5 rounded-xl border-[2px] h-16 2xl:h-20 p-0`}
           >
             <Button
               onClick={() => {
