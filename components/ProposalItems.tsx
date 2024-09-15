@@ -99,7 +99,7 @@ export default function ProposalItems() {
           >
             Save
           </Button>
-          <Button className="w-28 h-8 shadow-md text-base from-ACCENT-200/50 to-ACCENT-400/65 bg-gradient-to-r text-textColor-800 rounded-sm  hover:text-textColor-base hover:bg-PRIMARY-200 hover:border-textColor-400/20 duration-150 font-medium tracking-wide">
+          <Button className="w-28 h-8 shadow-md text-base from-ACCENT-100 to-ACCENT-400/65 bg-gradient-to-r text-textColor-800 rounded-sm  hover:text-textColor-base hover:bg-PRIMARY-300/80 hover:border-textColor-400/20 duration-150 font-medium tracking-wide">
             <span className="flex items-center gap-1.5">
               <span>Proposal</span>
               <FiSend size={16} />

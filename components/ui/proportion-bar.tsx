@@ -31,7 +31,6 @@ export default function ProportionBar({
   const percentages = items.map((item) =>
     Math.round((item.value / total) * 100)
   );
-  console.log(percentages);
 
   return (
     <div className={`w-[${width}%] h-full flex flex-col items-end gap-2`}>

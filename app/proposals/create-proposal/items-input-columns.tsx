@@ -127,13 +127,14 @@ function EditableCell({
         <AutoComplete
           selectedValue={value}
           onSelectedValueChange={setValue}
-          searchValue={searchValue}
-          onSearchValueChange={setSearchValue}
+          searchValue={value}
+          onSearchValueChange={setValue}
           items={types}
           emptyMessage={`No ${emptyMessageItemName} found.`}
           shouldFilter
           className={className}
           placeholder={placeholder}
+          onBlur={onBlur}
         />
       );
   }
