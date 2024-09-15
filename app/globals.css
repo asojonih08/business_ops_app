@@ -53,6 +53,11 @@
     scroll-behavior: smooth;
   }
 
+  *:focus-visible {
+    outline: none;
+    background-color: var(--primary); /* Example focus background */
+  }
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;

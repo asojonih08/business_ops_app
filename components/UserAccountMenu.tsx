@@ -70,7 +70,7 @@ export default function UserAccountMenu() {
             hover:duration-150 
           ${
             pathname === navigationLink.href
-              ? "bg-primary-base hover:bg-none text-textColor-base border-textColor-base/10"
+              ? "bg-PRIMARY-base hover:bg-none text-textColor-base border-textColor-base/10"
               : "hover:text-textColor-base hover:bg-textColor-100/80"
           }`}
             >

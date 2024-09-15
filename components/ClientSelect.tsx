@@ -67,20 +67,22 @@ export default function ClientSelect() {
   return (
     <Command className="rounded-lg border shadow-md md:min-w-[300px] h-full overflow-visible">
       <CommandInput
-        className="text-accent-600 placeholder:text-accent-500 font-medium text-xs 2xl:text-[16px]"
+        className="text-ACCENT-600 placeholder:text-ACCENT-500 font-medium text-xs 2xl:text-[16px]"
         placeholder="Search for a client..."
       />
       <CommandList className="max-h-96">
-        <CommandEmpty className="font-medium text-xs 2xl:text-[16px] p-4 text-accent-800">No results found.</CommandEmpty>
+        <CommandEmpty className="font-medium text-xs 2xl:text-[16px] p-4 text-ACCENT-800">
+          No results found.
+        </CommandEmpty>
 
         {[0, 1, 2, 3].map((value, index) => (
           <CommandItem
             key={index}
             className={`${
               selectedKey === index
-                ? "border-[2px] border-primary-500/50"
+                ? "border-[2px] border-PRIMARY-500/50"
                 : "border-transparent hover:bg-[#F8F9FA]"
-            }  hover:border-primary-500/50 my-1 mx-1.5 rounded-xl border-[2px] h-16 2xl:h-20 p-0`}
+            }  hover:border-PRIMARY-500/50 my-1 mx-1.5 rounded-xl border-[2px] h-16 2xl:h-20 p-0`}
           >
             <Button
               onClick={() => {

@@ -25,7 +25,7 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         // https://uicolors.app/create
-        primary: {
+        PRIMARY: {
           50: "#d4eaf7",
           base: "#d4eaf7",
           200: "#c3e4f4",
@@ -37,6 +37,10 @@ const config = {
           800: "#185774",
           900: "#194961",
           950: "#112e40",
+        },
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -56,7 +60,7 @@ const config = {
           base: "#1f2e3f",
         },
 
-        accent: {
+        ACCENT: {
           50: "#f3f7fb",
           100: "#e3edf6",
           200: "#cee0ef",
@@ -68,6 +72,10 @@ const config = {
           800: "#41588c",
           900: "#384b70",
           950: "#263045",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
         },
 
         destructive: {

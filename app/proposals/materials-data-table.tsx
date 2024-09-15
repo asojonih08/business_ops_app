@@ -86,8 +86,8 @@ export function MaterialsDataTable() {
         {table.getRowModel().rows?.length ? (
           table.getRowModel().rows.map((row, index) => (
             <TableRow
-              className={`w-36 h-14 hover:bg-primary-50/40 ${
-                index % 2 === 1 ? "bg-accent-50/50" : ""
+              className={`w-36 h-14 hover:bg-PRIMARY-50/40 ${
+                index % 2 === 1 ? "bg-ACCENT-50/50" : ""
               }`}
               key={row.id}
               data-state={row.getIsSelected() && "selected"}

@@ -83,12 +83,12 @@ export function ItemClassificationsDataTable() {
           </TableRow>
         ))}
       </TableHeader>
-      <TableBody className="w-36 text-textColor-500 font-medium">
+      <TableBody className="text-textColor-500 font-medium">
         {table.getRowModel().rows?.length ? (
           table.getRowModel().rows.map((row, index) => (
             <TableRow
-              className={`w-36 h-14 hover:bg-primary-50/40 ${
-                index % 2 === 1 ? "bg-accent-50/50" : ""
+              className={`h-14 hover:bg-PRIMARY-50/40 ${
+                index % 2 === 1 ? "bg-ACCENT-50/50" : ""
               }`}
               key={row.id}
               data-state={row.getIsSelected() && "selected"}

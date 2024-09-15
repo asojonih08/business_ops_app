@@ -29,13 +29,13 @@ export default function EstimateSummary() {
 
       <Separator className="w-full h-[1.3px] 2xl:h-[2px] mx-auto bg-textColor-300/15" />
 
-      <div className="text-[10px] 2xl:text-[14px] rounded-2xl bg-accent-200/15 drop-shadow-sm w-full h-[85%] py-2 pb-5 2xl:py-6 2xl:pb-10">
+      <div className="text-[10px] 2xl:text-[14px] rounded-2xl bg-ACCENT-200/15 drop-shadow-sm w-full h-[85%] py-2 pb-5 2xl:py-6 2xl:pb-10">
         {summaryLabels_1.map((label, index) => (
           <div
             key={label}
             className={`${
               index % 2 === 1
-                ? "bg-accent-200/35 py-0.5 2xl:py-1.5 px-[3.5px] rounded-sm"
+                ? "bg-ACCENT-200/35 py-0.5 2xl:py-1.5 px-[3.5px] rounded-sm"
                 : ""
             } w-[95%] mx-auto my-1.5 2xl:my-2.5`}
           >
@@ -89,15 +89,15 @@ export default function EstimateSummary() {
           </div>
         </div>
         <div className="flex flex-col gap-4 2xl:gap-8">
-        <Separator className="w-full h-[1.5px] 2xl:h-[2px] bg-textColor-200/70 bg-opacity-10" />
-        <span className="flex w-[92%] justify-between mx-auto">
-          <span className="text-base 2xl:text-xl text-textColor-900 font-bold tracking-wider">
-            Total
+          <Separator className="w-full h-[1.5px] 2xl:h-[2px] bg-textColor-200/70 bg-opacity-10" />
+          <span className="flex w-[92%] justify-between mx-auto">
+            <span className="text-base 2xl:text-xl text-textColor-900 font-bold tracking-wider">
+              Total
+            </span>
+            <span className="text-lg 2xl:text-xl text-textColor-900 font-bold tracking-widest">
+              $18,700.66
+            </span>
           </span>
-          <span className="text-lg 2xl:text-xl text-textColor-900 font-bold tracking-widest">
-            $18,700.66
-          </span>
-        </span>
         </div>
       </div>
     </div>

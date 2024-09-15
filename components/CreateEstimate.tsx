@@ -18,22 +18,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Check, ChevronsUpDown } from "lucide-react";
-
-import { cn } from "@/lib/utils";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 
 const classifications = [
   {
@@ -88,8 +72,8 @@ import AddMaterialsForm from "./AddMaterialsForm";
 import ProportionBar from "./ui/proportion-bar";
 
 const inputClassName =
-  "h-6 text-[10px] 2xl:h-10 2xl:text-[17px] text-textColor-700 focus:text-textColor-800 font-medium placeholder:text-sm 2xl:placeholder:text-base placeholder:text-textColor-600/40 bg-accent-200/15 border-transparent rounded-md \
-focus-visible:shadow-md focus-visible:ring-primary-500/50 focus-visible:ring-[1.3px] focus-visible:-ring-offset-1 focus:bg-accent-200/30";
+  "h-6 text-[10px] 2xl:h-10 2xl:text-[17px] text-textColor-700 focus:text-textColor-800 font-medium placeholder:text-sm 2xl:placeholder:text-base placeholder:text-textColor-600/40 bg-ACCENT-200/15 border-transparent rounded-md \
+focus-visible:shadow-md focus-visible:ring-PRIMARY-500/50 focus-visible:ring-[1.3px] focus-visible:-ring-offset-1 focus:bg-ACCENT-200/30";
 
 export default function CreateEstimate() {
   const [itemName, setItemName] = useState<string>("Cabinet 001");
@@ -131,8 +115,8 @@ export default function CreateEstimate() {
             style={{
               width: itemNameInputWidth,
             }}
-            className={`text-primary-500 text-base 2xl:text-2xl h-6 2xl:h-8 px-[0.5px] font-bold border border-transparent
-            focus-visible:shadow-sm focus-visible:ring-primary-500/50 focus-visible:ring-[1.3px] focus-visible:-ring-offset-1 focus:bg-accent-200/15 focus-visible:border-`}
+            className={`text-PRIMARY-500 text-base 2xl:text-2xl h-6 2xl:h-8 px-[0.5px] font-bold border border-transparent
+            focus-visible:shadow-sm focus-visible:ring-PRIMARY-500/50 focus-visible:ring-[1.3px] focus-visible:-ring-offset-1 focus:bg-ACCENT-200/15 focus-visible:border-`}
             value={itemName}
             onBlur={() => setEditPressed((editPressed) => !editPressed)}
             onKeyUp={handleItemNameEnterPress}
@@ -144,7 +128,7 @@ export default function CreateEstimate() {
         ) : (
           <>
             <span
-              className="text-primary-500 text-base font-bold 2xl:text-2xl h-6 2xl:h-8 border-textColor-300/40 px-0.5 border rounded-md shadow-sm shadow-transparent
+              className="text-PRIMARY-500 text-base font-bold 2xl:text-2xl h-6 2xl:h-8 border-textColor-300/40 px-0.5 border rounded-md shadow-sm shadow-transparent
               ring-[1.3px] ring-transparent -ring-offset-1"
             >
               {itemName}
@@ -172,7 +156,7 @@ export default function CreateEstimate() {
         <h2 className="text-[11px] 2xl:text-base font-bold text-textColor-700 mb-3 2xl:mb-5">
           Material Cost
         </h2>
-        <div className="bg-accent-200/15 w-full h-[18vh] rounded-2xl drop-shadow-sm flex flex-col gap-0.5 2xl:gap-3 p-3 2xl:p-4">
+        <div className="bg-ACCENT-200/15 w-full h-[18vh] rounded-2xl drop-shadow-sm flex flex-col gap-0.5 2xl:gap-3 p-3 2xl:p-4">
           <span className="flex justify-between items-center">
             <h2 className="text-[11px] 2xl:text-[16.5px] font-bold text-textColor-800">
               Materials Summary
@@ -180,7 +164,7 @@ export default function CreateEstimate() {
             <Dialog>
               <DialogTrigger
                 className="h-8 2xl:h-9 flex items-center justify-center gap-1.5 font-medium border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg w-[76px] 2xl:w-[110px] text-[10px] 2xl:text-[13.5px] text-textColor-600 tracking-wide duration-150
-              hover:border-accent-600/60 hover:text-textColor-900"
+              hover:border-ACCENT-600/60 hover:text-textColor-900"
               >
                 <FaRegEdit className="h-[10px] w-[10px] 2xl:h-[13.5px] 2xl:w-[13.5px]" />
                 <span>View/Edit</span>
@@ -199,7 +183,7 @@ export default function CreateEstimate() {
                     </DialogTitle>
                     <DialogDescription>
                       Add materials for{" "}
-                      <span className="text-primary-500">Cabinet001</span>
+                      <span className="text-PRIMARY-500">Cabinet001</span>
                     </DialogDescription>
                   </div>
                 </DialogHeader>
@@ -351,7 +335,7 @@ export default function CreateEstimate() {
       <span className="flex justify-end">
         <Button
           className="h-9  2xl:h-11 bg-white border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg w-[92px] 2xl:w-[120px] text-xs 2xl:text-base text-textColor-600 font-medium tracking-wide duration-150
-      hover:border-accent-600/60 hover:text-textColor-900"
+      hover:border-ACCENT-600/60 hover:text-textColor-900"
         >
           <span className="flex items-center gap-1.5">
             <MdOutlinePostAdd size={17} />

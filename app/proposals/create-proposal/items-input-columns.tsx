@@ -15,12 +15,16 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useMaterials } from "@/components/MaterialsContext";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
+import { AutoComplete } from "@/components/ui/autocomplete";
+import { useItemClassifications } from "@/components/ItemClassificationsContext";
 
 interface EditableCellProps {
   variant: string;
   type?: string;
   disabled?: boolean;
   className?: string;
+  placeholder?: string;
+  emptyMessageItemName?: string;
   getValue: () => any;
   cellProps: {
     row: any;
@@ -34,13 +38,38 @@ function EditableCell({
   type = "text",
   disabled = false,
   className = "",
+  placeholder = "",
+  emptyMessageItemName = "",
   getValue,
   cellProps,
 }: EditableCellProps) {
   const initialValue = !getValue() ? "" : getValue();
   const { row, column, table } = cellProps;
   const [value, setValue] = useState(!initialValue ? "" : initialValue);
-  const { materials, setMaterials } = useMaterials();
+  const [searchValue, setSearchValue] = useState<string>("");
+
+  const types = [
+    {
+      value: "Cabinet",
+      label: "Cabinet",
+    },
+    {
+      value: "Deck",
+      label: "Deck",
+    },
+    {
+      value: "Table",
+      label: "Table",
+    },
+    {
+      value: "Flooring",
+      label: "Flooring",
+    },
+    {
+      value: "Siding",
+      label: "Siding",
+    },
+  ];
 
   const onBlur = () => {
     table.options.meta?.updateData(row.index, column.id, value);
@@ -93,6 +122,20 @@ function EditableCell({
           </SelectContent>{" "}
         </Select>
       );
+    case "autocomplete":
+      return (
+        <AutoComplete
+          selectedValue={value}
+          onSelectedValueChange={setValue}
+          searchValue={searchValue}
+          onSearchValueChange={setSearchValue}
+          items={types}
+          emptyMessage={`No ${emptyMessageItemName} found.`}
+          shouldFilter
+          className={className}
+          placeholder={placeholder}
+        />
+      );
   }
 }
 
@@ -116,13 +159,13 @@ export const columns: ColumnDef<ItemClassification>[] = [
     header: () => <div className="font-bold">Name</div>,
     cell: ({ row, column, table }) => (
       <EditableCell
-        className="rounded-none 
-        hover:shadow-md hover:border-textColor-300 hover:border-[1.5px] 
-        focus:shadow-md focus:ring-primary-500/70 focus:ring-[1.5px] focus:-ring-offset-1"
         variant={"input"}
-        getValue={() => row.getValue("name")}
+        className="h-7 text-left font-medium overflow-hidden items-center  rounded-none  w-full
+        hover:shadow-md hover:border-textColor-300 hover:border-[1.5px] 
+        focus-visible:shadow-md focus-visible:ring-PRIMARY-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
+        getValue={() => row.getValue("room")}
         cellProps={{ row, column, table }}
-      />
+      ></EditableCell>
     ),
   },
   {
@@ -130,10 +173,12 @@ export const columns: ColumnDef<ItemClassification>[] = [
     header: () => <div className="font-bold">Type</div>,
     cell: ({ row, column, table }) => (
       <EditableCell
-        className="rounded-none 
+        variant={"autocomplete"}
+        className="text-left font-medium overflow-hidden h-7 px-1.5 rounded-none text-textColor-500
         hover:shadow-md hover:border-textColor-300 hover:border-[1.5px] 
-        focus:shadow-md focus:ring-primary-500/70 focus:ring-[1.5px] focus:-ring-offset-1"
-        variant={"select"}
+        focus-visible:shadow-md focus-visible:ring-PRIMARY-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
+        placeholder=""
+        emptyMessageItemName={"type"}
         getValue={() => row.getValue("type")}
         cellProps={{ row, column, table }}
       />
@@ -145,43 +190,42 @@ export const columns: ColumnDef<ItemClassification>[] = [
     size: 20,
     cell: ({ row, column, table }) => (
       <EditableCell
-        variant={"input"}
-        className="text-left font-medium overflow-hidden h-7 px-1.5 rounded-none 
-        hover:shadow-md hover:border-textColor-300 hover:border-[1.5px] 
-        focus-visible:shadow-md focus-visible:ring-primary-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
+        variant={"autocomplete"}
+        className="text-left font-medium overflow-hidden h-7 px-1.5 rounded-none text-textColor-500
+      hover:shadow-md hover:border-textColor-300 hover:border-[1.5px] 
+      focus-visible:shadow-md focus-visible:ring-PRIMARY-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
+        placeholder=""
+        emptyMessageItemName={"room"}
         getValue={() => row.getValue("room")}
         cellProps={{ row, column, table }}
-      ></EditableCell>
+      />
     ),
   },
   {
     id: "delete",
     cell: ({ row }) => {
-      const { materials, setMaterials } = useMaterials();
+      const { itemClassifications, setItemClassifications } =
+        useItemClassifications();
       function handleDeleteMaterial(num: number) {
-        if (materials.length === 1) return;
+        if (itemClassifications.length === 1) return;
         console.log(
           "num",
           num,
           "type",
           row.getValue("type"),
-          "description",
-          row.getValue("description"),
-          "quantity",
-          row.getValue("quantity"),
-          "rate",
-          row.getValue("rate"),
-          "amount",
-          row.getValue("amount")
+          "room",
+          row.getValue("room")
         );
 
-        const newMaterials = materials.filter(
-          (material) => num !== material["num"]
+        const newItemClassifications = itemClassifications.filter(
+          (ItemClassification) => num !== itemClassifications["num"]
         );
-        const updatedNumMaterials = newMaterials.map((material, index) => {
-          return { ...material, num: index + 1 };
-        });
-        setMaterials(updatedNumMaterials);
+        const updatedNumMaterials = newItemClassifications.map(
+          (material, index) => {
+            return { ...material, num: index + 1 };
+          }
+        );
+        setItemClassifications(updatedNumMaterials);
       }
       return (
         <div

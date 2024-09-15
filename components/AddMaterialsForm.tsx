@@ -78,7 +78,7 @@ export default function AddMaterialsForm() {
             <Textarea
               className="resize-none rounded-none h-[120px] 2xl:h-[140px] border-[1.8px]
               hover:shadow-sm hover:border-textColor-300 hover:border-[1.8px] 
-              focus-visible:shadow-md focus-visible:ring-primary-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
+              focus-visible:shadow-md focus-visible:ring-PRIMARY-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
             />
           </div>
         </div>
@@ -92,7 +92,7 @@ export default function AddMaterialsForm() {
               <SelectTrigger
                 className="text-left font-medium overflow-hidden h-7 w-28 px-1.5 rounded-none 
                 hover:shadow-md hover:border-textColor-300 hover:border-[1.5px] 
-                focus:shadow-md focus:ring-primary-500/50 focus:ring-[1.5px] focus:-ring-offset-1"
+                focus:shadow-md focus:ring-PRIMARY-500/50 focus:ring-[1.5px] focus:-ring-offset-1"
               >
                 <SelectValue className="text-sm" placeholder="" />
               </SelectTrigger>
@@ -113,7 +113,7 @@ export default function AddMaterialsForm() {
           <span className="order-8 mt-6">
             <Button
               className="bg-white border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg w-[66px] 2xl:w-[90px] text-xs 2xl:text-base text-textColor-600 font-medium tracking-wide duration-150
-      hover:border-accent-600/60 hover:text-textColor-900"
+      hover:border-ACCENT-600/60 hover:text-textColor-900"
             >
               <span className="flex items-center gap-1.5">
                 {/* <LuSave size={16} />

@@ -9,16 +9,16 @@ export default function ItemsInput() {
 
   return (
     <div className="flex flex-col gap-10 w-full h-full items-center">
-      <div className="items-center justify-center flex space-x-2 w-full">
+      <div className="items-center justify-center flex space-x-2 w-full  2xl:mt-5">
         <Checkbox
-          className="from-[#f7f9f9] to-primary-base/90 bg-gradient-to-tr border-primary-500/15 items-center border h-3.5 w-3.5 2xl:h-7 2xl:w-7"
+          className="from-[#f7f9f9] to-PRIMARY-base/90 bg-gradient-to-tr border-PRIMARY-500/15 items-center border h-3.5 w-3.5 2xl:h-4 2xl:w-4"
           checked={showItemsInputTable}
           onCheckedChange={() => setShowItemsInputTable(!showItemsInputTable)}
           id="terms1"
         />
         <label
           htmlFor="terms1"
-          className="text-[13px] 2xl:text-lg font-semibold text-accent-800"
+          className="text-[13px] 2xl:text-[17px] font-semibold text-ACCENT-800"
         >
           Enter item names and attributes
         </label>

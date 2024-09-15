@@ -12,17 +12,18 @@ const ItemClassificationsContext = createContext<
   ItemClassificationContextType | undefined
 >(undefined);
 
-const inititalState: ItemClassification = {
-  num: 1,
-  name: null,
-  type: null,
-  room: null,
-};
+const inititalState: ItemClassification[] = [
+  {
+    num: 1,
+    name: null,
+    type: null,
+    room: null,
+  },
+];
 
 function ItemClassificationsProvider({ children }: { children: ReactNode }) {
-  const [itemClassifications, setItemClassifications] = useState<
-    ItemClassification[]
-  >([inititalState]);
+  const [itemClassifications, setItemClassifications] =
+    useState<ItemClassification[]>(inititalState);
 
   return (
     <ItemClassificationsContext.Provider

@@ -73,13 +73,13 @@ export default function ProposalItems() {
             />
             <Input
               className="pl-8 h-8 2xl:h-8 text-textColor-700 focus:text-textColor-800 font-medium placeholder:text-sm 2xl:placeholder:text-sm placeholder:text-textColor-600/40 bg-[#F8F9FD] border-transparent rounded-lg \
-              focus-visible:ring-transparent focus-visible:border-primary-300/70 focus-visible:border-[0.5px] focus:bg-accent-200/30"
+              focus-visible:ring-transparent focus-visible:border-PRIMARY-300/70 focus-visible:border-[0.5px] focus:bg-ACCENT-200/30"
               placeholder="Name"
             />
           </span>
           <Button
             className="h-8 flex items-center justify-center gap-1 px-1 font-medium border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg w-[66px] 2xl:w-[102px] text-textColor-600 tracking-wide duration-150
-          hover:border-accent-600/60 hover:text-textColor-900"
+          hover:border-ACCENT-600/60 hover:text-textColor-900"
           >
             <FaPlus className="mt-[1px]" size={13.5} />
             <span className="text-[10px] 2xl:text-[13.5px]">Add Item</span>
@@ -99,7 +99,7 @@ export default function ProposalItems() {
           >
             Save
           </Button>
-          <Button className="w-28 h-8 shadow-md text-base from-accent-200/50 to-accent-400/65 bg-gradient-to-r text-textColor-800 rounded-sm  hover:text-textColor-base hover:bg-primary-200 hover:border-textColor-400/20 duration-150 font-medium tracking-wide">
+          <Button className="w-28 h-8 shadow-md text-base from-ACCENT-200/50 to-ACCENT-400/65 bg-gradient-to-r text-textColor-800 rounded-sm  hover:text-textColor-base hover:bg-PRIMARY-200 hover:border-textColor-400/20 duration-150 font-medium tracking-wide">
             <span className="flex items-center gap-1.5">
               <span>Proposal</span>
               <FiSend size={16} />
