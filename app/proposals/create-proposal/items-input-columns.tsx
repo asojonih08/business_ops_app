@@ -206,7 +206,7 @@ export const columns: ColumnDef<ItemClassification>[] = [
     cell: ({ row }) => {
       const { itemClassifications, setItemClassifications } =
         useItemClassifications();
-      function handleDeleteMaterial(num: number) {
+      function handleDeleteItemClassification(num: number) {
         if (itemClassifications.length === 1) return;
         console.log(
           "num",
@@ -218,18 +218,18 @@ export const columns: ColumnDef<ItemClassification>[] = [
         );
 
         const newItemClassifications = itemClassifications.filter(
-          (ItemClassification) => num !== itemClassifications["num"]
+          (itemClassification) => num !== itemClassification["num"]
         );
-        const updatedNumMaterials = newItemClassifications.map(
-          (material, index) => {
-            return { ...material, num: index + 1 };
+        const updatedNumItemClassifications = newItemClassifications.map(
+          (itemClassification, index) => {
+            return { ...itemClassification, num: index + 1 };
           }
         );
-        setItemClassifications(updatedNumMaterials);
+        setItemClassifications(updatedNumItemClassifications);
       }
       return (
         <div
-          onClick={() => handleDeleteMaterial(row.getValue("num"))}
+          onClick={() => handleDeleteItemClassification(row.getValue("num"))}
           className="text-center h-5"
         >
           <Button className="h-5 text-textColor-300 hover:text-textColor-500 hover:duration-300">

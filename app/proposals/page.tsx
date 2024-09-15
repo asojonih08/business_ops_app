@@ -9,7 +9,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 
 export default function page() {
   return (
-    <div className="w-full h-full bg-white px-12 py-12 2xl:px-0 2xl:py-0 p-6 rounded-2xl flex flex-col gap-10 items-center justify-center">
+    <div className="w-full h-full bg-white px-12 py-12 2xl:px-0 2xl:py-0 p-6 rounded-2xl flex flex-col gap-8 items-center justify-center">
       {/* <Link href={"/proposals/create-proposal/project1"}>Test</Link> */}
       <div className="flex w-full justify-center gap-[8%]">
         <div className="h-64 2xl:h-96 flex flex-col gap-4">
@@ -27,10 +27,10 @@ export default function page() {
           </div>
         </div>
       </div>
-      <div className="flex w-full h-1/3 px-32">
+      <div className="flex w-full h-[40%] px-32">
         <ItemsInput />
       </div>
-      <div className="w-full px-36 flex justify-center">
+      <div className="w-full px-36 flex justify-center pt-10">
         <Button
           className="bg-transparent from-ACCENT-100 to-ACCENT-base/40 bg-gradient-to-r font-semibold text-ACCENT-950 text-sm 2xl:text-lg w-[26%] 2xl:w-[28%] drop-shadow-md duration-500 px-0 py-0
                 hover:bg-PRIMARY-300/70

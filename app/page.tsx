@@ -1,5 +1,5 @@
 import AddMaterialsForm from "@/components/AddMaterialsForm";
-import { ComboboxDemo } from "@/components/TestComponent";
+import TestComponent from "@/components/TestComponent";
 import { AutoComplete } from "@/components/ui/autocomplete";
 
 export default async function Page() {
@@ -10,7 +10,7 @@ export default async function Page() {
         <AddMaterialsForm />
       </div> */}
       <div>
-        <ComboboxDemo />
+        <TestComponent />
       </div>
     </div>
   );

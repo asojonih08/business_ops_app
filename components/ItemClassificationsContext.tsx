@@ -12,18 +12,16 @@ const ItemClassificationsContext = createContext<
   ItemClassificationContextType | undefined
 >(undefined);
 
-const inititalState: ItemClassification[] = [
-  {
-    num: 1,
-    name: null,
-    type: null,
-    room: null,
-  },
-];
-
+const initialState: ItemClassification = {
+  num: 1,
+  name: null,
+  type: null,
+  room: null,
+};
 function ItemClassificationsProvider({ children }: { children: ReactNode }) {
-  const [itemClassifications, setItemClassifications] =
-    useState<ItemClassification[]>(inititalState);
+  const [itemClassifications, setItemClassifications] = useState<
+    ItemClassification[]
+  >([initialState]);
 
   return (
     <ItemClassificationsContext.Provider
@@ -41,4 +39,4 @@ function useItemClassifications() {
   return context;
 }
 
-export { ItemClassificationsProvider, useItemClassifications };
+export { ItemClassificationsProvider, useItemClassifications, initialState };
