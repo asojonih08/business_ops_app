@@ -79,10 +79,11 @@ export default function page() {
       </div>
 
       <div className="w-1/2 my-[8%] h-[87%] pt-3.5 px-11 rounded-2xl border-[2px] border-ACCENT-200/15 bg-ACCENT-200/15 flex flex-col overflow-y-clip">
-        <div className="h-[16%] w-fulll flex items-center">
-          <div className="w-full">
-            <p className="text-[24px] font-bold text-textColor-700">Preview</p>
-          </div>
+        <div className="h-[16%] w-fulll flex items-center justify-between">
+          <p className="text-[24px] font-bold text-textColor-700">Preview</p>
+          <span className="w-1/8 border-[2px] rounded-lg border-textColor-700/60 text-sm text-textColor-700/75 font-bold px-1.5 mr-2.5 py-0.5">
+            PDF
+          </span>
         </div>
 
         <Separator className="w-full h-[1.5px] bg-textColor-700/10 rounded-full mb-7" />
