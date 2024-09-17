@@ -15,7 +15,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { AutoComplete } from "@/components/ui/autocomplete";
-import { useItemClassifications } from "@/components/ItemClassificationsContext";
 import { useProposalDetails } from "@/components/ProposalDetailsContext";
 
 interface EditableCellProps {
@@ -169,11 +168,9 @@ export const columns: ColumnDef<ProposalDetail>[] = [
   },
   {
     id: "delete",
-    cell: ({ row }) => {
-      const { proposalDetails, setProposalDetails } =
-        useProposalDetails();
-      function handleDeleteProposalDetail(num: number) {
-        if (proposalDetails.length === 1) return;
+    cell: ({ row, table }) => {
+      function handleDeleteProposalDetail() {
+        if (table.getRowCount() === 1) return;
         // console.log(
         //   "num",
         //   num,
@@ -182,21 +179,12 @@ export const columns: ColumnDef<ProposalDetail>[] = [
         //   "room",
         //   row.getValue("room")
         // );
-
-        const newProposalDetails = proposalDetails.filter(
-          (proposalDetail) => num !== proposalDetail["num"]
-        );
-        const updatedNumProposalDetails = newProposalDetails.map(
-          (proposalDetail, index) => {
-            return { ...proposalDetail, num: index + 1 };
-          }
-        );
-        setProposalDetails(updatedNumProposalDetails);
+        table.options.meta?.deleteRow(row.index);
       }
       return (
         <div
-          onClick={() => handleDeleteProposalDetail(row.getValue("num"))}
-          className="text-center h-5"
+          onClick={() => handleDeleteProposalDetail()}
+          className="text-center h-5 px-0 mx-0"
         >
           <Button className="h-5 text-textColor-300 hover:text-textColor-500 hover:duration-300">
             <RiDeleteBin4Line className="h-5 w-5" />
@@ -206,4 +194,3 @@ export const columns: ColumnDef<ProposalDetail>[] = [
     },
   },
 ];
-
