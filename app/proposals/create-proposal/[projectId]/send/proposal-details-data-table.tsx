@@ -35,15 +35,15 @@ export function ProposalDetailsDataTable<TData, TValue>({
   const prevDataLength = useRef<number>(data.length);
 
   // useEffect(() => setData(itemClassifications), [itemClassifications]);
-  useEffect(() => {
-    if (data.length > prevDataLength.current)
-      bottomOfTableRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-      });
-    // Update the previous data length to the current length
-    prevDataLength.current = data.length;
-  }, [data, prevDataLength]);
+  // useEffect(() => {
+  //   if (data.length > prevDataLength.current)
+  //     bottomOfTableRef.current?.scrollIntoView({
+  //       behavior: "smooth",
+  //       block: "end",
+  //     });
+  //   // Update the previous data length to the current length
+  //   prevDataLength.current = data.length;
+  // }, [data, prevDataLength]);
 
   const table = useReactTable({
     data,
@@ -98,7 +98,7 @@ export function ProposalDetailsDataTable<TData, TValue>({
         {table.getRowModel().rows?.length ? (
           table.getRowModel().rows.map((row, index) => (
             <TableRow
-              className={`h-14 hover:bg-PRIMARY-50/40 ${
+              className={`h-8 2xl:h-14 hover:bg-PRIMARY-50/40 ${
                 index % 2 === 1 ? "bg-ACCENT-50/50" : ""
               }`}
               key={row.id}

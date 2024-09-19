@@ -63,7 +63,7 @@ export default function ProposalItems() {
             Project Items
           </h1>
         </div>
-        <Separator className="w-full h-[1.3px] 2xl:h-[1.8px] -mb-3 mx-auto bg-textColor-300/10" />
+        <Separator className="w-full h-[1.3px] 2xl:h-[1.8px] -mb-2 2xl:-mb-3 mx-auto bg-textColor-300/10" />
         <div className="flex items-center justify-between">
           <span className="w-48">
             <IoSearch
@@ -72,34 +72,34 @@ export default function ProposalItems() {
               size={16}
             />
             <Input
-              className="pl-8 h-8 2xl:h-8 text-textColor-700 focus:text-textColor-800 font-medium placeholder:text-sm 2xl:placeholder:text-sm placeholder:text-textColor-600/40 bg-[#F8F9FD] border-transparent rounded-lg \
+              className="pl-8 h-7 text-[11px] 2xl:text-base 2xl:h-8 text-textColor-700 focus:text-textColor-800 font-medium placeholder:text-[11px] 2xl:placeholder:text-sm placeholder:text-textColor-600/40 bg-[#F8F9FD] border-transparent rounded-lg \
               focus-visible:ring-transparent focus-visible:border-PRIMARY-300/70 focus-visible:border-[0.5px] focus:bg-ACCENT-200/30"
               placeholder="Name"
             />
           </span>
           <Button
-            className="h-8 flex items-center justify-center gap-1 px-1 font-medium border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg w-[66px] 2xl:w-[102px] text-textColor-600 tracking-wide duration-150
+            className="h-7 2xl:h-8 flex items-center justify-center gap-1 px-1 font-medium border-[1.5px] 2xl:border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg w-[70px] 2xl:w-[102px] text-textColor-600 tracking-wide duration-150
           hover:border-ACCENT-600/60 hover:text-textColor-900"
           >
-            <FaPlus className="mt-[1px]" size={13.5} />
+            <FaPlus size={16} />
             <span className="text-[10px] 2xl:text-[13.5px]">Add Item</span>
           </Button>
         </div>
-        <Separator className="w-full h-[1.3px] 2xl:h-[1.8px] -mt-3 mx-auto bg-textColor-300/10" />
+        <Separator className="w-full h-[1.3px] 2xl:h-[1.8px] -mt-2 2xl:-mt-3 mx-auto bg-textColor-300/10" />
         <ProposalItemsDataTable data={mockProjectItemsData} columns={columns} />
       </div>
-      <div className="flex flex-col gap-7">
+      <div className="flex flex-col gap-3.5 2xl:gap-7">
         <div>
           <Separator className="w-full h-[1.3px] 2xl:h-[1.8px] mx-auto bg-textColor-300/20" />
         </div>
         <span className="flex justify-end items-center gap-5 bg-white rounded-2xl pr-8">
           <Button
-            className="w-28 h-8 shadow-md border-2 border-textColor-700 text-textColor-700 rounded-sm font-medium tracking-wide duration-150 
+            className="w-24 h-7 2xl:w-28 2xl:h-8 shadow-md text-[13.5px] 2xl:text-base border-2 border-textColor-700 text-textColor-700 rounded-sm font-medium tracking-wide duration-150 
         hover:bg-slate-100"
           >
             Save
           </Button>
-          <Button className="w-28 h-8 shadow-md text-base from-ACCENT-100 to-ACCENT-400/65 bg-gradient-to-r text-textColor-800 rounded-sm  hover:text-textColor-base hover:bg-PRIMARY-300/80 hover:border-textColor-400/20 duration-150 font-medium tracking-wide">
+          <Button className="w-24 h-7 2xl:w-28 2xl:h-8 shadow-md text-[13.5px] 2xl:text-base from-ACCENT-100 to-ACCENT-400/65 bg-gradient-to-r text-textColor-800 rounded-sm  hover:text-textColor-base hover:bg-PRIMARY-300/80 hover:border-textColor-400/20 duration-150 font-medium tracking-wide">
             <span className="flex items-center gap-1.5">
               <span>Proposal</span>
               <FiSend size={16} />

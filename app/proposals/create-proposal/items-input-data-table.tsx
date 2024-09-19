@@ -87,7 +87,7 @@ export function ItemClassificationsDataTable() {
         {table.getRowModel().rows?.length ? (
           table.getRowModel().rows.map((row, index) => (
             <TableRow
-              className={`h-14 hover:bg-PRIMARY-50/40 ${
+              className={`h-12 2xl:h-14 hover:bg-PRIMARY-50/40 ${
                 index % 2 === 1 ? "bg-ACCENT-50/50" : ""
               }`}
               key={row.id}

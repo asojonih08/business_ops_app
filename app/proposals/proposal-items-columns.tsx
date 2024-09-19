@@ -51,7 +51,7 @@ export const columns: ColumnDef<ProposalItem>[] = [
       <div className="uppercase text-[10px] text-textColor-600/60">Room</div>
     ),
     cell: ({ row }) => (
-      <div className="text-[13px] text-textColor-600/85 capitalize font-medium">
+      <div className="text-[11.5px] 2xl:text-[13px] text-textColor-600/85 capitalize font-medium">
         {row.getValue("room")}
       </div>
     ),
@@ -62,7 +62,7 @@ export const columns: ColumnDef<ProposalItem>[] = [
       <div className="uppercase text-[10px] text-textColor-600/60">Name</div>
     ),
     cell: ({ row }) => (
-      <div className="text-[13px] text-textColor-600/85 capitalize font-medium">
+      <div className="text-[11.5px] 2xl:text-[13px] text-textColor-600/85 capitalize font-medium">
         {row.getValue("name")}
       </div>
     ),
@@ -73,7 +73,7 @@ export const columns: ColumnDef<ProposalItem>[] = [
       <div className="uppercase text-[10px] text-textColor-600/60">Fixture</div>
     ),
     cell: ({ row }) => (
-      <div className="text-[13px] text-textColor-600/85 capitalize font-medium">
+      <div className="text-[11.5px] 2xl:text-[13px] text-textColor-600/85 capitalize font-medium">
         {row.getValue("fixture") ? "yes" : "no"}
       </div>
     ),
@@ -84,7 +84,7 @@ export const columns: ColumnDef<ProposalItem>[] = [
       <div className="uppercase text-[10px] text-textColor-600/60">Amount</div>
     ),
     cell: ({ row }) => (
-      <div className="text-[13px] text-textColor-600/85 capitalize font-medium">
+      <div className="text-[11.5px] 2xl:text-[13px] text-textColor-600/85 capitalize font-medium">
         ${row.getValue("amount")}
       </div>
     ),
@@ -95,7 +95,7 @@ export const columns: ColumnDef<ProposalItem>[] = [
       <div className="uppercase text-[10px] text-textColor-600/60">Status</div>
     ),
     cell: ({ row }) => (
-      <div className="text-[13px] text-textColor-600/85 capitalize font-medium">
+      <div className="text-[11.5px] 2xl:text-[13px] text-textColor-600/85 capitalize font-medium">
         <span
           className={`${
             row.getValue("status") === "draft"
@@ -141,7 +141,7 @@ export const columns: ColumnDef<ProposalItem>[] = [
       return (
         <DropdownMenu>
           <DropdownMenuTrigger className="text-center h-[18px] w-full text-textColor-600/85 hover:text-textColor-base hover:duration-200 mt-1">
-            <BsThreeDots className="h-4 w-4 mx-auto" />
+            <BsThreeDots className="h-[14.5px] w-[14.5px] 2xl:h-4 2xl:w-4 mx-auto" />
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="rounded-lg min-w-[116px] w-[116px]"
