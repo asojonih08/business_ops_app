@@ -98,7 +98,7 @@ export function ProposalDetailsDataTable<TData, TValue>({
         {table.getRowModel().rows?.length ? (
           table.getRowModel().rows.map((row, index) => (
             <TableRow
-              className={`h-8 2xl:h-14 hover:bg-PRIMARY-50/40 ${
+              className={`h-8 2xl:h-11 hover:bg-PRIMARY-50/40 ${
                 index % 2 === 1 ? "bg-ACCENT-50/50" : ""
               }`}
               key={row.id}

@@ -158,7 +158,7 @@ export const columns: ColumnDef<ProposalDetail>[] = [
     cell: ({ row, column, table }) => (
       <EditableCell
         variant={"input"}
-        className="h-6 2xl:h-7 text-[12px] 2xl:text-base text-left font-medium overflow-hidden items-center rounded-none  w-full
+        className="h-6 text-[12px] 2xl:text-[14px] text-left font-medium overflow-hidden items-center rounded-none  w-full
         hover:shadow-md hover:border-textColor-300 hover:border-[1.5px] 
         focus-visible:shadow-md focus-visible:ring-PRIMARY-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
         getValue={() => row.getValue("description")}
@@ -187,7 +187,7 @@ export const columns: ColumnDef<ProposalDetail>[] = [
           className="text-center h-5 px-0 mx-0"
         >
           <Button className="h-5 text-textColor-300 hover:text-textColor-500 hover:duration-300">
-            <RiDeleteBin4Line className="h-[18px] w-[18px] 2xl:h-5 2xl:w-5" />
+            <RiDeleteBin4Line className="h-[18px] w-[18px] 2xl:h-[19px] 2xl:w-[19px]" />
           </Button>
         </div>
       );
