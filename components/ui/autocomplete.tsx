@@ -29,7 +29,7 @@ type Props<T extends string> = {
   placeholder?: string;
   shouldFilter?: boolean;
   className?: string;
-  onBlur: () => void;
+  onBlur?: () => void;
 };
 
 export function AutoComplete<T extends string>({
@@ -67,7 +67,7 @@ export function AutoComplete<T extends string>({
       labels[selectedValue] !== searchValue
     ) {
       reset();
-    } else onBlur();
+    } else if (onBlur) onBlur();
   };
 
   const onSelectItem = (inputValue: string) => {
