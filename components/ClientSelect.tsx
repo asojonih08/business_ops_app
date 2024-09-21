@@ -21,12 +21,26 @@ import {
   CommandShortcut,
 } from "@/components/ui/command";
 
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import placeholder_avatar1 from "@/public/placeholder_avatar.png";
 import placeholder_avatar2 from "@/public/placeholder_avatar_man1.png";
 import placeholder_avatar3 from "@/public/placeholder_avatar_woman2.png";
 import placeholder_avatar4 from "@/public/placeholder_avatar_man2.png";
 import { Button } from "./ui/button";
+import { FaPlus } from "react-icons/fa";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
 
 const placeholder_avatars = [
   placeholder_avatar1,
@@ -65,7 +79,8 @@ export default function ClientSelect() {
     setSelectedKey(index);
   }
   return (
-    <Command className="rounded-lg border shadow-md md:min-w-[300px] h-full overflow-visible">
+    <>
+    <Command className="rounded-lg border shadow-md md:min-w-[300px] h-[82%] overflow-visible">
       <CommandInput
         className="text-ACCENT-600 placeholder:text-ACCENT-500 font-medium text-xs 2xl:text-[16px]"
         placeholder="Search for a client..."
@@ -101,5 +116,35 @@ export default function ClientSelect() {
         ))}
       </CommandList>
     </Command>
+    
+    <Sheet>
+  <SheetTrigger asChild><Button className="w-full h-8 bg-PRIMARY-600/20 hover:bg-PRIMARY-600/30 duration-200"><FaPlus className="h-4 w-4 text-textColor-800/80" /></Button></SheetTrigger>
+  <SheetContent>
+    <SheetHeader>
+      <SheetTitle>New Client</SheetTitle>
+      <SheetDescription>
+      </SheetDescription>
+    </SheetHeader>
+    <Label className="font-semibold text-ACCENT-800">Client Type</Label>
+    <ToggleGroup
+    className="bg-textColor-800/40 py-2 text-textColor-base"
+          onValueChange={(value: string) => {
+            // if (value.find((element) => element === "CC")) setSendCC(true);
+            // else setSendCC(false);
+            // if (value.find((element) => element === "BCC")) setSendBCC(true);
+            // else setSendBCC(false);
+          }}
+          type="single"
+        >
+          <ToggleGroupItem className="mx-0 hover:bg-800/40 hover:text-textColor-base" value="Company">Company</ToggleGroupItem>
+          <ToggleGroupItem className="mx-0" value="Individual">Individual</ToggleGroupItem>
+        </ToggleGroup>
+    <Label className="font-semibold text-ACCENT-800">Client Name</Label>
+    <Input className="h-8"></Input>
+  </SheetContent>
+</Sheet>
+
+    
+    </>
   );
 }

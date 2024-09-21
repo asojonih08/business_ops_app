@@ -71,7 +71,7 @@ export default function EmailDetails() {
         <Input className="h-9" ref={subjectInputRef} />
       ) : (
         <span className="h-9 border rounded-sm border-textColor-200 flex justify-between items-center pl-4">
-          <p className="text-textColor-500 font-medium">
+          <p className="text-textColor-500 font-medium text-[14px] 2xl:text-base">
             Proposal - 1234 Redwood Street
           </p>
           <Button className="px-2.5" onClick={handleEditSubjectClick}>
@@ -93,7 +93,7 @@ export default function EmailDetails() {
       ) : (
         <span className="h-[180px] border rounded-sm border-textColor-200 p-4 relative">
           <span className="flex justify-between items-center"></span>
-          <p className="text-textColor-500 font-medium">
+          <p className="text-textColor-500 font-medium text-[14px] 2xl:text-base">
             Hello, <br></br>attached is the proposal for 1234 Redwood Street.
             Please get back to us with any questions or concerns.
           </p>

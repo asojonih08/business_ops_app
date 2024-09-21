@@ -26,7 +26,7 @@ export default function ItemsInput() {
   }
 
   return (
-    <div className="flex flex-col gap-10 w-full h-full items-center">
+    <div className="flex flex-col gap-8 2xl:gap-10 w-full h-full items-center">
       <div className="items-center justify-center flex space-x-2 w-full  2xl:mt-5">
         <Checkbox
           className="from-[#f7f9f9] to-PRIMARY-base/90 bg-gradient-to-tr border-PRIMARY-500/15 items-center border h-3.5 w-3.5 2xl:h-4 2xl:w-4"
