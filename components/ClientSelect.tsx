@@ -1,34 +1,13 @@
 "use client";
-import React, { useState } from "react";
-
-import {
-  Calculator,
-  Calendar,
-  CreditCard,
-  Settings,
-  Smile,
-  User,
-} from "lucide-react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 
 import {
   Command,
   CommandEmpty,
-  CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command";
-
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import placeholder_avatar1 from "@/public/placeholder_avatar.png";
@@ -36,12 +15,7 @@ import placeholder_avatar2 from "@/public/placeholder_avatar_man1.png";
 import placeholder_avatar3 from "@/public/placeholder_avatar_woman2.png";
 import placeholder_avatar4 from "@/public/placeholder_avatar_man2.png";
 import { Button } from "./ui/button";
-import { FaPlus } from "react-icons/fa";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
-import { Checkbox } from "./ui/checkbox";
-import AddClientForm from "./AddClientForm";
+import { Client } from "@/types";
 
 const placeholder_avatars = [
   placeholder_avatar1,
@@ -50,7 +24,7 @@ const placeholder_avatars = [
   placeholder_avatar4,
 ];
 
-function ClientCard({ avatarimg, name, company = "", email = "" }: any) {
+function ClientCard({ avatarimg, title, subtitle }: any) {
   return (
     <div className="flex gap-2 items-center">
       <Avatar className="h-10 w-10 2xl:h-13 2xl:w-13">
@@ -62,10 +36,10 @@ function ClientCard({ avatarimg, name, company = "", email = "" }: any) {
       {true && (
         <div className="flex flex-col py-2 items-start">
           <span className="text-xs 2xl:text-[18px] text-textColor-base font-semibold">
-            {name}
+            {title}
           </span>
           <span className="text-[9px] 2xl:text-[12px] text-textColor-400">
-            {company.length > 0 ? company : email}
+            {subtitle}
           </span>
         </div>
       )}
@@ -73,13 +47,19 @@ function ClientCard({ avatarimg, name, company = "", email = "" }: any) {
   );
 }
 
-export default function ClientSelect() {
-  const [selectedKey, setSelectedKey] = useState(-1);
+interface ClientSelectProps {
+  selectedKey: number;
+  setSelectedKey: Dispatch<SetStateAction<number>>;
+  searchClients: Client[];
+  setSearchClients: Dispatch<SetStateAction<Client[]>>;
+}
 
-  function handleSelectClient(index: number) {
-    console.log(index);
-    setSelectedKey(index);
-  }
+export default function ClientSelect({
+  selectedKey,
+  setSelectedKey,
+  searchClients,
+  setSearchClients,
+}: ClientSelectProps) {
   return (
     <Command className="rounded-lg border shadow-md md:min-w-[300px] h-full overflow-visible">
       <CommandInput
@@ -91,7 +71,7 @@ export default function ClientSelect() {
           No results found.
         </CommandEmpty>
 
-        {[0, 1, 2, 3].map((value, index) => (
+        {searchClients.map((client, index) => (
           <CommandItem
             key={index}
             className={`${
@@ -102,15 +82,24 @@ export default function ClientSelect() {
           >
             <Button
               onClick={() => {
-                console.log(value);
-                setSelectedKey(value);
+                console.log(index);
+                setSelectedKey(index);
               }}
               className="w-full h-full justify-start"
             >
               <ClientCard
                 avatarimg={placeholder_avatars[index]}
-                name={"Jennifer Clomin"}
-                company={"Design Co."}
+                title={
+                  client.client_type === "company"
+                    ? client.company_name
+                    : client.primary_contact_name
+                }
+                subtitle={
+                  client.client_type === "company" &&
+                  client.primary_contact_name
+                    ? client.primary_contact_name
+                    : client.email_address
+                }
               />
             </Button>
           </CommandItem>

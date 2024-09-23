@@ -1,0 +1,110 @@
+"use client";
+import React, { useState } from "react";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "./ui/sheet";
+import { Button } from "./ui/button";
+import { FaPlus } from "react-icons/fa";
+import NewClientForm from "./NewClientForm";
+import ClientSelect from "./ClientSelect";
+import { Client, Project } from "@/types";
+import NewProjectForm from "./NewProjectForm";
+import ProjectSelect from "./ProjectSelect";
+import ItemsInput from "./ItemsInput";
+import Link from "next/link";
+import { FaArrowRightLong } from "react-icons/fa6";
+
+interface CreateProposalProps {
+  clients: Client[];
+  projects: Project[];
+}
+
+export default function CreateProposal({
+  clients,
+  projects,
+}: CreateProposalProps) {
+  const [selectedKey, setSelectedKey] = useState<number>(-1);
+  const [searchClients, setSearchClients] = useState<Client[]>(clients);
+  console.log(clients);
+  const clientNames = searchClients.map((client) =>
+    client.client_type === "company"
+      ? client.company_name
+      : client.primary_contact_name
+  );
+
+  return (
+    <div className="flex flex-col gap-8 items-center justify-center w-full h-full">
+      <div className="flex w-full justify-center gap-[8%]">
+        <div className="h-64 2xl:h-96 flex flex-col gap-4">
+          <span className="font-semibold text-ACCENT-800 text-[15px] 2xl:text-xl w-[300px] 2xl:w-[400px] flex justify-between">
+            <p>Choose Client</p>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button className="p-0 w-7 h-7 bg-PRIMARY-600/20 hover:bg-PRIMARY-600/30 duration-200">
+                  <FaPlus className="h-3.5 w-3.5 text-textColor-800/80" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent>
+                <SheetHeader>
+                  <SheetTitle className="mb-4">New Client</SheetTitle>
+                  <SheetDescription></SheetDescription>
+                </SheetHeader>
+                <NewClientForm />
+              </SheetContent>
+            </Sheet>
+          </span>
+          <ClientSelect
+            selectedKey={selectedKey}
+            setSelectedKey={setSelectedKey}
+            searchClients={searchClients}
+            setSearchClients={setSearchClients}
+          />
+        </div>
+        <div className="flex flex-col gap-4 w-[540px] 2xl:w-[680px] ">
+          <span className="font-semibold text-ACCENT-800 text-[15px] 2xl:text-xl flex justify-between">
+            <p>Choose Project</p>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button className="w-7 h-7 p-0 bg-PRIMARY-600/20 hover:bg-PRIMARY-600/30 duration-200">
+                  <FaPlus className="w-3.5 h-3.5 text-textColor-800/80" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent>
+                <SheetHeader>
+                  <SheetTitle className="mb-4">New Project</SheetTitle>
+                  <SheetDescription></SheetDescription>
+                </SheetHeader>
+                <NewProjectForm />
+              </SheetContent>
+            </Sheet>
+          </span>
+          <div className="px-10 h-64 2xl:h-96 from-[#f7f9f9] to-ACCENT-base/40 bg-gradient-to-tr rounded-xl drop-shadow-md overflow-y-scroll">
+            <ProjectSelect projects={projects} clientNames={clientNames} />
+          </div>
+        </div>
+      </div>
+      <div className="flex w-full h-[40%] px-32">
+        <ItemsInput />
+      </div>
+      <div className="w-full px-36 flex justify-center pt-4 2xl:pt-10">
+        <Button
+          className="bg-transparent from-ACCENT-100 to-ACCENT-base/40 bg-gradient-to-r font-semibold text-ACCENT-950 text-sm 2xl:text-lg w-[26%] 2xl:w-[28%] drop-shadow-md duration-500 px-0 py-0
+                hover:bg-PRIMARY-300/70
+        "
+        >
+          <Link
+            className="flex items-center gap-1.5 w-full h-full justify-center rounded-md border-none"
+            href={"/proposals/create-proposal"}
+          >
+            Next <FaArrowRightLong />
+          </Link>
+        </Button>
+      </div>
+    </div>
+  );
+}

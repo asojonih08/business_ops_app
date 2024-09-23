@@ -1,11 +1,5 @@
 "use client";
-import React, {
-  ChangeEvent,
-  FormEventHandler,
-  ReactEventHandler,
-  useEffect,
-  useState,
-} from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -17,6 +11,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+
+/*
+TODO:
+    Client Name controlled by selection in Choose Client
+    Additional Contacts
+*/
 
 export default function NewProjectForm() {
   const [streetAddress, setStreetAddress] = useState("");
@@ -61,9 +61,10 @@ export default function NewProjectForm() {
 
       <div className="items-top flex space-x-2 my-2.5">
         <TooltipProvider>
-          <Tooltip>
+          <Tooltip delayDuration={100}>
             <TooltipTrigger>
               <Checkbox
+                className="disabled:border-textColor-700/50"
                 disabled={!streetAddress}
                 checked={makeAddressProjectName}
                 onCheckedChange={() =>
@@ -104,6 +105,9 @@ export default function NewProjectForm() {
           setProjectName(e.target.value)
         }
       ></Input>
+      <Label className="font-semibold text-ACCENT-800">
+        Additional Contacts
+      </Label>
       <span className="flex justify-end">
         <Button className="rounded-sm bg-PRIMARY-600/20 hover:bg-PRIMARY-600/30 duration-200 text-textColor-800 font-bold shadow-sm p-3 h-9">
           Add Project

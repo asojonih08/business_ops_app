@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FaLocationCrosshairs } from "react-icons/fa6";
 import { BsFilePerson, BsFilePersonFill } from "react-icons/bs";
+import { Project } from "@/types";
 
 const container = {
   hidden: { opacity: 1, scale: 0 },
@@ -25,7 +26,15 @@ const item = {
   },
 };
 
-export default function ProjectSelect() {
+interface ProjectSelectProps {
+  projects: Project[];
+  clientNames: (string | undefined)[];
+}
+
+export default function ProjectSelect({
+  projects,
+  clientNames,
+}: ProjectSelectProps) {
   const [selectedProject, setSelectedProject] = useState(-1);
   return (
     <motion.ul
@@ -34,11 +43,11 @@ export default function ProjectSelect() {
       initial={"hidden"}
       className="h-fit w-fit grid grid-rows-2 grid-cols-3 place-items-center place-content-center gap-x-8 gap-y-4 my-4 2xl:gap-x-10 2xl:gap-y-5 2xl:my-5"
     >
-      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((value, index) => (
+      {projects.map((project, index) => (
         <motion.li
           onClick={() => setSelectedProject(index)}
           variants={item}
-          key={value}
+          key={index}
           whileHover={selectedProject !== index ? { scale: 1.03 } : {}}
           className={`h-24 w-[144px] 2xl:h-32 2xl:w-48 bg-white rounded-lg hover:border-[2px] hover:border-PRIMARY-500/60 border-[2px] duration-200 ${
             selectedProject === index
@@ -49,7 +58,7 @@ export default function ProjectSelect() {
           <div className="flex flex-col justify-between h-full w-full p-3">
             <span className="flex justify-between">
               <h3 className="font-bold text-ACCENT-900 text-xs 2xl:text-base">
-                Project {index + 1}
+                {project.name}
               </h3>
               <span
                 className={`${
@@ -61,10 +70,10 @@ export default function ProjectSelect() {
             </span>
             <span>
               <span className="flex gap-1 items-center text-[8px] 2xl:text-[11.5px] font-medium text-textColor-400 tracking-wide">
-                <BsFilePerson /> Company {index + 1}
+                <BsFilePerson /> {clientNames[index]}
               </span>
               <span className="flex gap-1 items-center text-[8px] 2xl:text-[11.5px] font-medium text-textColor-400 tracking-wide">
-                <FaLocationCrosshairs /> 1234 Redwood Street
+                <FaLocationCrosshairs /> {project.street_address}
               </span>
             </span>
           </div>

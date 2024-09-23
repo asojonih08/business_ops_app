@@ -1,6 +1,7 @@
 import { MaterialsProvider } from "@/components/MaterialsContext";
 import Sidebar from "../components/Sidebar";
 import { ItemClassificationsProvider } from "@/components/ItemClassificationsContext";
+import SupabaseProvider from "@/providers/SupabaseProvider";
 
 export const metadata = {
   title: "Pacific Fine Millwork",
@@ -16,12 +17,14 @@ export default function RootLayout({
     <html lang="en">
       {/* bg-[#F1F1F1] */}
       <body className="bg-[#E9EDF2] min-h-screen min-w-screen flex justify-between items-center">
-        <Sidebar />
-        <main className="h-[97vh] w-[94vw] px-6 mx-auto overflow-hidden">
-          <ItemClassificationsProvider>
-            <MaterialsProvider>{children}</MaterialsProvider>
-          </ItemClassificationsProvider>
-        </main>
+        <SupabaseProvider>
+          <Sidebar />
+          <main className="h-[97vh] w-[94vw] px-6 mx-auto overflow-hidden">
+            <ItemClassificationsProvider>
+              <MaterialsProvider>{children}</MaterialsProvider>
+            </ItemClassificationsProvider>
+          </main>
+        </SupabaseProvider>
       </body>
     </html>
   );
