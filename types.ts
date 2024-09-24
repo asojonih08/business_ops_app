@@ -1,5 +1,5 @@
 export interface UserDetails {
-  id: string;
+  id?: string;
   first_name: string;
   last_name: string;
   full_name?: string;
@@ -8,7 +8,7 @@ export interface UserDetails {
 }
 
 export interface Client {
-  id: string;
+  id?: string;
   created_by: string | undefined;
   client_type: string;
   company_name?: string;
@@ -20,7 +20,7 @@ export interface Client {
 }
 
 export interface Project {
-  id: number;
+  id?: number;
   created_at: string;
   created_by: string | undefined;
   name: string;
@@ -42,7 +42,7 @@ export interface Project {
 }
 
 export interface OverheadCost {
-  id: string;
+  id?: string;
   created_at: string;
   created_by: string;
   payee: string;
@@ -65,7 +65,7 @@ export interface OverheadCost {
 }
 
 export interface Proposal {
-  id: number;
+  id?: number;
   created_at: string;
   created_by: string;
   project: number;
@@ -78,7 +78,7 @@ export interface Proposal {
 }
 
 export interface Estimate {
-  id: number;
+  id?: number;
   created_at: string;
   created_by: string;
   item_name: string;
