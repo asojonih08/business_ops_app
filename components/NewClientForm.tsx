@@ -1,4 +1,3 @@
-
 import React, { ChangeEvent, useState } from "react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
@@ -10,37 +9,39 @@ import insertClient from "@/actions/insertClient";
 export default function NewClientForm() {
   const [addPrimaryContactDetails, setAddPrimaryContactDetails] =
     useState(false);
-  const [clientType, setClientType] = useState("Company");
-  const [companyName, setCompanyName] = useState("");
-  const [primaryContactName, setPrimaryContactName] = useState("");
-  const [primaryContactPosition, setPrimaryContactPosition] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [emailAddress, setEmailAddress] = useState("");
-  const [referralSource, setReferralSource] = useState("");
-  
-  function handleFormSubmit (e:React.FormEvent<HTMLFormElement>) {
+  const [formData, setFormData] = useState({
+    clientType: "Company",
+    companyName: "",
+    primaryContactName: "",
+    primaryContactPosition: "",
+    phoneNumber: "",
+    emailAddress: "",
+    referralSource: "",
+  });
+
+  function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const data = new FormData();
+
+    data.append("clientType", formData.clientType);
+    data.append("companyName", formData.companyName);
+    data.append("primaryContactName", formData.primaryContactName);
+    data.append("primaryContactPosition", formData.primaryContactPosition);
+    data.append("phoneNumber", formData.phoneNumber);
+    data.append("emailAddress", formData.emailAddress);
+    data.append("referralSource", formData.referralSource);
+
+    insertClient(data);
+  }
 
   return (
-    <form 
-      className="flex flex-col gap-4"
-      action={insertClient({
-        client_type: clientType,
-      company_name: companyName,
-      primary_contact_name: primaryContactName,
-      primary_contact_postion: primaryContactPosition,
-      phone_number: phoneNumber,
-      email_address: emailAddress,
-      referral_source: referralSource
-      })}
-      onSubmit={handleFormSubmit}
-    >
+    <form className="flex flex-col gap-4" onSubmit={handleFormSubmit}>
       <Label className="font-semibold text-ACCENT-800">Client Type</Label>
       <ToggleGroup
         className="bg-[#F4F4F5] text-textColor-base h-8 w-fit rounded-sm grid grid-cols-2 gap-0 py-0 items-center px-1"
-        value={clientType}
+        value={formData.clientType}
         onValueChange={(value: string) => {
-          if (value) setClientType(value);
+          if (value) setFormData({ ...formData, clientType: value });
         }}
         type="single"
       >
@@ -58,15 +59,30 @@ export default function NewClientForm() {
         </ToggleGroupItem>
       </ToggleGroup>
       <Label className="font-semibold text-ACCENT-800">
-        {clientType === "Company" ? "Company" : "Client"} Name
+        {formData.clientType === "Company" ? "Company" : "Client"} Name
       </Label>
-      <Input 
+      <Input
         type="text"
         className="h-8"
-        value={clientType === "Company" ? companyName : primaryContactName}
-        onChange={clientType === "Company" ? (e:ChangeEvent<HTMLInputElement>)=> setCompanyName(e.target.value) : (e:ChangeEvent<HTMLInputElement>)=>setPrimaryContactName(e.target.value)}
-        ></Input>
-      {clientType === "Company" && (
+        name={
+          formData.clientType === "Company"
+            ? "companyName"
+            : "primaryContactName"
+        }
+        value={
+          formData.clientType === "Company"
+            ? formData.companyName
+            : formData.primaryContactName
+        }
+        onChange={
+          formData.clientType === "Company"
+            ? (e: ChangeEvent<HTMLInputElement>) =>
+                setFormData({ ...formData, companyName: e.target.value })
+            : (e: ChangeEvent<HTMLInputElement>) =>
+                setFormData({ ...formData, primaryContactName: e.target.value })
+        }
+      ></Input>
+      {formData.clientType === "Company" && (
         <div className="items-top flex space-x-2">
           <Checkbox
             checked={addPrimaryContactDetails}
@@ -90,54 +106,64 @@ export default function NewClientForm() {
           </div>
         </div>
       )}
-      {clientType === "Company" && addPrimaryContactDetails && (
+      {formData.clientType === "Company" && addPrimaryContactDetails && (
         <>
           <Label className="font-semibold text-ACCENT-800">
             Primary Contact Name
           </Label>
           <Input
             className="h-8"
-            value={primaryContactName}
-            onChange={(e:ChangeEvent<HTMLInputElement>)=> setPrimaryContactName(e.target.value)}
-            ></Input>
+            value={formData.primaryContactName}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setFormData({ ...formData, primaryContactName: e.target.value })
+            }
+          ></Input>
           <Label className="font-semibold text-ACCENT-800">
             Primary Contact Position
           </Label>
           <Input
             className="h-8"
-            value={primaryContactPosition}
-            onChange={(e:ChangeEvent<HTMLInputElement>)=>setPrimaryContactPosition(e.target.value)}
-            ></Input>
+            value={formData.primaryContactPosition}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setFormData({
+                ...formData,
+                primaryContactPosition: e.target.value,
+              })
+            }
+          ></Input>
         </>
       )}
       <Label className="font-semibold text-ACCENT-800">Phone Number</Label>
-      <Input 
+      <Input
         className="h-8"
-        value={phoneNumber}
-        onChange={(e:ChangeEvent<HTMLInputElement>)=>setPhoneNumber(e.target.value)}
-        ></Input>
+        value={formData.phoneNumber}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          setFormData({ ...formData, phoneNumber: e.target.value })
+        }
+      ></Input>
       <Label className="font-semibold text-ACCENT-800">Email Address</Label>
-      <Input 
-        type="email" 
+      <Input
+        type="email"
         className="h-8"
-        value={emailAddress}
-        onChange={(e:ChangeEvent<HTMLInputElement>)=>setEmailAddress(e.target.value)}
-        ></Input>
+        value={formData.emailAddress}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          setFormData({ ...formData, emailAddress: e.target.value })
+        }
+      ></Input>
       <Label className="font-semibold text-ACCENT-800">Referral Source</Label>
-      <Input 
-        type="text" 
+      <Input
+        type="text"
         className="h-8"
-        value={referralSource}
-        onChange={(e:ChangeEvent<HTMLInputElement>)=> setReferralSource(e.target.value)}
-        ></Input>
+        value={formData.referralSource}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          setFormData({ ...formData, referralSource: e.target.value })
+        }
+      ></Input>
       <span className="flex justify-end">
-        <Button 
-          type="submit"
-          className="rounded-sm bg-PRIMARY-600/20 hover:bg-PRIMARY-600/30 duration-200 text-textColor-800 font-bold shadow-sm p-3 h-9">
+        <Button className="rounded-sm bg-PRIMARY-600/20 hover:bg-PRIMARY-600/30 duration-200 text-textColor-800 font-bold shadow-sm p-3 h-9">
           Add Client
         </Button>
       </span>
-
     </form>
   );
 }

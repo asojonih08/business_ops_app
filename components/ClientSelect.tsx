@@ -28,10 +28,13 @@ function ClientCard({ avatarimg, title, subtitle }: any) {
   return (
     <div className="flex gap-2 items-center">
       <Avatar className="h-10 w-10 2xl:h-13 2xl:w-13">
-        <AvatarImage src={avatarimg.src} />
-        <AvatarFallback className="h-10 w-10 2xl:h-13 2xl:w-13">
-          <p>CN</p>
-        </AvatarFallback>
+        {avatarimg?.src ? (
+          <AvatarImage src={avatarimg.src} />
+        ) : (
+          <AvatarFallback className="h-10 w-10 2xl:h-13 2xl:w-13">
+            <p>CN</p>
+          </AvatarFallback>
+        )}
       </Avatar>
       {true && (
         <div className="flex flex-col py-2 items-start">
@@ -82,7 +85,6 @@ export default function ClientSelect({
           >
             <Button
               onClick={() => {
-                console.log(index);
                 setSelectedKey(index);
               }}
               className="w-full h-full justify-start"

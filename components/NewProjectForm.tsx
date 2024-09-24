@@ -11,6 +11,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import insertProject from "@/actions/insertProject";
 
 /*
 TODO:
@@ -19,45 +20,82 @@ TODO:
 */
 
 export default function NewProjectForm() {
-  const [streetAddress, setStreetAddress] = useState("");
-  const [aptSuiteNo, setAptSuiteNo] = useState("");
   const [stateSearchValue, setStateSearchValue] = useState("");
   const [stateValue, setStateValue] = useState("");
-  const [zipPostalCode, setZipPostalCode] = useState("");
   const [makeAddressProjectName, setMakeAddressProjectName] = useState(false);
-  const [projectName, setProjectName] = useState("");
+
+  const [formData, setFormData] = useState({
+    name: "",
+    streetAddress: "",
+    aptSuiteNo: "",
+    state: "",
+    zipPostalCode: "",
+  });
 
   useEffect(() => {
-    if (makeAddressProjectName) setProjectName(streetAddress);
-    else setProjectName("");
+    if (makeAddressProjectName)
+      setFormData({ ...formData, name: formData.streetAddress });
+    else setFormData({ ...formData, name: "" });
   }, [makeAddressProjectName]);
+
+  useEffect(() => {
+    setFormData({ ...formData, state: stateValue });
+  }, [stateValue]);
+
+  function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const data = new FormData();
+
+    data.append("name", formData.name);
+    data.append("streetAddress", formData.streetAddress);
+    data.append("aptSuiteNo", formData.aptSuiteNo);
+    data.append("state", formData.state);
+    data.append("zipPostalCode", formData.zipPostalCode);
+
+    insertProject(data);
+  }
+
   return (
-    <div className="flex flex-col gap-4">
+    <form onSubmit={handleFormSubmit} className="flex flex-col gap-4">
       <Label className="font-semibold text-ACCENT-800 text-lg">Address</Label>
       <Label className="font-semibold text-ACCENT-800">Street Address</Label>
       <Input
         className="h-8"
         placeholder="Street Address"
-        value={streetAddress}
+        value={formData.streetAddress}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          setStreetAddress(e.target.value)
+          setFormData({ ...formData, streetAddress: e.target.value })
         }
       ></Input>
       <Label className="font-semibold text-ACCENT-800">
         Apartment / Suite Number
       </Label>
-      <Input className="h-8" placeholder="Apt / Suite No."></Input>
+      <Input
+        className="h-8"
+        placeholder="Apt / Suite No."
+        value={formData.aptSuiteNo}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          setFormData({ ...formData, aptSuiteNo: e.target.value })
+        }
+      ></Input>
       <Label className="font-semibold text-ACCENT-800">State</Label>
       <AutoComplete
         searchValue={stateSearchValue}
         onSearchValueChange={setStateSearchValue}
-        selectedValue={stateValue}
+        selectedValue={formData.state}
         onSelectedValueChange={setStateValue}
         items={[{ value: "CA", label: "CA" }]}
         placeholder="State"
       />
       <Label className="font-semibold text-ACCENT-800">Zip / Postal Code</Label>
-      <Input className="h-8" placeholder="Zip / Postal Code"></Input>
+      <Input
+        className="h-8"
+        placeholder="Zip / Postal Code"
+        value={formData.zipPostalCode}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          setFormData({ ...formData, zipPostalCode: e.target.value })
+        }
+      ></Input>
 
       <div className="items-top flex space-x-2 my-2.5">
         <TooltipProvider>
@@ -65,7 +103,7 @@ export default function NewProjectForm() {
             <TooltipTrigger>
               <Checkbox
                 className="disabled:border-textColor-700/50"
-                disabled={!streetAddress}
+                disabled={!formData.streetAddress}
                 checked={makeAddressProjectName}
                 onCheckedChange={() =>
                   setMakeAddressProjectName(
@@ -100,9 +138,9 @@ export default function NewProjectForm() {
         className="h-8"
         placeholder="Project Name"
         disabled={makeAddressProjectName}
-        value={projectName}
+        value={formData.name}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          setProjectName(e.target.value)
+          setFormData({ ...formData, name: e.target.value })
         }
       ></Input>
       <Label className="font-semibold text-ACCENT-800">
@@ -113,6 +151,6 @@ export default function NewProjectForm() {
           Add Project
         </Button>
       </span>
-    </div>
+    </form>
   );
 }
