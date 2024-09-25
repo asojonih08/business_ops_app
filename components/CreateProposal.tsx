@@ -50,6 +50,14 @@ export default function CreateProposal({
     }
   }, [selectedClient]);
 
+  useEffect(()=>{if(selectedClient === null){
+    const clientAssociatedToProject = clients?.find((client)=>client.id === selectedProject?.client)
+    let indexOfClient = -1;
+    if(clientAssociatedToProject)indexOfClient = clients?.indexOf(clientAssociatedToProject)
+      setSelectedKey(indexOfClient);
+
+    setSelectedClient(clientAssociatedToProject?? null)}},[selectedProject])
+
   return (
     <div className="flex flex-col gap-8 items-center justify-center w-full h-full">
       <div className="flex w-full justify-center gap-[8%]">
