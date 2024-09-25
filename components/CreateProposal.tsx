@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Sheet,
   SheetContent,
@@ -30,12 +30,24 @@ export default function CreateProposal({
 }: CreateProposalProps) {
   const [selectedKey, setSelectedKey] = useState<number>(-1);
   const [searchClients, setSearchClients] = useState<Client[]>(clients);
-  console.log(clients);
+  const [filteredProjects, setFilteredProjects] = useState(projects);
+  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+  const [openProjectForm, setOpenProjectForm] = useState(false);
+
   const clientNames = searchClients.map((client) =>
-    client.client_type === "company"
+    client.client_type === "Company"
       ? client.company_name
       : client.primary_contact_name
   );
+
+  useEffect(() => {
+    if (selectedKey !== -1) {
+      console.log(selectedClient, "\nProjects: ", filteredProjects);
+      setFilteredProjects(
+        projects.filter((project) => project.client === selectedClient?.id)
+      );
+    }
+  }, [selectedClient]);
 
   return (
     <div className="flex flex-col gap-8 items-center justify-center w-full h-full">
@@ -63,15 +75,33 @@ export default function CreateProposal({
             setSelectedKey={setSelectedKey}
             searchClients={searchClients}
             setSearchClients={setSearchClients}
+            setSelectedClient={setSelectedClient}
           />
         </div>
         <div className="flex flex-col gap-4 w-[540px] 2xl:w-[680px] ">
           <span className="font-semibold text-ACCENT-800 text-[15px] 2xl:text-xl flex justify-between">
             <p>Choose Project</p>
-            <Sheet>
+            <Sheet
+              open={openProjectForm}
+              onOpenChange={(open: boolean) => {
+                if (selectedKey !== -1) setOpenProjectForm(open);
+              }}
+            >
               <SheetTrigger asChild>
-                <Button className="w-7 h-7 p-0 bg-PRIMARY-600/20 hover:bg-PRIMARY-600/30 duration-200">
-                  <FaPlus className="w-3.5 h-3.5 text-textColor-800/80" />
+                <Button
+                  className={`${
+                    selectedKey === -1
+                      ? "bg-PRIMARY-600/10 hover:cursor-default"
+                      : "bg-PRIMARY-600/20 hover:bg-PRIMARY-600/30"
+                  } w-7 h-7 p-0 duration-200 `}
+                >
+                  <FaPlus
+                    className={`${
+                      selectedKey === -1
+                        ? "text-textColor-800/60"
+                        : "text-textColor-800/80"
+                    } w-3.5 h-3.5 `}
+                  />
                 </Button>
               </SheetTrigger>
               <SheetContent>
@@ -79,12 +109,15 @@ export default function CreateProposal({
                   <SheetTitle className="mb-4">New Project</SheetTitle>
                   <SheetDescription></SheetDescription>
                 </SheetHeader>
-                <NewProjectForm />
+                <NewProjectForm selectedClient={selectedClient} />
               </SheetContent>
             </Sheet>
           </span>
           <div className="px-10 h-64 2xl:h-96 from-[#f7f9f9] to-ACCENT-base/40 bg-gradient-to-tr rounded-xl drop-shadow-md overflow-y-scroll">
-            <ProjectSelect projects={projects} clientNames={clientNames} />
+            <ProjectSelect
+              projects={filteredProjects}
+              clientNames={clientNames}
+            />
           </div>
         </div>
       </div>

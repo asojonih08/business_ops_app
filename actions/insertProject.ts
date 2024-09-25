@@ -14,9 +14,10 @@ const insertProject = async (formData: FormData): Promise<Project[]> => {
     status: "pending approval",
     paid_in_full: false,
     street_address: formData.get("streetAddress"),
-    apartment_or_suite_number: formData.get("aptSuiteNo"),
+    apartment_or_suite_number: Number(formData.get("aptSuiteNo")),
     state: formData.get("state"),
-    zip_or_postal_code: formData.get("zipPostalCode"),
+    zip_or_postal_code: Number(formData.get("zipPostalCode")),
+    client: formData.get("clientId"),
   });
 
   if (error) {

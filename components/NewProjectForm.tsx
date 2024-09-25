@@ -12,6 +12,13 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import insertProject from "@/actions/insertProject";
+import { Client } from "@/types";
+import { ClientCard } from "./ClientCard";
+
+import placeholder_avatar1 from "@/public/placeholder_avatar.png";
+import placeholder_avatar2 from "@/public/placeholder_avatar_man1.png";
+import placeholder_avatar3 from "@/public/placeholder_avatar_woman2.png";
+import placeholder_avatar4 from "@/public/placeholder_avatar_man2.png";
 
 /*
 TODO:
@@ -19,7 +26,13 @@ TODO:
     Additional Contacts
 */
 
-export default function NewProjectForm() {
+interface NewProjectFormProps {
+  selectedClient: Client | null;
+}
+
+export default function NewProjectForm({
+  selectedClient,
+}: NewProjectFormProps) {
   const [stateSearchValue, setStateSearchValue] = useState("");
   const [stateValue, setStateValue] = useState("");
   const [makeAddressProjectName, setMakeAddressProjectName] = useState(false);
@@ -51,12 +64,25 @@ export default function NewProjectForm() {
     data.append("aptSuiteNo", formData.aptSuiteNo);
     data.append("state", formData.state);
     data.append("zipPostalCode", formData.zipPostalCode);
+    data.append("clientId", selectedClient?.id ?? "");
 
     insertProject(data);
   }
 
   return (
     <form onSubmit={handleFormSubmit} className="flex flex-col gap-4">
+      <Label className="font-semibold text-ACCENT-800 text-lg">Client</Label>
+      <div className="w-full border-2 border-PRIMARY-500/50 py-2.5 px-3.5 rounded-md">
+        <ClientCard
+          avatarimg={placeholder_avatar3}
+          title={
+            selectedClient?.client_type === "Company"
+              ? selectedClient.company_name
+              : selectedClient?.primary_contact_name
+          }
+          subtitle={selectedClient?.email_address}
+        />
+      </div>
       <Label className="font-semibold text-ACCENT-800 text-lg">Address</Label>
       <Label className="font-semibold text-ACCENT-800">Street Address</Label>
       <Input

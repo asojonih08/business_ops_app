@@ -1,5 +1,5 @@
 "use client";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 import {
   Command,
@@ -55,6 +55,7 @@ interface ClientSelectProps {
   setSelectedKey: Dispatch<SetStateAction<number>>;
   searchClients: Client[];
   setSearchClients: Dispatch<SetStateAction<Client[]>>;
+  setSelectedClient: Dispatch<SetStateAction<Client | null>>;
 }
 
 export default function ClientSelect({
@@ -62,6 +63,7 @@ export default function ClientSelect({
   setSelectedKey,
   searchClients,
   setSearchClients,
+  setSelectedClient,
 }: ClientSelectProps) {
   return (
     <Command className="rounded-lg border shadow-md md:min-w-[300px] h-full overflow-visible">
@@ -86,18 +88,19 @@ export default function ClientSelect({
             <Button
               onClick={() => {
                 setSelectedKey(index);
+                setSelectedClient(searchClients[index]);
               }}
               className="w-full h-full justify-start"
             >
               <ClientCard
                 avatarimg={placeholder_avatars[index]}
                 title={
-                  client.client_type === "company"
+                  client.client_type === "Company"
                     ? client.company_name
                     : client.primary_contact_name
                 }
                 subtitle={
-                  client.client_type === "company" &&
+                  client.client_type === "Company" &&
                   client.primary_contact_name
                     ? client.primary_contact_name
                     : client.email_address
