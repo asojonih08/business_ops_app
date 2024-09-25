@@ -33,6 +33,7 @@ export default function CreateProposal({
   const [filteredProjects, setFilteredProjects] = useState(projects);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [openProjectForm, setOpenProjectForm] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const clientNames = searchClients.map((client) =>
     client.client_type === "Company"
@@ -117,12 +118,14 @@ export default function CreateProposal({
             <ProjectSelect
               projects={filteredProjects}
               clientNames={clientNames}
+              selectedProject={selectedProject}
+              setSelectedProject={setSelectedProject}
             />
           </div>
         </div>
       </div>
       <div className="flex w-full h-[40%] px-32">
-        <ItemsInput />
+        <ItemsInput selectedProject={selectedProject} />
       </div>
       <div className="w-full px-36 flex justify-center pt-4 2xl:pt-10">
         <Button

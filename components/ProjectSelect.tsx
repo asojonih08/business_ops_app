@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 
 import { motion } from "framer-motion";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -29,13 +29,17 @@ const item = {
 interface ProjectSelectProps {
   projects: Project[];
   clientNames: (string | undefined)[];
+  selectedProject: Project | null;
+  setSelectedProject: Dispatch<SetStateAction<Project | null>>
 }
 
 export default function ProjectSelect({
   projects,
   clientNames,
+  selectedProject,
+  setSelectedProject
 }: ProjectSelectProps) {
-  const [selectedProject, setSelectedProject] = useState(-1);
+
   return (
     <motion.ul
       animate={"visible"}
@@ -45,12 +49,12 @@ export default function ProjectSelect({
     >
       {projects.map((project, index) => (
         <motion.li
-          onClick={() => setSelectedProject(index)}
+          onClick={() => setSelectedProject(project)}
           variants={item}
           key={index}
-          whileHover={selectedProject !== index ? { scale: 1.03 } : {}}
+          whileHover={selectedProject?.id !== project.id ? { scale: 1.03 } : {}}
           className={`h-24 w-[144px] 2xl:h-32 2xl:w-48 bg-white rounded-lg hover:border-[2px] hover:border-PRIMARY-500/60 border-[2px] duration-200 ${
-            selectedProject === index
+            selectedProject?.id === project.id
               ? "border-PRIMARY-500/60"
               : "border-textColor-300/35"
           }`}
@@ -62,7 +66,7 @@ export default function ProjectSelect({
               </h3>
               <span
                 className={`${
-                  selectedProject === index
+                  selectedProject?.id === project.id
                     ? "bg-PRIMARY-500/50"
                     : "bg-textColor-100/70"
                 } rounded-[2px] h-2 w-2 2xl:h-2.5 2xl:w-2.5`}
