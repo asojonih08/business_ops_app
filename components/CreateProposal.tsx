@@ -39,8 +39,9 @@ export default function CreateProposal({
   const [filteredProjects, setFilteredProjects] = useState(projects);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [openProjectForm, setOpenProjectForm] = useState(false);
+  const [openClientForm, setOpenClientForm] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const { itemClassifications, setItemClassifications } =
+  const { itemClassifications } =
     useItemClassifications();
 
   const router = useRouter();
@@ -53,6 +54,8 @@ export default function CreateProposal({
 
   async function refreshClients() {
     const updatedClients = await getClients();
+    setSelectedClient(updatedClients[0])
+    setSelectedKey(0)
     setSearchClients(updatedClients);
   }
 
@@ -161,7 +164,11 @@ export default function CreateProposal({
         <div className="h-64 2xl:h-96 flex flex-col gap-4">
           <span className="font-semibold text-ACCENT-800 text-[15px] 2xl:text-xl w-[300px] 2xl:w-[400px] flex justify-between">
             <p>Choose Client</p>
-            <Sheet>
+            <Sheet               
+            open={openClientForm}
+              onOpenChange={(open: boolean) => {
+                setOpenClientForm(open);
+              }}>
               <SheetTrigger asChild>
                 <Button className="p-0 w-7 h-7 bg-PRIMARY-600/20 hover:bg-PRIMARY-600/30 duration-200">
                   <FaPlus className="h-3.5 w-3.5 text-textColor-800/80" />
@@ -172,7 +179,7 @@ export default function CreateProposal({
                   <SheetTitle className="mb-4">New Client</SheetTitle>
                   <SheetDescription></SheetDescription>
                 </SheetHeader>
-                <NewClientForm refreshClients={refreshClients} />
+                <NewClientForm refreshClients={refreshClients} setOpenClientForm={setOpenClientForm} />
               </SheetContent>
             </Sheet>
           </span>

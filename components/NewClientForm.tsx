@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { ToggleGroupItem, ToggleGroup } from "./ui/toggle-group";
@@ -8,9 +8,10 @@ import insertClient from "@/actions/insertClient";
 
 interface NewCLientFormProps {
   refreshClients: () => void;
+  setOpenClientForm: Dispatch<SetStateAction<boolean>>
 }
 
-export default function NewClientForm({ refreshClients }: NewCLientFormProps) {
+export default function NewClientForm({ refreshClients, setOpenClientForm }: NewCLientFormProps) {
   const [addPrimaryContactDetails, setAddPrimaryContactDetails] =
     useState(false);
   const [formData, setFormData] = useState({
@@ -36,7 +37,7 @@ export default function NewClientForm({ refreshClients }: NewCLientFormProps) {
     data.append("referralSource", formData.referralSource);
 
     insertClient(data);
-
+    setOpenClientForm(false);
     refreshClients();
   }
 
