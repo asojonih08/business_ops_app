@@ -4,6 +4,8 @@ import getClients from "@/actions/getClients";
 import getProjects from "@/actions/getProjects";
 import CreateProposal from "@/components/CreateProposal";
 
+export const revalidate = 0;
+
 export default async function page() {
   const clients = await getClients();
   const projects = await getProjects();

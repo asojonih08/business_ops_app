@@ -166,7 +166,7 @@ export const columns: ColumnDef<ItemClassification>[] = [
         className="h-6 2xl:h-7 text-[14px] text-left font-medium overflow-hidden items-center  rounded-none  w-full
         hover:shadow-md hover:border-textColor-300 hover:border-[1.5px] 
         focus-visible:shadow-md focus-visible:ring-PRIMARY-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
-        getValue={() => row.getValue("room")}
+        getValue={() => row.getValue("name")}
         cellProps={{ row, column, table }}
       ></EditableCell>
     ),

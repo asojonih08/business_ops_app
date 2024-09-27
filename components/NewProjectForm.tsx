@@ -1,5 +1,11 @@
 "use client";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -28,10 +34,14 @@ TODO:
 
 interface NewProjectFormProps {
   selectedClient: Client | null;
+  refreshProjects: () => void;
+  setOpenProjectForm: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function NewProjectForm({
   selectedClient,
+  refreshProjects,
+  setOpenProjectForm,
 }: NewProjectFormProps) {
   const [stateSearchValue, setStateSearchValue] = useState("");
   const [stateValue, setStateValue] = useState("");
@@ -67,6 +77,8 @@ export default function NewProjectForm({
     data.append("clientId", selectedClient?.id ?? "");
 
     insertProject(data);
+    setOpenProjectForm(false);
+    refreshProjects();
   }
 
   return (
@@ -126,10 +138,12 @@ export default function NewProjectForm({
       <div className="items-top flex space-x-2 my-2.5">
         <TooltipProvider>
           <Tooltip delayDuration={100}>
-            <TooltipTrigger>
+            <TooltipTrigger type="button">
               <Checkbox
+                type="button"
                 className="disabled:border-textColor-700/50"
                 disabled={!formData.streetAddress}
+                onClick={(e) => e.stopPropagation()}
                 checked={makeAddressProjectName}
                 onCheckedChange={() =>
                   setMakeAddressProjectName(
@@ -173,7 +187,10 @@ export default function NewProjectForm({
         Additional Contacts
       </Label>
       <span className="flex justify-end">
-        <Button className="rounded-sm bg-PRIMARY-600/20 hover:bg-PRIMARY-600/30 duration-200 text-textColor-800 font-bold shadow-sm p-3 h-9">
+        <Button
+          type="submit"
+          className="rounded-sm bg-PRIMARY-600/20 hover:bg-PRIMARY-600/30 duration-200 text-textColor-800 font-bold shadow-sm p-3 h-9"
+        >
           Add Project
         </Button>
       </span>

@@ -1,6 +1,7 @@
 "use server";
 import { Client } from "@/types";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 const insertClient = async (formData: FormData): Promise<Client[]> => {
@@ -23,6 +24,7 @@ const insertClient = async (formData: FormData): Promise<Client[]> => {
     console.log(error);
   }
 
+  revalidatePath("/proposals/create-proposal");
   return (data as any) || [];
 };
 

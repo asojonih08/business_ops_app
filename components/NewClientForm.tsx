@@ -6,7 +6,11 @@ import { Checkbox } from "./ui/checkbox";
 import { Button } from "./ui/button";
 import insertClient from "@/actions/insertClient";
 
-export default function NewClientForm() {
+interface NewCLientFormProps {
+  refreshClients: () => void;
+}
+
+export default function NewClientForm({ refreshClients }: NewCLientFormProps) {
   const [addPrimaryContactDetails, setAddPrimaryContactDetails] =
     useState(false);
   const [formData, setFormData] = useState({
@@ -32,6 +36,8 @@ export default function NewClientForm() {
     data.append("referralSource", formData.referralSource);
 
     insertClient(data);
+
+    refreshClients();
   }
 
   return (

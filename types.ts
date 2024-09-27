@@ -69,6 +69,7 @@ export interface Proposal {
   created_at: string;
   created_by: string;
   project: number;
+  is_subdivided: boolean;
   status: string;
   total_cost: number;
   date_sent: string[];
@@ -82,10 +83,10 @@ export interface Estimate {
   created_at: string;
   created_by: string;
   item_name: string;
-  is_subdivided: boolean;
   room: string;
   project: number;
   client: string;
+  proposal: number;
   materials: JSON;
   materials_cost: number;
   labor_employees: string[];
