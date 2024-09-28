@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Label } from "./ui/label";
-import { ProposalDetailsDataTable } from "@/app/proposals/create-proposal/[projectId]/send/proposal-details-data-table";
+import { ProposalDetailsDataTable } from "@/app/proposals/create-proposal/[proposald]/send/proposal-details-data-table";
 import {
   columns,
   ProposalDetail,
-} from "@/app/proposals/create-proposal/[projectId]/send/proposal-details-columns";
+} from "@/app/proposals/create-proposal/[proposald]/send/proposal-details-columns";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { FiPlus } from "react-icons/fi";

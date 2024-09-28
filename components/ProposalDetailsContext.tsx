@@ -1,5 +1,5 @@
 "use client";
-import { ProposalDetail } from "@/app/proposals/create-proposal/[projectId]/send/proposal-details-columns";
+import { ProposalDetail } from "@/app/proposals/create-proposal/[proposald]/send/proposal-details-columns";
 import { createContext, useState, ReactNode, useContext } from "react";
 interface ProposalDetailContextType {
   proposalDetails: ProposalDetail[];

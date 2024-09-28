@@ -155,7 +155,7 @@ export default function CreateProposal({
     console.log("proposalData (estimates): ", proposalData.getAll("estimates"));
     await updateProposalEstimates(proposalData);
 
-    // router.push(`/proposals/create-proposal/${selectedProject?.id}`);
+    router.push(`/proposals/create-proposal/Proposal${newProposalId}`);
   }
 
   return (

@@ -1,8 +1,7 @@
 "use client";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 import { motion } from "framer-motion";
-import { Checkbox } from "@/components/ui/checkbox";
 import { FaLocationCrosshairs } from "react-icons/fa6";
 import { BsFilePerson, BsFilePersonFill } from "react-icons/bs";
 import { Project } from "@/types";
@@ -45,9 +44,9 @@ export default function ProjectSelect({
       animate={"visible"}
       variants={container}
       initial={"hidden"}
-      className="h-fit w-fit grid grid-rows-2 grid-cols-3 place-items-center place-content-center gap-x-8 gap-y-4 my-4 2xl:gap-x-10 2xl:gap-y-5 2xl:my-5"
+      className={`h-fit w-fit ${projects.length > 0 ? "grid grid-rows-2 grid-cols-3" : "" } place-items-center place-content-center gap-x-8 gap-y-4 my-4 2xl:gap-x-10 2xl:gap-y-5 2xl:my-5`}
     >
-      {projects.map((project, index) => (
+      {projects.length > 0 ? projects.map((project, index) => (
         <motion.li
           onClick={() => setSelectedProject(project)}
           variants={item}
@@ -82,7 +81,7 @@ export default function ProjectSelect({
             </span>
           </div>
         </motion.li>
-      ))}
+      )) : <p className="text-textColor-800 text-[13px] w-full font-semibold pt-4">No projects for this client</p>}
     </motion.ul>
   );
 }

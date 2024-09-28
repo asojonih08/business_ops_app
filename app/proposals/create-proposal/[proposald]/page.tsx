@@ -3,8 +3,14 @@ import CreateEstimate from "@/components/CreateEstimate";
 import ProposalTotals from "@/components/ProposalTotals";
 import EstimateSummary from "@/components/EstimateSummary";
 import ProposalItems from "@/components/ProposalItems";
+import { useRouter } from 'next/router'
+import getProposal from "@/actions/getProposal";
 
-export default function Page() {
+
+export default async function Page() {
+  const router = useRouter()
+  const proposal = await getProposal(Number((router.query.slug)?.slice(8)));
+  console.log(proposal)
   return (
     <div className="h-full my-auto w-full flex gap-4 2xl:gap-6 justify-between">
       <div className="h-full w-[45%] flex flex-col gap-4 2xl:gap-6 rounded-2xl">
