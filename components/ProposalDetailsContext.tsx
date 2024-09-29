@@ -1,11 +1,9 @@
 "use client";
-import { ProposalDetail } from "@/app/proposals/create-proposal/[proposald]/send/proposal-details-columns";
+import { ProposalDetail } from "@/app/proposals/create-proposal/[proposalId]/send/proposal-details-columns";
 import { createContext, useState, ReactNode, useContext } from "react";
 interface ProposalDetailContextType {
   proposalDetails: ProposalDetail[];
-  setProposalDetails: React.Dispatch<
-    React.SetStateAction<ProposalDetail[]>
-  >;
+  setProposalDetails: React.Dispatch<React.SetStateAction<ProposalDetail[]>>;
 }
 
 const ProposalDetailsContext = createContext<
@@ -17,9 +15,9 @@ const initialState: ProposalDetail = {
   description: null,
 };
 function ProposalDetailsProvider({ children }: { children: ReactNode }) {
-  const [proposalDetails, setProposalDetails] = useState<
-    ProposalDetail[]
-  >([initialState]);
+  const [proposalDetails, setProposalDetails] = useState<ProposalDetail[]>([
+    initialState,
+  ]);
 
   return (
     <ProposalDetailsContext.Provider

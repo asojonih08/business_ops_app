@@ -2,6 +2,7 @@ import { MaterialsProvider } from "@/components/MaterialsContext";
 import Sidebar from "../components/Sidebar";
 import { ItemClassificationsProvider } from "@/components/ItemClassificationsContext";
 import SupabaseProvider from "@/providers/SupabaseProvider";
+import { EstimateCalculationsProvider } from "@/components/EstimateCalculationsContext";
 
 export const metadata = {
   title: "Pacific Fine Millwork",
@@ -21,7 +22,11 @@ export default function RootLayout({
           <Sidebar />
           <main className="h-[97vh] w-[94vw] px-6 mx-auto overflow-hidden">
             <ItemClassificationsProvider>
-              <MaterialsProvider>{children}</MaterialsProvider>
+              <MaterialsProvider>
+                <EstimateCalculationsProvider>
+                  {children}
+                </EstimateCalculationsProvider>
+              </MaterialsProvider>
             </ItemClassificationsProvider>
           </main>
         </SupabaseProvider>

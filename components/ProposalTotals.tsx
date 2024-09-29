@@ -1,9 +1,32 @@
+import { Estimate, Proposal } from "@/types";
 import React from "react";
 
 //Total:Amount 2.84615
 //Subtotals:Amount 2.08695
 //Total:Subtotal 1.541666
-export default function ProposalTotals() {
+
+interface ProposalTotalsProps {
+  proposal: Proposal;
+  proposalItems: Estimate[];
+}
+
+export default function ProposalTotals({
+  proposal,
+  proposalItems,
+}: ProposalTotalsProps) {
+  const total = proposalItems.reduce((sum, item) => {
+    return sum + (item.total_cost ?? 0);
+  }, 0);
+  const totalProfit = proposalItems.reduce((sum, item) => {
+    return sum + (item.profit ?? 0);
+  }, 0);
+  const totalSalesTax = proposalItems.reduce((sum, item) => {
+    return sum + (item.sales_tax ?? 0);
+  }, 0);
+  const totalBreakeven = proposalItems.reduce((sum, item) => {
+    return sum + (item.breakeven ?? 0);
+  }, 0);
+
   return (
     <div className="w-full h-full justify-center flex flex-col gap-2 2xl:gap-4 overflow-hidden">
       <div className="flex flex-col gap-1.5 2xl:gap-2.5">
@@ -11,7 +34,7 @@ export default function ProposalTotals() {
           Total
         </span>
         <span className="text-[22px] 2xl:text-[37px] font-semibold text-textColor-base tracking-wide">
-          $2,478.67
+          {"$" + total}
         </span>
       </div>
       <div className="flex gap-[5.5%] 2xl:gap-[6.5%]">
@@ -20,7 +43,7 @@ export default function ProposalTotals() {
             Breakeven
           </span>
           <span className="text-[15.5px] 2xl:text-[24px] font-medium text-textColor-base">
-            -$345.56
+            {"$" + totalBreakeven}
           </span>
         </div>
         <div className="flex flex-col">
@@ -28,7 +51,7 @@ export default function ProposalTotals() {
             Profit
           </span>
           <span className="text-[15.5px] 2xl:text-[24px] font-medium text-textColor-base">
-            -$1,145.89
+            {"$" + totalProfit}
           </span>
         </div>
         <div className="flex flex-col">
@@ -36,7 +59,7 @@ export default function ProposalTotals() {
             Sales Tax
           </span>
           <span className="text-[15.5px] 2xl:text-[24px] font-medium text-textColor-base">
-            $1,098.32
+            {"$" + totalSalesTax}
           </span>
         </div>
       </div>

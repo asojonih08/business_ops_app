@@ -1,23 +1,22 @@
-"use server";
-import { Proposal } from "@/types";
+import { Estimate } from "@/types";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
-const getProposal = async (id: number): Promise<Proposal> => {
+const getEstimatesByProposal = async (id: number): Promise<Estimate[]> => {
   const supabase = createServerComponentClient({
     cookies: cookies,
   });
 
   const { data, error } = await supabase
-    .from("proposals")
-    .select()
-    .eq("id", id);
+    .from("estimates")
+    .select("*")
+    .eq("proposal", id)
+    .order("created_at", { ascending: false });
 
   if (error) {
     console.log(error);
   }
-
   return (data as any) || [];
 };
 
-export default getProposal;
+export default getEstimatesByProposal;

@@ -6,6 +6,12 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { MdHardware } from "react-icons/md";
+import { PiPaintBucketFill } from "react-icons/pi";
+import { BiSolidCabinet } from "react-icons/bi";
+import { FaBrush } from "react-icons/fa6";
+import { MdOutlinePostAdd } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -18,88 +24,86 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import ProportionBar from "./ui/proportion-bar";
+import { AutoComplete } from "./ui/autocomplete";
+import AddMaterialsForm from "./AddMaterialsForm";
+import { Estimate } from "@/types";
+import { useEstimateCalculations } from "./EstimateCalculationsContext";
 
-const classifications = [
+const types = [
   {
-    value: "cabinet",
+    value: "Cabinet",
     label: "Cabinet",
   },
   {
-    value: "table",
+    value: "Deck",
+    label: "Deck",
+  },
+  {
+    value: "Table",
     label: "Table",
   },
   {
-    value: "flooring",
+    value: "Flooring",
     label: "Flooring",
   },
   {
-    value: "coffee table",
-    label: "Coffee Table",
+    value: "Siding",
+    label: "Siding",
   },
 ];
 
 const rooms = [
   {
-    value: "master bedroom",
+    value: "Master Bedroom",
     label: "Master Bedroom",
   },
   {
-    value: "master bathroom",
+    value: "Master Bathroom",
     label: "Master Bathroom",
   },
   {
-    value: "living room",
+    value: "Living Room",
     label: "Living Room",
   },
   {
-    value: "kitchen",
+    value: "Kitchen",
     label: "Kitchen",
   },
   {
-    value: "dining room",
+    value: "Dining Room",
     label: "Dining Room",
   },
 ];
-
-import { MdHardware } from "react-icons/md";
-import { PiPaintBucketFill } from "react-icons/pi";
-import { BiSolidCabinet } from "react-icons/bi";
-import { FaBrush } from "react-icons/fa6";
-import { MdOutlinePostAdd } from "react-icons/md";
-import { FaRegEdit } from "react-icons/fa";
-
-import AddMaterialsForm from "./AddMaterialsForm";
-import ProportionBar from "./ui/proportion-bar";
 
 const inputClassName =
   "h-6 text-[10px] 2xl:h-10 2xl:text-[17px] text-textColor-700 focus:text-textColor-800 font-medium placeholder:text-sm 2xl:placeholder:text-base placeholder:text-textColor-600/40 bg-ACCENT-200/15 border-transparent rounded-md \
 focus-visible:shadow-md focus-visible:ring-PRIMARY-500/50 focus-visible:ring-[1.3px] focus-visible:-ring-offset-1 focus:bg-ACCENT-200/30";
 
-export default function CreateEstimate() {
-  const [itemName, setItemName] = useState<string>("Cabinet 001");
+interface CreateEstimateProps {
+  proposalItems: Estimate[];
+}
+
+export default function CreateEstimate({ proposalItems }: CreateEstimateProps) {
+  const { estimateCalculations, setEstimateCalculations } =
+    useEstimateCalculations();
+
   const [openClassification, setOpenClassification] = React.useState(false);
   const [openRoom, setOpenRoom] = React.useState(false);
   const [classificationValue, setClassificationValue] = React.useState("");
   const [roomValue, setRoomValue] = React.useState("");
   const [editPressed, setEditPressed] = useState<boolean>(false);
-  const [laborHours, setLaborHours] = useState<number>(0);
-  const [installationHours, setInstallationHours] = useState<number>(0);
-  const [subcontractorCost, setSubcontractorCost] = useState<number>(0);
-  const [independentContractorCost, setIndependentContractorCost] =
-    useState<number>(0);
-  const [deliveryCost, setDeliveryCost] = useState<number>(0);
-  const [gasCost, setGasCost] = useState<number>(0);
-  const [equipmentRentalCost, setEquipmentRentalCost] = useState<number>(0);
-  const [miscellaneousCost, setMiscellaneousCost] = useState<number>(0);
 
   const itemNameInputRef = useRef<HTMLInputElement>(null);
-  const itemNameLength = itemName.length;
+  const itemNameLength = estimateCalculations.itemName.length;
   let itemNameInputWidth;
   if (itemNameLength <= 12) itemNameInputWidth = "28%";
   else if (itemNameLength < 19) itemNameInputWidth = "38%";
   else itemNameInputWidth = "48%";
 
   useEffect(() => itemNameInputRef.current?.focus(), [editPressed]);
+
+  //REMOVE Item name, type, and room from Context
 
   function handleItemNameEnterPress(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter") setEditPressed((editPressed) => !editPressed);
@@ -117,12 +121,14 @@ export default function CreateEstimate() {
             }}
             className={`text-PRIMARY-500 text-base 2xl:text-2xl h-6 2xl:h-8 px-[0.5px] font-bold border border-transparent
             focus-visible:shadow-sm focus-visible:ring-PRIMARY-500/50 focus-visible:ring-[1.3px] focus-visible:-ring-offset-1 focus:bg-ACCENT-200/15 focus-visible:border-`}
-            value={itemName}
+            value={estimateCalculations.itemName}
             onBlur={() => setEditPressed((editPressed) => !editPressed)}
             onKeyUp={handleItemNameEnterPress}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              console.log(itemName);
-              setItemName(e.target.value);
+              setEstimateCalculations({
+                ...estimateCalculations,
+                itemName: e.target.value,
+              });
             }}
           ></Input>
         ) : (
@@ -131,7 +137,7 @@ export default function CreateEstimate() {
               className="text-PRIMARY-500 text-base font-bold 2xl:text-2xl h-6 2xl:h-8 border-textColor-300/40 px-0.5 border rounded-md shadow-sm shadow-transparent
               ring-[1.3px] ring-transparent -ring-offset-1"
             >
-              {itemName}
+              {estimateCalculations.itemName}
             </span>
             <div
               onClick={() => {
@@ -148,9 +154,38 @@ export default function CreateEstimate() {
         )}
         <Separator orientation={"vertical"} className="h-7 mx-1.5" />
       </div>
-      <span className="text-[11px] 2xl:text-base font-bold text-textColor-700">
-        Attributes
-      </span>
+      <div>
+        <span className="text-[11px] 2xl:text-base font-bold text-textColor-700">
+          Attributes
+        </span>
+        <div className="flex gap-3">
+          <AutoComplete
+            selectedValue={estimateCalculations.type}
+            onSelectedValueChange={(value: string) =>
+              setEstimateCalculations({ ...estimateCalculations, type: value })
+            }
+            searchValue={estimateCalculations.type}
+            onSearchValueChange={(value: string) =>
+              setEstimateCalculations({ ...estimateCalculations, type: value })
+            }
+            items={types}
+            shouldFilter
+          />
+
+          <AutoComplete
+            selectedValue={estimateCalculations.room}
+            onSelectedValueChange={(value: string) =>
+              setEstimateCalculations({ ...estimateCalculations, room: value })
+            }
+            searchValue={estimateCalculations.room}
+            onSearchValueChange={(value: string) =>
+              setEstimateCalculations({ ...estimateCalculations, room: value })
+            }
+            items={rooms}
+            shouldFilter
+          />
+        </div>
+      </div>
 
       <div>
         <h2 className="text-[11px] 2xl:text-base font-bold text-textColor-700 mb-3 2xl:mb-5">
@@ -225,9 +260,12 @@ export default function CreateEstimate() {
               type="number"
               placeholder="Fabrication Hours"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setLaborHours(Number(e.target.value))
+                setEstimateCalculations({
+                  ...estimateCalculations,
+                  fabricationHours: Number(e.target.value),
+                })
               }
-              value={laborHours}
+              value={estimateCalculations.fabricationHours}
               className={inputClassName}
             />
           </div>
@@ -239,9 +277,12 @@ export default function CreateEstimate() {
               type="number"
               placeholder="Installation Hours"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setInstallationHours(Number(e.target.value))
+                setEstimateCalculations({
+                  ...estimateCalculations,
+                  installationHours: Number(e.target.value),
+                })
               }
-              value={installationHours}
+              value={estimateCalculations.installationHours}
               className={inputClassName}
             />
           </div>
@@ -254,9 +295,12 @@ export default function CreateEstimate() {
             type="number"
             placeholder="Subcontractor"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setSubcontractorCost(Number(e.target.value))
+              setEstimateCalculations({
+                ...estimateCalculations,
+                subcontractorCost: Number(e.target.value),
+              })
             }
-            value={subcontractorCost}
+            value={estimateCalculations.subcontractorCost}
             className={inputClassName}
           />
         </div>
@@ -268,9 +312,12 @@ export default function CreateEstimate() {
             type="number"
             placeholder="Independent Contractor"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setIndependentContractorCost(Number(e.target.value))
+              setEstimateCalculations({
+                ...estimateCalculations,
+                independentContractorCost: Number(e.target.value),
+              })
             }
-            value={independentContractorCost}
+            value={estimateCalculations.independentContractorCost}
             className={inputClassName}
           />
         </div>
@@ -286,9 +333,12 @@ export default function CreateEstimate() {
               type="number"
               placeholder="Delivery"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setDeliveryCost(Number(e.target.value))
+                setEstimateCalculations({
+                  ...estimateCalculations,
+                  deliveryCost: Number(e.target.value),
+                })
               }
-              value={deliveryCost}
+              value={estimateCalculations.deliveryCost}
               className={inputClassName}
             />
           </div>
@@ -298,9 +348,12 @@ export default function CreateEstimate() {
               type="number"
               placeholder="Gas"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setGasCost(Number(e.target.value))
+                setEstimateCalculations({
+                  ...estimateCalculations,
+                  gasCost: Number(e.target.value),
+                })
               }
-              value={gasCost}
+              value={estimateCalculations.gasCost}
               className={inputClassName}
             />
           </div>
@@ -313,9 +366,12 @@ export default function CreateEstimate() {
             type="number"
             placeholder="Equipment Rental"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setEquipmentRentalCost(Number(e.target.value))
+              setEstimateCalculations({
+                ...estimateCalculations,
+                equipmentRentalCost: Number(e.target.value),
+              })
             }
-            value={equipmentRentalCost}
+            value={estimateCalculations.equipmentRentalCost}
             className={inputClassName}
           />
         </div>
@@ -325,9 +381,12 @@ export default function CreateEstimate() {
             type="number"
             placeholder="Miscellaneous"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setMiscellaneousCost(Number(e.target.value))
+              setEstimateCalculations({
+                ...estimateCalculations,
+                miscellaneousCost: Number(e.target.value),
+              })
             }
-            value={miscellaneousCost}
+            value={estimateCalculations.miscellaneousCost}
             className={inputClassName}
           />
         </div>

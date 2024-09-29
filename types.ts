@@ -1,3 +1,5 @@
+import { Material } from "./app/proposals/materials-columns";
+
 export interface UserDetails {
   id?: string;
   first_name: string;
@@ -100,7 +102,27 @@ export interface Estimate {
   equipment_rental_cost: number;
   miscellaneous_cost: number;
   is_fixture: boolean;
-  sales_tax: number;
   overhead_cost: number;
   overhead_rate: number;
+  type: string;
+  total_cost: number;
+  profit: number;
+  profit_rate: number;
+  sales_tax: number;
+  sales_tax_rate: number;
+  breakeven: number;
+}
+
+export interface EstimateCalculations {
+  itemName: string;
+  type: string;
+  room: string;
+  fabricationHours: number;
+  installationHours: number;
+  subcontractorCost: number;
+  independentContractorCost: number;
+  deliveryCost: number;
+  gasCost: number;
+  equipmentRentalCost: number;
+  miscellaneousCost: number;
 }
