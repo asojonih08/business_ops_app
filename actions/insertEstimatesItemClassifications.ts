@@ -26,6 +26,7 @@ const insertEstimatesItemClassifications = async (
       project: project,
       client: client,
       proposal: proposal,
+      status: "Draft",
     };
     itemClassifications = [...itemClassifications, item];
   }

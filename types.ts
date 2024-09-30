@@ -111,12 +111,12 @@ export interface Estimate {
   sales_tax: number;
   sales_tax_rate: number;
   breakeven: number;
+  status: string;
 }
 
 export interface EstimateCalculations {
-  itemName: string;
-  type: string;
-  room: string;
+  materialsCost: number;
+  materialMarkupRate: number;
   fabricationHours: number;
   installationHours: number;
   subcontractorCost: number;

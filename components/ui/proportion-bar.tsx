@@ -74,7 +74,9 @@ export default function ProportionBar({
                     ></span>
                     <p className="text-textColor-800/70">{item.label}</p>
                   </div>
-                  <span className="font-medium text-textColor-base">$135</span>
+                  <span className="font-medium text-textColor-base">
+                    ${item.value}
+                  </span>
                 </span>
               </TooltipContent>
             </Tooltip>

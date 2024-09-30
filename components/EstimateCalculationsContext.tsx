@@ -10,9 +10,8 @@ interface EstimateCalculationsContextType {
 }
 
 const initialState: EstimateCalculations = {
-  itemName: "",
-  type: "",
-  room: "",
+  materialsCost: 0,
+  materialMarkupRate: 0,
   fabricationHours: 0,
   installationHours: 0,
   subcontractorCost: 0,

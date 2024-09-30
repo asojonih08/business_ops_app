@@ -13,6 +13,7 @@ import {
 
 import { ColumnDef } from "@tanstack/react-table";
 import { useMaterials } from "@/components/MaterialsContext";
+import { MATERIAL_TYPES } from "@/constants";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { AutoComplete } from "@/components/ui/autocomplete";
@@ -47,29 +48,6 @@ function EditableCell({
   const [value, setValue] = useState(!initialValue ? "" : initialValue);
   const { materials, setMaterials } = useMaterials();
   const [searchValue, setSearchValue] = useState<string>("");
-
-  const types = [
-    {
-      value: "Cabinet",
-      label: "Cabinet",
-    },
-    {
-      value: "Deck",
-      label: "Deck",
-    },
-    {
-      value: "Table",
-      label: "Table",
-    },
-    {
-      value: "Flooring",
-      label: "Flooring",
-    },
-    {
-      value: "Siding",
-      label: "Siding",
-    },
-  ];
 
   const onBlur = () => {
     console.log(
@@ -198,7 +176,7 @@ function EditableCell({
           onSelectedValueChange={setValue}
           searchValue={value}
           onSearchValueChange={setValue}
-          items={types}
+          items={MATERIAL_TYPES}
           emptyMessage={`No ${emptyMessageItemName} found.`}
           shouldFilter
           className={className}

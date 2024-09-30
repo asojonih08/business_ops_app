@@ -3,6 +3,7 @@ import Sidebar from "../components/Sidebar";
 import { ItemClassificationsProvider } from "@/components/ItemClassificationsContext";
 import SupabaseProvider from "@/providers/SupabaseProvider";
 import { EstimateCalculationsProvider } from "@/components/EstimateCalculationsContext";
+import { SelectedProposalItemProvider } from "@/components/SelectedItemContext";
 
 export const metadata = {
   title: "Pacific Fine Millwork",
@@ -24,7 +25,9 @@ export default function RootLayout({
             <ItemClassificationsProvider>
               <MaterialsProvider>
                 <EstimateCalculationsProvider>
-                  {children}
+                  <SelectedProposalItemProvider>
+                    {children}
+                  </SelectedProposalItemProvider>
                 </EstimateCalculationsProvider>
               </MaterialsProvider>
             </ItemClassificationsProvider>

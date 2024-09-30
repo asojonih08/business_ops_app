@@ -31,6 +31,7 @@ interface EditableCellProps {
     column: any;
     table: any;
   };
+  items?: any;
 }
 
 function EditableCell({
@@ -42,34 +43,12 @@ function EditableCell({
   emptyMessageItemName = "",
   getValue,
   cellProps,
+  items,
 }: EditableCellProps) {
   const initialValue = !getValue() ? "" : getValue();
   const { row, column, table } = cellProps;
   const [value, setValue] = useState(!initialValue ? "" : initialValue);
   const [searchValue, setSearchValue] = useState<string>("");
-
-  const types = [
-    {
-      value: "Cabinet",
-      label: "Cabinet",
-    },
-    {
-      value: "Deck",
-      label: "Deck",
-    },
-    {
-      value: "Table",
-      label: "Table",
-    },
-    {
-      value: "Flooring",
-      label: "Flooring",
-    },
-    {
-      value: "Siding",
-      label: "Siding",
-    },
-  ];
 
   const onBlur = () => {
     table.options.meta?.updateData(row.index, column.id, value);
@@ -129,7 +108,7 @@ function EditableCell({
           onSelectedValueChange={setValue}
           searchValue={value}
           onSearchValueChange={setValue}
-          items={types}
+          items={items}
           emptyMessage={`No ${emptyMessageItemName} found.`}
           shouldFilter
           className={className}
@@ -139,6 +118,52 @@ function EditableCell({
       );
   }
 }
+
+const TYPES = [
+  {
+    value: "Cabinet",
+    label: "Cabinet",
+  },
+  {
+    value: "Deck",
+    label: "Deck",
+  },
+  {
+    value: "Table",
+    label: "Table",
+  },
+  {
+    value: "Flooring",
+    label: "Flooring",
+  },
+  {
+    value: "Siding",
+    label: "Siding",
+  },
+];
+
+const ROOMS = [
+  {
+    value: "Master Bedroom",
+    label: "Master Bedroom",
+  },
+  {
+    value: "Master Bathroom",
+    label: "Master Bathroom",
+  },
+  {
+    value: "Living Room",
+    label: "Living Room",
+  },
+  {
+    value: "Kitchen",
+    label: "Kitchen",
+  },
+  {
+    value: "Dining Room",
+    label: "Dining Room",
+  },
+];
 
 export type ItemClassification = {
   num: number | null;
@@ -184,6 +209,7 @@ export const columns: ColumnDef<ItemClassification>[] = [
         emptyMessageItemName={"type"}
         getValue={() => row.getValue("type")}
         cellProps={{ row, column, table }}
+        items={TYPES}
       />
     ),
   },
@@ -201,6 +227,7 @@ export const columns: ColumnDef<ItemClassification>[] = [
         emptyMessageItemName={"room"}
         getValue={() => row.getValue("room")}
         cellProps={{ row, column, table }}
+        items={ROOMS}
       />
     ),
   },
