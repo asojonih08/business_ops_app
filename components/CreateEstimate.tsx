@@ -121,6 +121,7 @@ export default function CreateEstimate({ proposalItems }: CreateEstimateProps) {
   console.log(materialSumsArray);
 
   const currentItem = proposalItems[selectedProposalItem];
+  console.log(currentItem.item_name, currentItem);
   const [itemName, setItemName] = useState(currentItem.item_name);
   const [type, setType] = useState(currentItem.type);
   const [room, setRoom] = useState(currentItem.room);
@@ -140,6 +141,11 @@ export default function CreateEstimate({ proposalItems }: CreateEstimateProps) {
   else itemNameInputWidth = "48%";
 
   useEffect(() => itemNameInputRef.current?.focus(), [editPressed]);
+  useEffect(() => {
+    setItemName(currentItem.item_name);
+    setType(currentItem.type);
+    setRoom(currentItem.room);
+  }, [selectedProposalItem]);
 
   //REMOVE Item name, type, and room from Context
 

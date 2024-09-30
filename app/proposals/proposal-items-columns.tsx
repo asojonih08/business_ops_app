@@ -23,12 +23,13 @@ import { useMaterials } from "@/components/MaterialsContext";
 import { FaEdit, FaRegEdit } from "react-icons/fa";
 import { GrTrash } from "react-icons/gr";
 import { FaRegTrashCan } from "react-icons/fa6";
+import { useSelecetedProposalItem } from "@/components/SelectedItemContext";
 
 export type ProposalItem = {
   num: number | null;
   name: string | null;
   room: string | null;
-  fixture: boolean | null;
+  fixture: string | null;
   amount: number | null;
   status: string | null;
 };
@@ -74,7 +75,7 @@ export const columns: ColumnDef<ProposalItem>[] = [
     ),
     cell: ({ row }) => (
       <div className="text-[11.5px] 2xl:text-[13px] text-textColor-600/85 capitalize font-medium">
-        {row.getValue("fixture") ? "yes" : "no"}
+        {row.getValue("fixture")}
       </div>
     ),
   },
@@ -98,7 +99,7 @@ export const columns: ColumnDef<ProposalItem>[] = [
       <div className="text-[11.5px] 2xl:text-[13px] text-textColor-600/85 capitalize font-medium">
         <span
           className={`${
-            row.getValue("status") === "draft"
+            row.getValue("status") === "Draft"
               ? "text-yellow-700/80 rounded-xl bg-yellow-200/30 px-[7px] py-[1px] border border-yellow-700/15"
               : "text-[#11523D]/80 rounded-xl bg-[#EBFEF6] px-[7px] py-[1px] border border-[#11523D]/15"
           }`}
@@ -112,6 +113,8 @@ export const columns: ColumnDef<ProposalItem>[] = [
   {
     id: "action",
     cell: ({ row }) => {
+      const { selectedProposalItem, setSelectedProposalItem } =
+        useSelecetedProposalItem();
       const { materials, setMaterials } = useMaterials();
       function handleDeleteMaterial(num: number) {
         if (materials.length === 1) return;
@@ -147,14 +150,19 @@ export const columns: ColumnDef<ProposalItem>[] = [
             className="rounded-lg min-w-[116px] w-[116px]"
             align="end"
           >
-            <DropdownMenuItem className="hover:bg-accent-200/30 -my-0.5">
+            <DropdownMenuItem
+              onClick={() =>
+                setSelectedProposalItem(Number(row.getValue("num")) - 1)
+              }
+              className="hover:bg-accent-200/30 hover:cursor-pointer -my-0.5"
+            >
               <div className="w-full flex justify-between items-center">
                 <span className="text-[13px] text-[#020406]">Edit</span>
                 <FaEdit className="text-textColor-900/75" size={13.5} />
               </div>
             </DropdownMenuItem>
             <DropdownMenuSeparator className="mx-1.5 bg-textColor-900/10 h-[0.7px]" />
-            <DropdownMenuItem className="hover:bg-accent-200/30 -my-0.5">
+            <DropdownMenuItem className="hover:bg-accent-200/30 hover:cursor-pointer -my-0.5">
               <div className="w-full flex justify-between items-center">
                 <span className="text-[13px] text-[#FD4238]">Delete</span>
                 <RiDeleteBin6Line className="text-[#FF3B30]" size={13.5} />

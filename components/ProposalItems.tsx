@@ -4,9 +4,10 @@ import { IoSearch } from "react-icons/io5";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { ProposalItemsDataTable } from "@/app/proposals/proposal-items-data-table";
-import { columns } from "@/app/proposals/proposal-items-columns";
+import { columns, ProposalItem } from "@/app/proposals/proposal-items-columns";
 import { FiSend } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa6";
+import { Estimate } from "@/types";
 
 const mockProjectItemsData = [
   {
@@ -54,7 +55,29 @@ const mockProjectItemsData = [
 const ICON_SIZE = 14;
 const ICON_SIZE_xl = 19;
 
-export default function ProposalItems() {
+interface ProposalItemsProps {
+  proposalItems: Estimate[];
+}
+
+export default function ProposalItems({ proposalItems }: ProposalItemsProps) {
+  const proposalItemsList: ProposalItem[] = proposalItems.map(
+    (proposalItem, index) => {
+      return {
+        num: index + 1,
+        room: proposalItem.room,
+        name: proposalItem.item_name,
+        fixture:
+          proposalItem.status === "Completed"
+            ? proposalItem.is_fixture
+              ? "Yes"
+              : "No"
+            : "NA",
+        amount:
+          proposalItem.status === "Completed" ? proposalItem.total_cost : 0,
+        status: proposalItem.status,
+      };
+    }
+  );
   return (
     <div className=" h-full w-full flex flex-col justify-between">
       <div className="flex flex-col gap-4 2xl:gap-6">
@@ -86,7 +109,7 @@ export default function ProposalItems() {
           </Button>
         </div>
         <Separator className="w-full h-[1.3px] 2xl:h-[1.8px] -mt-2 2xl:-mt-3 mx-auto bg-textColor-300/10" />
-        <ProposalItemsDataTable data={mockProjectItemsData} columns={columns} />
+        <ProposalItemsDataTable data={proposalItemsList} columns={columns} />
       </div>
       <div className="flex flex-col gap-3.5 2xl:gap-7">
         <div>

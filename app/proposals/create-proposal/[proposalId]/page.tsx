@@ -27,7 +27,7 @@ export default async function Page({ params }: any) {
           <EstimateSummary />
         </div>
         <div className="px-6 py-5 2xl:px-8 2xl:py-7 h-[50%] bg-white w-full rounded-2xl">
-          <ProposalItems />
+          <ProposalItems proposalItems={proposalItems} />
         </div>
       </div>
     </div>
