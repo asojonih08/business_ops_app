@@ -28,6 +28,7 @@ import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
 import { useEstimateCalculations } from "./EstimateCalculationsContext";
 import { Input } from "./ui/input";
+import { Estimate } from "@/types";
 
 const initialMaterialsState: Material = {
   num: 1,
@@ -46,15 +47,19 @@ x Add Save button
 
 interface AddMaterialsFormProps {
   setOpenMaterialsForm: Dispatch<SetStateAction<boolean>>;
+  proposalItem: Estimate
 }
 
 export default function AddMaterialsForm({
   setOpenMaterialsForm,
+  proposalItem
 }: AddMaterialsFormProps) {
   const { materials, setMaterials } = useMaterials();
   const { estimateCalculations, setEstimateCalculations } =
     useEstimateCalculations();
   const [materialsMarkupRate, setMaterialsMarkupRate] = useState<number>(0);
+
+  
 
   function handleAddMaterialClick() {
     let count = materials.length + 1;

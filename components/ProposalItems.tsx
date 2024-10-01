@@ -83,7 +83,7 @@ export default function ProposalItems({ proposalItems }: ProposalItemsProps) {
       <div className="flex flex-col gap-4 2xl:gap-6">
         <div className="flex justify-between items-center">
           <h1 className="text-sm 2xl:text-[22px] font-bold text-textColor-base">
-            Project Items
+            Proposal Items
           </h1>
         </div>
         <Separator className="w-full h-[1.3px] 2xl:h-[1.8px] -mb-2 2xl:-mb-3 mx-auto bg-textColor-300/10" />

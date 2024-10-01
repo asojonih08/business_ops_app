@@ -184,7 +184,7 @@ export default function CreateEstimate({ proposalItems }: CreateEstimateProps) {
               onClick={() => {
                 setEditPressed((editPressed) => !editPressed);
               }}
-              className="border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg p-0.5 pl-1.5 pb-1"
+              className="border-[1.8px] border-textColor-300/50 shadow-sm rounded-md 2xl:rounded-lg p-0.5 pl-1.5 pb-1"
             >
               <FaRegEdit
                 className="h-[14px] w-[14.5px] 2xl:h-[20px] 2xl:w-[20.5px] text-textColor-600 
@@ -195,7 +195,7 @@ export default function CreateEstimate({ proposalItems }: CreateEstimateProps) {
         )}
       </div>
       <div>
-        <div className="text-xs 2xl:text-base font-bold text-textColor-700 mb-3 2xl:mb-5">
+        <div className="text-xs hidden 2xl:text-base font-bold text-textColor-700 mb-3 2xl:mb-5">
           Attributes
         </div>
         <div className="flex gap-3">
@@ -232,7 +232,7 @@ export default function CreateEstimate({ proposalItems }: CreateEstimateProps) {
         <h2 className="text-[11px] 2xl:text-base font-bold text-textColor-700 mb-3 2xl:mb-5">
           Material Cost
         </h2>
-        <div className="bg-ACCENT-200/15 w-full h-[18vh] rounded-2xl drop-shadow-sm flex flex-col gap-0.5 2xl:gap-3 p-3 2xl:p-4">
+        <div className="bg-ACCENT-200/15 w-full h-[20vh] 2xl:h-[18vh] rounded-2xl drop-shadow-sm flex flex-col gap-1 2xl:gap-3 p-3 2xl:p-4">
           <span className="flex justify-between items-center">
             <h2 className="text-[11px] 2xl:text-[16.5px] font-bold text-textColor-800">
               Materials Summary
@@ -267,13 +267,13 @@ export default function CreateEstimate({ proposalItems }: CreateEstimateProps) {
                   </div>
                 </DialogHeader>
                 <Separator className="w-full h-[1.5px] bg-textColor-50 mb-0 2xl:mb-8 mt-6" />
-                <AddMaterialsForm setOpenMaterialsForm={setOpenMaterialsForm} />
+                <AddMaterialsForm setOpenMaterialsForm={setOpenMaterialsForm} proposalItem={currentItem} />
               </DialogContent>
             </Dialog>
           </span>
           <Separator className="w-full h-[1px] my-1 mx-auto bg-textColor-200/70" />
 
-          <div className="flex flex-col gap-2 2xl:gap-4">
+          <div className="flex flex-col gap-0.5 2xl:gap-4">
             <div className="flex flex-col">
               <span className="text-[11px] 2xl:text-base tracking-tight">
                 Total material cost
@@ -283,7 +283,7 @@ export default function CreateEstimate({ proposalItems }: CreateEstimateProps) {
                 {estimateCalculations.materialsCost}
               </span>
             </div>
-            <ProportionBar barHeight={16} items={materialSumsArray} />
+            <ProportionBar mainLabel={"Materials Breakdown"} barHeightClassName={"h-3.5 2xl:h-4"} items={materialSumsArray} />
           </div>
         </div>
       </div>
@@ -431,11 +431,11 @@ export default function CreateEstimate({ proposalItems }: CreateEstimateProps) {
       </div>
       <span className="flex justify-end">
         <Button
-          className="h-9  2xl:h-11 bg-white border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg w-[92px] 2xl:w-[120px] text-xs 2xl:text-base text-textColor-600 font-medium tracking-wide duration-150
-      hover:border-ACCENT-600/60 hover:text-textColor-900"
+          className="h-8 2xl:h-11 bg-white border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg w-[88px] 2xl:w-[120px] text-[11px] 2xl:text-base text-textColor-600 font-medium tracking-wide duration-150
+        hover:border-ACCENT-600/60 hover:text-textColor-900"
         >
-          <span className="flex items-center gap-1.5">
-            <MdOutlinePostAdd size={17} />
+          <span className="flex items-center gap-1 2xl:gap-1.5">
+            <MdOutlinePostAdd className="h-[14px] w-[14px] 2xl:h-[17px] 2xl:w-[17px]" />
             <span>Save Item</span>
           </span>
         </Button>

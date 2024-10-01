@@ -8,7 +8,7 @@ import {
 
 interface ProportionBarProps {
   width?: number | null;
-  barHeight?: number | null;
+  barHeightClassName?: string;
   items: {
     label: string;
     value: number;
@@ -17,13 +17,17 @@ interface ProportionBarProps {
     gap: number | null;
     rounded: string | null;
   };
+  mainLabel: string;
+  size?: string;
 }
 
 export default function ProportionBar({
   width = 100,
-  barHeight = 16,
+  barHeightClassName = "h-4",
   items,
   style,
+  mainLabel,
+  size = "medium",
 }: ProportionBarProps) {
   const defaultColors = ["#93C5FD", "#6649F2", "#4962F2", "#49CDF2", "#9D49F2"];
   items = items.sort((a, b) => b.value - a.value);
@@ -34,8 +38,8 @@ export default function ProportionBar({
 
   return (
     <div className={`w-[${width}%] h-full flex flex-col items-end gap-2`}>
-      <div className="w-full flex items-center gap-2 justify-between text-xs tracking-wide uppercase text-textColor-base font-medium mt-1">
-        <span>Materials Breakdown</span>
+      <div className="w-full flex items-center gap-2 justify-between text-[9px] 2xl:text-xs tracking-wide uppercase text-textColor-base  font-medium mt-1">
+        <span className="text-[9px] 2xl:text-base">{mainLabel}</span>
         <div className="flex items-center gap-3">
           {items.map((item, index) => (
             <div key={item.label} className="flex gap-1 items-center">
@@ -57,12 +61,12 @@ export default function ProportionBar({
           <TooltipProvider key={item.label} delayDuration={50}>
             <Tooltip>
               <TooltipTrigger
-                className={`rounded-sm`}
+                className={`rounded-sm ${barHeightClassName}`}
                 style={{
                   flexBasis: `${percentages[index]}%`,
                   backgroundColor: defaultColors[index],
                   opacity: "76%",
-                  height: `${barHeight}px`,
+                  
                 }}
               ></TooltipTrigger>
               <TooltipContent>

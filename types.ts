@@ -1,4 +1,5 @@
 import { Material } from "./app/proposals/materials-columns";
+import { Json } from "./types_db";
 
 export interface UserDetails {
   id?: string;
@@ -89,7 +90,7 @@ export interface Estimate {
   project: number;
   client: string;
   proposal: number;
-  materials: JSON;
+  materials: Json[];
   materials_cost: number;
   labor_employees: string[];
   fabrication_hours: number;
