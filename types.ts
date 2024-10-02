@@ -92,6 +92,7 @@ export interface Estimate {
   proposal: number;
   materials: Json[];
   materials_cost: number;
+  materials_markup_rate: number;
   labor_employees: string[];
   fabrication_hours: number;
   installation_hours: number;

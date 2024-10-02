@@ -118,20 +118,20 @@ export const columns: ColumnDef<ProposalItem>[] = [
       const { materials, setMaterials } = useMaterials();
       function handleDeleteMaterial(num: number) {
         if (materials.length === 1) return;
-        console.log(
-          "num",
-          num,
-          "type",
-          row.getValue("type"),
-          "description",
-          row.getValue("description"),
-          "quantity",
-          row.getValue("quantity"),
-          "rate",
-          row.getValue("rate"),
-          "amount",
-          row.getValue("amount")
-        );
+        // console.log(
+        //   "num",
+        //   num,
+        //   "type",
+        //   row.getValue("type"),
+        //   "description",
+        //   row.getValue("description"),
+        //   "quantity",
+        //   row.getValue("quantity"),
+        //   "rate",
+        //   row.getValue("rate"),
+        //   "amount",
+        //   row.getValue("amount")
+        // );
 
         const newMaterials = materials.filter(
           (material) => num !== material["num"]

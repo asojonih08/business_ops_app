@@ -69,7 +69,7 @@ export default function CreateProposal({
 
   useEffect(() => {
     if (selectedKey !== -1) {
-      console.log(selectedClient, "\nProjects: ", filteredProjects);
+      // console.log(selectedClient, "\nProjects: ", filteredProjects);
       setFilteredProjects(
         projects.filter((project) => project.client === selectedClient?.id)
       );
@@ -136,7 +136,7 @@ export default function CreateProposal({
     const estimates = await insertEstimatesItemClassifications(
       itemClassificationsData
     );
-    console.log(estimates);
+    // console.log(estimates);
     if (newProposalId)
       proposalData.append("proposal", newProposalId.toString());
 
@@ -151,7 +151,7 @@ export default function CreateProposal({
       // console.log(estimateId);
       proposalData.append("estimates", estimateId.toString());
     }
-    console.log("proposalData (estimates): ", proposalData.getAll("estimates"));
+    // console.log("proposalData (estimates): ", proposalData.getAll("estimates"));
     await updateProposalEstimates(proposalData);
 
     router.push(`/proposals/create-proposal/proposal-${newProposalId}`);

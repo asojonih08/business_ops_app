@@ -50,14 +50,14 @@ function EditableCell({
   const [searchValue, setSearchValue] = useState<string>("");
 
   const onBlur = () => {
-    console.log(
-      "type",
-      row.getValue("type"),
-      "description",
-      row.getValue("description")
-    );
+    // console.log(
+    //   "type",
+    //   row.getValue("type"),
+    //   "description",
+    //   row.getValue("description")
+    // );
     table.options.meta?.updateData(row.index, column.id, value);
-    console.log(value);
+    // console.log(value);
 
     const isType = column.id === "type";
     if (
@@ -65,14 +65,14 @@ function EditableCell({
       row.getValue("quantity") === null &&
       row.getValue("rate") === null
     ) {
-      console.log(
-        "type",
-        value,
-        "quantity",
-        row.getValue("quantity"),
-        "rate",
-        row.getValue("rate")
-      );
+      // console.log(
+      //   "type",
+      //   value,
+      //   "quantity",
+      //   row.getValue("quantity"),
+      //   "rate",
+      //   row.getValue("rate")
+      // );
 
       setMaterials((oldMaterials) =>
         oldMaterials.map((material, index) =>
@@ -291,20 +291,20 @@ export const columns: ColumnDef<Material>[] = [
       const { materials, setMaterials } = useMaterials();
       function handleDeleteMaterial(num: number) {
         if (materials.length === 1) return;
-        console.log(
-          "num",
-          num,
-          "type",
-          row.getValue("type"),
-          "description",
-          row.getValue("description"),
-          "quantity",
-          row.getValue("quantity"),
-          "rate",
-          row.getValue("rate"),
-          "amount",
-          row.getValue("amount")
-        );
+        // console.log(
+        //   "num",
+        //   num,
+        //   "type",
+        //   row.getValue("type"),
+        //   "description",
+        //   row.getValue("description"),
+        //   "quantity",
+        //   row.getValue("quantity"),
+        //   "rate",
+        //   row.getValue("rate"),
+        //   "amount",
+        //   row.getValue("amount")
+        // );
 
         const newMaterials = materials.filter(
           (material) => num !== material["num"]

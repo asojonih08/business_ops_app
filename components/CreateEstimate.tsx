@@ -84,9 +84,13 @@ focus-visible:shadow-md focus-visible:ring-PRIMARY-500/50 focus-visible:ring-[1.
 
 interface CreateEstimateProps {
   proposalItems: Estimate[];
+  refreshProposalItems: () => void;
 }
 
-export default function CreateEstimate({ proposalItems }: CreateEstimateProps) {
+export default function CreateEstimate({
+  proposalItems,
+  refreshProposalItems,
+}: CreateEstimateProps) {
   const { estimateCalculations, setEstimateCalculations } =
     useEstimateCalculations();
   const { selectedProposalItem, setSelectedProposalItem } =
@@ -118,10 +122,12 @@ export default function CreateEstimate({ proposalItems }: CreateEstimateProps) {
       value: sum,
     })
   );
-  console.log(materialSumsArray);
+  // console.log(materialSumsArray);
 
   const currentItem = proposalItems[selectedProposalItem];
-  console.log(currentItem.item_name, currentItem);
+  console.log("This is the current chosen proposal item: ", currentItem);
+  console.log("These are the proposal items: ", proposalItems);
+  // console.log(currentItem.item_name, currentItem);
   const [itemName, setItemName] = useState(currentItem.item_name);
   const [type, setType] = useState(currentItem.type);
   const [room, setRoom] = useState(currentItem.room);
@@ -239,7 +245,10 @@ export default function CreateEstimate({ proposalItems }: CreateEstimateProps) {
             </h2>
             <Dialog
               open={openMaterialsForm}
-              onOpenChange={(open: boolean) => setOpenMaterialsForm(open)}
+              onOpenChange={(open: boolean) => {
+                if (!open) setMaterials([]);
+                setOpenMaterialsForm(open);
+              }}
             >
               <DialogTrigger
                 className="h-8 2xl:h-9 flex items-center justify-center gap-1.5 font-medium border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg w-[76px] 2xl:w-[110px] text-[10px] 2xl:text-[13.5px] text-textColor-600 tracking-wide duration-150
@@ -267,7 +276,11 @@ export default function CreateEstimate({ proposalItems }: CreateEstimateProps) {
                   </div>
                 </DialogHeader>
                 <Separator className="w-full h-[1.5px] bg-textColor-50 mb-0 2xl:mb-8 mt-6" />
-                <AddMaterialsForm setOpenMaterialsForm={setOpenMaterialsForm} proposalItem={currentItem} />
+                <AddMaterialsForm
+                  setOpenMaterialsForm={setOpenMaterialsForm}
+                  proposalItem={currentItem}
+                  refreshProposalItems={refreshProposalItems}
+                />
               </DialogContent>
             </Dialog>
           </span>
@@ -283,7 +296,11 @@ export default function CreateEstimate({ proposalItems }: CreateEstimateProps) {
                 {estimateCalculations.materialsCost}
               </span>
             </div>
-            <ProportionBar mainLabel={"Materials Breakdown"} barHeightClassName={"h-3.5 2xl:h-4"} items={materialSumsArray} />
+            <ProportionBar
+              mainLabel={"Materials Breakdown"}
+              barHeightClassName={"h-3.5 2xl:h-4"}
+              items={materialSumsArray}
+            />
           </div>
         </div>
       </div>

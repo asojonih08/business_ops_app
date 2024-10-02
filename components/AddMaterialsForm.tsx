@@ -29,6 +29,9 @@ import { Label } from "./ui/label";
 import { useEstimateCalculations } from "./EstimateCalculationsContext";
 import { Input } from "./ui/input";
 import { Estimate } from "@/types";
+import { Json } from "@/types_db";
+import { convertMaterialsToJson, parseMaterials } from "@/lib/utils";
+import updateEstimateMaterials from "@/actions/updateEstimateMaterials";
 
 const initialMaterialsState: Material = {
   num: 1,
@@ -45,21 +48,35 @@ x Limit list view of materials and add scroll functionality
 x Add Save button
 */
 
+//Refresh projectItems was called but it does not fetch the new materials values after save
+
 interface AddMaterialsFormProps {
   setOpenMaterialsForm: Dispatch<SetStateAction<boolean>>;
-  proposalItem: Estimate
+  proposalItem: Estimate;
+  refreshProposalItems: () => void;
 }
 
 export default function AddMaterialsForm({
   setOpenMaterialsForm,
-  proposalItem
+  proposalItem,
+  refreshProposalItems,
 }: AddMaterialsFormProps) {
   const { materials, setMaterials } = useMaterials();
   const { estimateCalculations, setEstimateCalculations } =
     useEstimateCalculations();
   const [materialsMarkupRate, setMaterialsMarkupRate] = useState<number>(0);
 
-  
+  useEffect(() => {
+    if (!proposalItem.materials)
+      console.log("No materials in this proposalItem");
+    if (proposalItem.materials) {
+      console.log(
+        "Materials in this proposalItem: ",
+        parseMaterials(proposalItem.materials)
+      );
+      setMaterials(parseMaterials(proposalItem.materials));
+    }
+  }, []);
 
   function handleAddMaterialClick() {
     let count = materials.length + 1;
@@ -74,13 +91,24 @@ export default function AddMaterialsForm({
   const markup = subtotal * 0.01 * materialsMarkupRate;
   const total = subtotal + markup;
 
-  function handleSaveClick() {
+  async function handleSaveClick() {
+    let updatedProposalItem;
+    if (proposalItem.id) {
+      updatedProposalItem = await updateEstimateMaterials(
+        proposalItem?.id,
+        convertMaterialsToJson(materials),
+        materialsMarkupRate,
+        total
+      );
+    }
     setEstimateCalculations({
       ...estimateCalculations,
       materialsCost: total,
       materialMarkupRate: materialsMarkupRate,
     });
+    refreshProposalItems();
     setOpenMaterialsForm(false);
+    setMaterials([]);
   }
 
   return (

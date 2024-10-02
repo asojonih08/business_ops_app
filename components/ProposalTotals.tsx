@@ -6,14 +6,10 @@ import React from "react";
 //Total:Subtotal 1.541666
 
 interface ProposalTotalsProps {
-  proposal: Proposal;
   proposalItems: Estimate[];
 }
 
-export default function ProposalTotals({
-  proposal,
-  proposalItems,
-}: ProposalTotalsProps) {
+export default function ProposalTotals({ proposalItems }: ProposalTotalsProps) {
   const total = proposalItems.reduce((sum, item) => {
     return sum + (item.total_cost ?? 0);
   }, 0);

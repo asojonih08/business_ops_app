@@ -1,3 +1,4 @@
+"use server";
 import { Estimate } from "@/types";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
@@ -11,7 +12,7 @@ const getEstimatesByProposal = async (id: number): Promise<Estimate[]> => {
     .from("estimates")
     .select("*")
     .eq("proposal", id)
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: true });
 
   if (error) {
     console.log(error);
