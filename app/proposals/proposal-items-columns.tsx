@@ -24,6 +24,7 @@ import { FaEdit, FaRegEdit } from "react-icons/fa";
 import { GrTrash } from "react-icons/gr";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { useSelecetedProposalItem } from "@/components/SelectedItemContext";
+import { useEstimateCalculations } from "@/components/EstimateCalculationsContext";
 
 export type ProposalItem = {
   num: number | null;
@@ -115,6 +116,7 @@ export const columns: ColumnDef<ProposalItem>[] = [
     cell: ({ row }) => {
       const { selectedProposalItem, setSelectedProposalItem } =
         useSelecetedProposalItem();
+      // const {estimateCalculations, setEstimateCalculations} = useEstimateCalculations()
       const { materials, setMaterials } = useMaterials();
       function handleDeleteMaterial(num: number) {
         if (materials.length === 1) return;

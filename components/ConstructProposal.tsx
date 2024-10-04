@@ -21,6 +21,7 @@ export default function ConstructProposal({
   async function refreshProposalItems() {
     let updatedProposalItems: Estimate[];
     console.log("Refresh Proposal Items Called");
+    console.log("Refresh <current proposal>: ", proposal);
     if (proposal.id) {
       updatedProposalItems = await getEstimatesByProposal(proposal?.id);
       console.log("Refresh Proposal Items: ", updatedProposalItems);

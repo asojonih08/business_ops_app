@@ -12,7 +12,7 @@ const getEstimatesByProposal = async (id: number): Promise<Estimate[]> => {
     .from("estimates")
     .select("*")
     .eq("proposal", id)
-    .order("created_at", { ascending: true });
+    .order("id", { ascending: true });
 
   if (error) {
     console.log(error);

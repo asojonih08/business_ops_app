@@ -11,7 +11,8 @@ const getProposal = async (id: number): Promise<Proposal> => {
   const { data, error } = await supabase
     .from("proposals")
     .select()
-    .eq("id", id);
+    .eq("id", id)
+    .single();
 
   if (error) {
     console.log(error);

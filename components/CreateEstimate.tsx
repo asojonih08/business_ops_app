@@ -31,52 +31,9 @@ import { Estimate } from "@/types";
 import { useEstimateCalculations } from "./EstimateCalculationsContext";
 import { useSelecetedProposalItem } from "./SelectedItemContext";
 import { useMaterials } from "./MaterialsContext";
-
-const types = [
-  {
-    value: "Cabinet",
-    label: "Cabinet",
-  },
-  {
-    value: "Deck",
-    label: "Deck",
-  },
-  {
-    value: "Table",
-    label: "Table",
-  },
-  {
-    value: "Flooring",
-    label: "Flooring",
-  },
-  {
-    value: "Siding",
-    label: "Siding",
-  },
-];
-
-const rooms = [
-  {
-    value: "Master Bedroom",
-    label: "Master Bedroom",
-  },
-  {
-    value: "Master Bathroom",
-    label: "Master Bathroom",
-  },
-  {
-    value: "Living Room",
-    label: "Living Room",
-  },
-  {
-    value: "Kitchen",
-    label: "Kitchen",
-  },
-  {
-    value: "Dining Room",
-    label: "Dining Room",
-  },
-];
+import { MILLWORK_TYPES, ROOMS } from "@/constants";
+import { parseMaterials } from "@/lib/utils";
+import { Material } from "@/app/proposals/materials-columns";
 
 const inputClassName =
   "h-6 text-[10px] 2xl:h-10 2xl:text-[17px] text-textColor-700 focus:text-textColor-800 font-medium placeholder:text-sm 2xl:placeholder:text-base placeholder:text-textColor-600/40 bg-ACCENT-200/15 border-transparent rounded-md \
@@ -95,36 +52,43 @@ export default function CreateEstimate({
     useEstimateCalculations();
   const { selectedProposalItem, setSelectedProposalItem } =
     useSelecetedProposalItem();
-  const { materials, setMaterials } = useMaterials();
+  const currentItem = proposalItems[selectedProposalItem];
+
+  let materials: Material[] = [];
+  if (currentItem.materials) {
+    materials = parseMaterials(currentItem.materials);
+  }
 
   type MaterialSumByType = { [key: string]: number };
+  let materialSumsArray = {};
 
-  const materialSumsByType: MaterialSumByType = materials.reduce(
-    (acc, material) => {
-      const type = material.type as string; // Assuming type will always be present if amount is present
-      const amount = parseFloat(material.amount as string) || 0; // Convert amount to number, default to 0
+  if (currentItem.materials) {
+    const materialSumsByType: MaterialSumByType = materials.reduce(
+      (acc, material) => {
+        const type = material.type as string; // Assuming type will always be present if amount is present
+        const amount = parseFloat(material.amount as string) || 0; // Convert amount to number, default to 0
 
-      if (!acc[type]) {
-        acc[type] = 0;
-      }
+        if (!acc[type]) {
+          acc[type] = 0;
+        }
 
-      acc[type] += amount;
+        acc[type] += amount;
 
-      return acc;
-    },
-    {} as MaterialSumByType
-  );
+        return acc;
+      },
+      {} as MaterialSumByType
+    );
+    // Convert the result into the desired array of objects
+    materialSumsArray = Object.entries(materialSumsByType).map(
+      ([type, sum]) => ({
+        label: type,
+        value: sum,
+      })
+    );
+  }
 
-  // Convert the result into the desired array of objects
-  const materialSumsArray = Object.entries(materialSumsByType).map(
-    ([type, sum]) => ({
-      label: type,
-      value: sum,
-    })
-  );
   // console.log(materialSumsArray);
 
-  const currentItem = proposalItems[selectedProposalItem];
   console.log("This is the current chosen proposal item: ", currentItem);
   console.log("These are the proposal items: ", proposalItems);
   // console.log(currentItem.item_name, currentItem);
@@ -132,11 +96,6 @@ export default function CreateEstimate({
   const [type, setType] = useState(currentItem.type);
   const [room, setRoom] = useState(currentItem.room);
   const [openMaterialsForm, setOpenMaterialsForm] = useState<boolean>(false);
-
-  // const [openClassification, setOpenClassification] = React.useState(false);
-  // const [openRoom, setOpenRoom] = React.useState(false);
-  // const [classificationValue, setClassificationValue] = React.useState("");
-  // const [roomValue, setRoomValue] = React.useState("");
   const [editPressed, setEditPressed] = useState<boolean>(false);
 
   const itemNameInputRef = useRef<HTMLInputElement>(null);
@@ -152,8 +111,6 @@ export default function CreateEstimate({
     setType(currentItem.type);
     setRoom(currentItem.room);
   }, [selectedProposalItem]);
-
-  //REMOVE Item name, type, and room from Context
 
   function handleItemNameEnterPress(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter") setEditPressed((editPressed) => !editPressed);
@@ -214,7 +171,7 @@ export default function CreateEstimate({
               onSelectedValueChange={(value: string) => setType(value)}
               searchValue={type}
               onSearchValueChange={(value: string) => setType(value)}
-              items={types}
+              items={MILLWORK_TYPES}
               shouldFilter
             />
           </div>
@@ -227,7 +184,7 @@ export default function CreateEstimate({
               onSelectedValueChange={(value: string) => setRoom(value)}
               searchValue={room}
               onSearchValueChange={(value: string) => setRoom(value)}
-              items={rooms}
+              items={ROOMS}
               shouldFilter
             />
           </div>
@@ -293,14 +250,18 @@ export default function CreateEstimate({
               </span>
               <span className="font-medium text-[20px] 2xl:text-3xl flex items-center gap-1">
                 <span className="text-[17px] 2xl:text-[26px]">$ </span>
-                {estimateCalculations.materialsCost}
+                {currentItem.materials_cost
+                  ? currentItem.materials_cost.toFixed(2)
+                  : "0.00"}
               </span>
             </div>
-            <ProportionBar
-              mainLabel={"Materials Breakdown"}
-              barHeightClassName={"h-3.5 2xl:h-4"}
-              items={materialSumsArray}
-            />
+            {currentItem.materials ? (
+              <ProportionBar
+                mainLabel={"Materials Breakdown"}
+                barHeightClassName={"h-3.5 2xl:h-4"}
+                items={materialSumsArray}
+              />
+            ) : null}
           </div>
         </div>
       </div>

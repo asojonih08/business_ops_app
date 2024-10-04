@@ -1,8 +1,4 @@
 import React from "react";
-import CreateEstimate from "@/components/CreateEstimate";
-import ProposalTotals from "@/components/ProposalTotals";
-import EstimateSummary from "@/components/EstimateSummary";
-import ProposalItems from "@/components/ProposalItems";
 import getProposal from "@/actions/getProposal";
 import getEstimatesByProposal from "@/actions/getEstimatesByProposal";
 import ConstructProposal from "@/components/ConstructProposal";
@@ -14,7 +10,8 @@ export default async function Page({ params }: any) {
   // console.log(proposalId);
   const proposal = await getProposal(proposalId);
   const estimates = await getEstimatesByProposal(proposalId);
-  // console.log(proposal);
+
+  // console.log("Estimates at server page render: ", estimates);
   return (
     <div className="h-full my-auto w-full">
       <ConstructProposal proposal={proposal} estimates={estimates} />
