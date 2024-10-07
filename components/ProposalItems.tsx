@@ -72,8 +72,8 @@ export default function ProposalItems({ proposalItems }: ProposalItemsProps) {
               ? "Yes"
               : "No"
             : "NA",
-        amount:
-          proposalItem.status === "Completed" ? proposalItem.total_cost : 0,
+        amount: proposalItem.total_cost ? proposalItem.total_cost : 0,
+
         status: proposalItem.status,
       };
     }

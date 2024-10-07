@@ -66,7 +66,6 @@ export default function ProportionBar({
                   flexBasis: `${percentages[index]}%`,
                   backgroundColor: defaultColors[index],
                   opacity: "76%",
-                  
                 }}
               ></TooltipTrigger>
               <TooltipContent>

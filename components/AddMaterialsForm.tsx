@@ -26,7 +26,7 @@ import { PiFloppyDisk, PiFloppyDiskBold } from "react-icons/pi";
 import { ScrollArea } from "./ui/scroll-area";
 import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
-import { useEstimateCalculations } from "./EstimateCalculationsContext";
+import { useEstimateInputs } from "./EstimateInputsContext";
 import { Input } from "./ui/input";
 import { Estimate } from "@/types";
 import { Json } from "@/types_db";
@@ -62,8 +62,7 @@ export default function AddMaterialsForm({
   refreshProposalItems,
 }: AddMaterialsFormProps) {
   const { materials, setMaterials } = useMaterials();
-  const { estimateCalculations, setEstimateCalculations } =
-    useEstimateCalculations();
+  const { estimateInputs, setEstimateInputs } = useEstimateInputs();
   const [materialsMarkupRate, setMaterialsMarkupRate] = useState<number>(0);
 
   useEffect(() => {
@@ -101,8 +100,8 @@ export default function AddMaterialsForm({
         total
       );
     }
-    setEstimateCalculations({
-      ...estimateCalculations,
+    setEstimateInputs({
+      ...estimateInputs,
       materialsCost: total,
       materialMarkupRate: materialsMarkupRate,
     });

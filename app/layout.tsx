@@ -2,7 +2,7 @@ import { MaterialsProvider } from "@/components/MaterialsContext";
 import Sidebar from "../components/Sidebar";
 import { ItemClassificationsProvider } from "@/components/ItemClassificationsContext";
 import SupabaseProvider from "@/providers/SupabaseProvider";
-import { EstimateCalculationsProvider } from "@/components/EstimateCalculationsContext";
+import { EstimateInputsProvider } from "@/components/EstimateInputsContext";
 import { SelectedProposalItemProvider } from "@/components/SelectedItemContext";
 
 export const metadata = {
@@ -24,11 +24,11 @@ export default function RootLayout({
           <main className="h-[97vh] w-[94vw] px-6 mx-auto overflow-hidden">
             <ItemClassificationsProvider>
               <MaterialsProvider>
-                <EstimateCalculationsProvider>
+                <EstimateInputsProvider>
                   <SelectedProposalItemProvider>
                     {children}
                   </SelectedProposalItemProvider>
-                </EstimateCalculationsProvider>
+                </EstimateInputsProvider>
               </MaterialsProvider>
             </ItemClassificationsProvider>
           </main>

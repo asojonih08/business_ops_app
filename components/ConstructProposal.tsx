@@ -44,7 +44,7 @@ export default function ConstructProposal({
       </div>
       <div className="w-[55%] flex flex-col gap-6 justify-between">
         <div className="px-6 py-5 2xl:px-8 2xl:py-8 rounded-2xl h-[50%] bg-white">
-          <EstimateSummary />
+          <EstimateSummary proposalItems={proposalItems} />
         </div>
         <div className="px-6 py-5 2xl:px-8 2xl:py-7 h-[50%] bg-white w-full rounded-2xl">
           <ProposalItems proposalItems={proposalItems} />

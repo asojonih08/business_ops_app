@@ -28,7 +28,7 @@ import ProportionBar from "./ui/proportion-bar";
 import { AutoComplete } from "./ui/autocomplete";
 import AddMaterialsForm from "./AddMaterialsForm";
 import { Estimate } from "@/types";
-import { useEstimateCalculations } from "./EstimateCalculationsContext";
+import { useEstimateInputs } from "./EstimateInputsContext";
 import { useSelecetedProposalItem } from "./SelectedItemContext";
 import { useMaterials } from "./MaterialsContext";
 import { MILLWORK_TYPES, ROOMS } from "@/constants";
@@ -48,11 +48,12 @@ export default function CreateEstimate({
   proposalItems,
   refreshProposalItems,
 }: CreateEstimateProps) {
-  const { estimateCalculations, setEstimateCalculations } =
-    useEstimateCalculations();
+  const { estimateInputs, setEstimateInputs } = useEstimateInputs();
   const { selectedProposalItem, setSelectedProposalItem } =
     useSelecetedProposalItem();
   const currentItem = proposalItems[selectedProposalItem];
+
+  const { setMaterials } = useMaterials();
 
   let materials: Material[] = [];
   if (currentItem.materials) {
@@ -60,7 +61,7 @@ export default function CreateEstimate({
   }
 
   type MaterialSumByType = { [key: string]: number };
-  let materialSumsArray = {};
+  let materialSumsArray = [{ label: "NA", value: 0 }];
 
   if (currentItem.materials) {
     const materialSumsByType: MaterialSumByType = materials.reduce(
@@ -276,12 +277,12 @@ export default function CreateEstimate({
               type="number"
               placeholder="Fabrication Hours"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setEstimateCalculations({
-                  ...estimateCalculations,
+                setEstimateInputs({
+                  ...estimateInputs,
                   fabricationHours: Number(e.target.value),
                 })
               }
-              value={estimateCalculations.fabricationHours}
+              value={estimateInputs.fabricationHours}
               className={inputClassName}
             />
           </div>
@@ -293,49 +294,54 @@ export default function CreateEstimate({
               type="number"
               placeholder="Installation Hours"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setEstimateCalculations({
-                  ...estimateCalculations,
+                setEstimateInputs({
+                  ...estimateInputs,
                   installationHours: Number(e.target.value),
                 })
               }
-              value={estimateCalculations.installationHours}
+              value={estimateInputs.installationHours}
               className={inputClassName}
             />
           </div>
         </div>
       </div>
-      <div className="flex justify-between gap-4">
-        <div className="flex flex-col w-1/2 gap-2 text-textColor-500">
-          <Label className="text-[10px] 2xl:text-sm">Subcontractor</Label>
-          <Input
-            type="number"
-            placeholder="Subcontractor"
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setEstimateCalculations({
-                ...estimateCalculations,
-                subcontractorCost: Number(e.target.value),
-              })
-            }
-            value={estimateCalculations.subcontractorCost}
-            className={inputClassName}
-          />
-        </div>
-        <div className="flex flex-col w-1/2 gap-2 text-textColor-500">
-          <Label className="text-[10px] 2xl:text-sm">
-            Independent Contractor
-          </Label>
-          <Input
-            type="number"
-            placeholder="Independent Contractor"
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setEstimateCalculations({
-                ...estimateCalculations,
-                independentContractorCost: Number(e.target.value),
-              })
-            }
-            value={estimateCalculations.independentContractorCost}
-            className={inputClassName}
-          />
+      <div>
+        <h2 className="text-xs 2xl:text-base font-bold text-textColor-700 mb-3 2xl:mb-5">
+          Contractor Cost
+        </h2>
+        <div className="flex justify-between gap-4">
+          <div className="flex flex-col w-1/2 gap-2 text-textColor-500">
+            <Label className="text-[10px] 2xl:text-sm">Subcontractor</Label>
+            <Input
+              type="number"
+              placeholder="Subcontractor"
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setEstimateInputs({
+                  ...estimateInputs,
+                  subcontractorCost: Number(e.target.value),
+                })
+              }
+              value={estimateInputs.subcontractorCost}
+              className={inputClassName}
+            />
+          </div>
+          <div className="flex flex-col w-1/2 gap-2 text-textColor-500">
+            <Label className="text-[10px] 2xl:text-sm">
+              Independent Contractor
+            </Label>
+            <Input
+              type="number"
+              placeholder="Independent Contractor"
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setEstimateInputs({
+                  ...estimateInputs,
+                  independentContractorCost: Number(e.target.value),
+                })
+              }
+              value={estimateInputs.independentContractorCost}
+              className={inputClassName}
+            />
+          </div>
         </div>
       </div>
       <div>
@@ -349,12 +355,12 @@ export default function CreateEstimate({
               type="number"
               placeholder="Delivery"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setEstimateCalculations({
-                  ...estimateCalculations,
+                setEstimateInputs({
+                  ...estimateInputs,
                   deliveryCost: Number(e.target.value),
                 })
               }
-              value={estimateCalculations.deliveryCost}
+              value={estimateInputs.deliveryCost}
               className={inputClassName}
             />
           </div>
@@ -364,12 +370,12 @@ export default function CreateEstimate({
               type="number"
               placeholder="Gas"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setEstimateCalculations({
-                  ...estimateCalculations,
+                setEstimateInputs({
+                  ...estimateInputs,
                   gasCost: Number(e.target.value),
                 })
               }
-              value={estimateCalculations.gasCost}
+              value={estimateInputs.gasCost}
               className={inputClassName}
             />
           </div>
@@ -382,12 +388,12 @@ export default function CreateEstimate({
             type="number"
             placeholder="Equipment Rental"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setEstimateCalculations({
-                ...estimateCalculations,
+              setEstimateInputs({
+                ...estimateInputs,
                 equipmentRentalCost: Number(e.target.value),
               })
             }
-            value={estimateCalculations.equipmentRentalCost}
+            value={estimateInputs.equipmentRentalCost}
             className={inputClassName}
           />
         </div>
@@ -397,12 +403,12 @@ export default function CreateEstimate({
             type="number"
             placeholder="Miscellaneous"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setEstimateCalculations({
-                ...estimateCalculations,
+              setEstimateInputs({
+                ...estimateInputs,
                 miscellaneousCost: Number(e.target.value),
               })
             }
-            value={estimateCalculations.miscellaneousCost}
+            value={estimateInputs.miscellaneousCost}
             className={inputClassName}
           />
         </div>

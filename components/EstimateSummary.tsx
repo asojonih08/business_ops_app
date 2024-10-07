@@ -1,12 +1,24 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { Separator } from "./ui/separator";
-
+import { useEstimateInputs } from "./EstimateInputsContext";
+import calculateEstimate from "@/app/proposals/create-proposal/[proposalId]/actions/calculateEstimate";
+import {
+  EstimateComponents,
+  EstimateTotals,
+  LaborCostInputs,
+  MaterialsCostTotals,
+} from "@/app/proposals/create-proposal/[proposalId]/types";
+import { Estimate } from "@/types";
+import { useSelecetedProposalItem } from "./SelectedItemContext";
+//TODO: LABOR COST, FIXED COST, and MATERIALS COST NOT UPDATING
 const summaryLabels_1 = [
   "Labor Cost",
-  "Fixed Cost",
+  "Overhead Cost",
   "Material Cost",
   "Contractor Cost",
-  "Other Fees",
+  "Additional Cost",
+  "Fixture",
   "Sales Tax",
 ];
 
@@ -17,7 +29,64 @@ const summaryLabels_2 = [
   "Total Cost Pretax",
 ];
 
-export default function EstimateSummary() {
+interface EstimateSummaryProps {
+  proposalItems: Estimate[];
+}
+
+export default function EstimateSummary({
+  proposalItems,
+}: EstimateSummaryProps) {
+  const { estimateInputs, setEstimateInputs } = useEstimateInputs();
+  const { selectedProposalItem } = useSelecetedProposalItem();
+  const [estimateCalculations, setEstimateCalculations] =
+    useState<EstimateTotals>();
+  const currentProposalItem = proposalItems[selectedProposalItem];
+  const summaryValues = [
+    estimateCalculations?.laborCost.totalLaborCost,
+    estimateCalculations?.fixedCosts,
+    currentProposalItem.materials_cost,
+    estimateInputs.independentContractorCost + estimateInputs.subcontractorCost,
+    estimateInputs.deliveryCost +
+      estimateInputs.gasCost +
+      estimateInputs.equipmentRentalCost +
+      estimateInputs.miscellaneousCost,
+    estimateCalculations?.salesTax,
+    estimateCalculations ? estimateCalculations?.profitMargin * 100 : null,
+    estimateCalculations?.profit,
+    estimateCalculations?.breakevenTaxNoProfit,
+    estimateCalculations?.totalCostNoTax,
+  ];
+
+  useEffect(() => {
+    const calcEstimate = async () => {
+      const laborCostInputs: LaborCostInputs = {
+        fabricationHours: estimateInputs.fabricationHours,
+        installationHours: estimateInputs.installationHours,
+        subcontractorCost: estimateInputs.subcontractorCost,
+        independentContractorCost: estimateInputs.independentContractorCost,
+        deliveryCost: estimateInputs.deliveryCost,
+        gasCost: estimateInputs.gasCost,
+        equipmentRentalCost: estimateInputs.equipmentRentalCost,
+        miscellaneousCost: estimateInputs.miscellaneousCost,
+      };
+      const materialsCostTotals: MaterialsCostTotals = {
+        totalMaterialsCost: currentProposalItem.materials_cost,
+        materialsMarkup: currentProposalItem.materials_markup_rate,
+        totalMaterialsCostNoMarkup:
+          currentProposalItem.materials_cost /
+          (1 + 0.01 * currentProposalItem.materials_markup_rate),
+      };
+      const estimateComponents: EstimateComponents = {
+        laborCostInputs: laborCostInputs,
+        materialsCostTotals: materialsCostTotals,
+        profitMargin: 0.2,
+      };
+      const estimateCalc = await calculateEstimate(estimateComponents);
+      setEstimateCalculations(estimateCalc);
+    };
+    calcEstimate();
+  }, [estimateInputs]);
+
   return (
     <div className="flex flex-col gap-4 2xl:gap-6">
       <div className="flex items-center">
@@ -42,7 +111,12 @@ export default function EstimateSummary() {
             <span className="flex justify-between">
               <span className="text-textColor-400 font-medium">{label}</span>
               <span className="text-textColor-800 font-semibold tracking-wide">
-                $ 245.63
+                {summaryLabels_1[index] !== "Fixture" && "$ "}{" "}
+                {summaryLabels_1[index] !== "Fixture"
+                  ? summaryValues[index]?.toFixed(2)
+                  : estimateCalculations?.fixture
+                  ? "Yes"
+                  : "No"}
               </span>
             </span>
             {/* <Separator className="w-full h-[0.5px]" /> */}
@@ -59,7 +133,10 @@ export default function EstimateSummary() {
                         {label}
                       </span>
                       <span className="text-textColor-800 font-bold tracking-wide">
-                        $ 885.63
+                        {label !== "Profit Margin %" && "$ "}{" "}
+                        {label === "Profit Margin %"
+                          ? summaryValues[index + 6]
+                          : summaryValues[index + 6]?.toFixed(2)}
                       </span>
                     </span>
                   </div>
@@ -80,7 +157,7 @@ export default function EstimateSummary() {
                         {label}
                       </span>
                       <span className="text-textColor-800 font-bold tracking-wide">
-                        $ 885.63
+                        $ {summaryValues[index + 6]?.toFixed(2)}
                       </span>
                     </span>
                   </div>
@@ -95,7 +172,7 @@ export default function EstimateSummary() {
               Total
             </span>
             <span className="text-lg 2xl:text-xl text-textColor-900 font-bold tracking-widest">
-              $18,700.66
+              ${estimateCalculations?.totalCost.toFixed(2)}
             </span>
           </span>
         </div>

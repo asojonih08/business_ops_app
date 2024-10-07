@@ -116,7 +116,7 @@ export interface Estimate {
   status: string;
 }
 
-export interface EstimateCalculations {
+export interface EstimateInputs {
   materialsCost: number;
   materialMarkupRate: number;
   fabricationHours: number;
