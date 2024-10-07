@@ -41,15 +41,17 @@ export default function EstimateSummary({
   const [estimateCalculations, setEstimateCalculations] =
     useState<EstimateTotals>();
   const currentProposalItem = proposalItems[selectedProposalItem];
+  console.log("sales tax", estimateCalculations?.salesTax)
   const summaryValues = [
     estimateCalculations?.laborCost.totalLaborCost,
     estimateCalculations?.fixedCosts,
-    currentProposalItem.materials_cost,
+    currentProposalItem.materials_cost ?? 0,
     estimateInputs.independentContractorCost + estimateInputs.subcontractorCost,
     estimateInputs.deliveryCost +
       estimateInputs.gasCost +
       estimateInputs.equipmentRentalCost +
       estimateInputs.miscellaneousCost,
+    0,
     estimateCalculations?.salesTax,
     estimateCalculations ? estimateCalculations?.profitMargin * 100 : null,
     estimateCalculations?.profit,
@@ -70,11 +72,11 @@ export default function EstimateSummary({
         miscellaneousCost: estimateInputs.miscellaneousCost,
       };
       const materialsCostTotals: MaterialsCostTotals = {
-        totalMaterialsCost: currentProposalItem.materials_cost,
-        materialsMarkup: currentProposalItem.materials_markup_rate,
-        totalMaterialsCostNoMarkup:
+        totalMaterialsCost: currentProposalItem.materials_cost ?? 0,
+        materialsMarkup: currentProposalItem.materials_markup_rate ?? 0,
+        totalMaterialsCostNoMarkup: currentProposalItem.materials_cost ?
           currentProposalItem.materials_cost /
-          (1 + 0.01 * currentProposalItem.materials_markup_rate),
+          (1 + 0.01 * currentProposalItem.materials_markup_rate) : 0,
       };
       const estimateComponents: EstimateComponents = {
         laborCostInputs: laborCostInputs,
@@ -135,8 +137,8 @@ export default function EstimateSummary({
                       <span className="text-textColor-800 font-bold tracking-wide">
                         {label !== "Profit Margin %" && "$ "}{" "}
                         {label === "Profit Margin %"
-                          ? summaryValues[index + 6]
-                          : summaryValues[index + 6]?.toFixed(2)}
+                          ? summaryValues[index + 7]
+                          : summaryValues[index + 7]?.toFixed(2)}
                       </span>
                     </span>
                   </div>
@@ -157,7 +159,7 @@ export default function EstimateSummary({
                         {label}
                       </span>
                       <span className="text-textColor-800 font-bold tracking-wide">
-                        $ {summaryValues[index + 6]?.toFixed(2)}
+                        $ {summaryValues[index + 7]?.toFixed(2)}
                       </span>
                     </span>
                   </div>
