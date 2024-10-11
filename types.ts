@@ -114,6 +114,8 @@ export interface Estimate {
   sales_tax_rate: number;
   breakeven: number;
   status: string;
+  breakeven_no_tax_profit: number;
+  breakeven_tax_no_profit: number;
 }
 
 export interface EstimateInputs {

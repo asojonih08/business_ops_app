@@ -20,7 +20,7 @@ export default function ProposalTotals({ proposalItems }: ProposalTotalsProps) {
     return sum + (item.sales_tax ?? 0);
   }, 0);
   const totalBreakeven = proposalItems.reduce((sum, item) => {
-    return sum + (item.breakeven ?? 0);
+    return sum + (item.breakeven_tax_no_profit ?? 0);
   }, 0);
 
   return (
@@ -30,7 +30,7 @@ export default function ProposalTotals({ proposalItems }: ProposalTotalsProps) {
           Total
         </span>
         <span className="text-[22px] 2xl:text-[37px] font-semibold text-textColor-base tracking-wide">
-          {"$" + total}
+          {"$" + total.toFixed(2)}
         </span>
       </div>
       <div className="flex gap-[5.5%] 2xl:gap-[6.5%]">
@@ -39,7 +39,7 @@ export default function ProposalTotals({ proposalItems }: ProposalTotalsProps) {
             Breakeven
           </span>
           <span className="text-[15.5px] 2xl:text-[24px] font-medium text-textColor-base">
-            {"$" + totalBreakeven}
+            {"$" + totalBreakeven.toFixed(2)}
           </span>
         </div>
         <div className="flex flex-col">
@@ -47,7 +47,7 @@ export default function ProposalTotals({ proposalItems }: ProposalTotalsProps) {
             Profit
           </span>
           <span className="text-[15.5px] 2xl:text-[24px] font-medium text-textColor-base">
-            {"$" + totalProfit}
+            {"$" + totalProfit.toFixed(2)}
           </span>
         </div>
         <div className="flex flex-col">
@@ -55,7 +55,7 @@ export default function ProposalTotals({ proposalItems }: ProposalTotalsProps) {
             Sales Tax
           </span>
           <span className="text-[15.5px] 2xl:text-[24px] font-medium text-textColor-base">
-            {"$" + totalSalesTax}
+            {"$" + totalSalesTax.toFixed(2)}
           </span>
         </div>
       </div>

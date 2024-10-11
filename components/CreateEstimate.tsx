@@ -34,6 +34,9 @@ import { useMaterials } from "./MaterialsContext";
 import { MILLWORK_TYPES, ROOMS } from "@/constants";
 import { parseMaterials } from "@/lib/utils";
 import { Material } from "@/app/proposals/materials-columns";
+import calculateEstimate from "@/app/proposals/create-proposal/[proposalId]/actions/calculateEstimate";
+import { EstimateComponents, LaborCostInputs, MaterialsCostTotals } from "@/app/proposals/create-proposal/[proposalId]/types";
+import updateEstimateCalculations from "@/actions/updateEstimateCalculations";
 
 const inputClassName =
   "h-6 text-[10px] 2xl:h-10 2xl:text-[17px] text-textColor-700 focus:text-textColor-800 font-medium placeholder:text-sm 2xl:placeholder:text-base placeholder:text-textColor-600/40 bg-ACCENT-200/15 border-transparent rounded-md \
@@ -115,6 +118,41 @@ export default function CreateEstimate({
 
   function handleItemNameEnterPress(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter") setEditPressed((editPressed) => !editPressed);
+  }
+
+  async function handleSaveItem(){
+    const laborCostInputs: LaborCostInputs = {
+      fabricationHours: estimateInputs.fabricationHours,
+      installationHours: estimateInputs.installationHours,
+      subcontractorCost: estimateInputs.subcontractorCost,
+      independentContractorCost: estimateInputs.independentContractorCost,
+      deliveryCost: estimateInputs.deliveryCost,
+      gasCost: estimateInputs.gasCost,
+      equipmentRentalCost: estimateInputs.equipmentRentalCost,
+      miscellaneousCost: estimateInputs.miscellaneousCost,
+    };
+    const materialsCostTotals: MaterialsCostTotals = {
+      totalMaterialsCost: currentItem.materials_cost ?? 0,
+      materialsMarkup: currentItem.materials_markup_rate ?? 0,
+      totalMaterialsCostNoMarkup: currentItem.materials_cost ?
+        currentItem.materials_cost /
+        (1 + 0.01 * currentItem.materials_markup_rate) : 0,
+    };
+    const estimateComponents: EstimateComponents = {
+      laborCostInputs: laborCostInputs,
+      materialsCostTotals: materialsCostTotals,
+      profitMargin: 0.2,
+    };
+    const estimateCalculations = await calculateEstimate(estimateComponents);
+    if(currentItem.id) updateEstimateCalculations(currentItem.id, itemName, type, room, estimateInputs, estimateCalculations)
+      setSelectedProposalItem((selectedProposalItem) => {
+        if (selectedProposalItem === proposalItems.length - 1)
+        {
+        return 0;
+        }
+        else return selectedProposalItem + 1
+      })
+    refreshProposalItems()
   }
 
   return (
@@ -415,6 +453,7 @@ export default function CreateEstimate({
       </div>
       <span className="flex justify-end">
         <Button
+        onClick={handleSaveItem}
           className="h-8 2xl:h-11 bg-white border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg w-[88px] 2xl:w-[120px] text-[11px] 2xl:text-base text-textColor-600 font-medium tracking-wide duration-150
         hover:border-ACCENT-600/60 hover:text-textColor-900"
         >
