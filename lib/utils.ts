@@ -8,6 +8,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function parseMaterials(materials: Json[]): Material[] {
+  console.log("RUN parseMaterials");
+  if (!materials) return [];
   const parsedMaterials: Material[] = [];
 
   materials.forEach((material, index) => {

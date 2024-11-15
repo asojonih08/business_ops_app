@@ -22,9 +22,12 @@ export default function ProposalItemDetails({
   const { proposalItemsDetails, setProposalItemsDetails } =
     useProposalItemsDetails();
   const materials = parseMaterials(proposalItem.materials);
-  const proposalItemDetailsData = materials.map((material, index) => {
-    return { num: index + 1, description: material.description ?? "" };
-  });
+  const proposalItemDetailsData =
+    materials.length > 0
+      ? materials.map((material, index) => {
+          return { num: index + 1, description: material.description ?? "" };
+        })
+      : [{ num: 1, description: "" }];
   // console.log("initial proposalItemsDetailsData: ", proposalItemDetailsData);
   const [proposalItemDetails, setProposalItemDetails] = useState<
     ProposalDetail[]

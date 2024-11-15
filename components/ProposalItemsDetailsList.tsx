@@ -22,13 +22,21 @@ export default function ProposalItemsDetailsList({
   useEffect(() => {
     let intitialproposalItemsDetials: ProposalItemsDetails = {};
     proposalItems?.map((proposalItem, index) => {
-      let materials = parseMaterials(proposalItem.materials);
+      console.log("Proposal Item Materials: ", proposalItem.materials);
+      let materials =
+        proposalItem.materials !== null
+          ? parseMaterials(proposalItem.materials)
+          : [];
       if (proposalItem.id)
-        intitialproposalItemsDetials[proposalItem.id] = materials.map(
-          (material, index) => {
-            return { num: index + 1, description: material.description ?? "" };
-          }
-        );
+        intitialproposalItemsDetials[proposalItem.id] =
+          materials.length > 0
+            ? materials.map((material, index) => {
+                return {
+                  num: index + 1,
+                  description: material.description ?? "",
+                };
+              })
+            : [{ num: 1, description: "" }];
     });
     setProposalItemsDetails(intitialproposalItemsDetials);
   }, []);
