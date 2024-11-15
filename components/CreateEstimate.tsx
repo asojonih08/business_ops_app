@@ -12,10 +12,10 @@ import { BiSolidCabinet } from "react-icons/bi";
 import { FaBrush } from "react-icons/fa6";
 import { MdOutlinePostAdd } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { Separator } from "./ui/separator";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import {
   Dialog,
   DialogContent,
@@ -24,19 +24,26 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import ProportionBar from "./ui/proportion-bar";
-import { AutoComplete } from "./ui/autocomplete";
-import AddMaterialsForm from "./AddMaterialsForm";
+import ProportionBar from "@/components/ui/proportion-bar";
+import { AutoComplete } from "@/components/ui/autocomplete";
+import AddMaterialsForm from "@/components/AddMaterialsForm";
 import { Estimate } from "@/types";
 import { useEstimateInputs } from "./EstimateInputsContext";
 import { useSelecetedProposalItem } from "./SelectedItemContext";
 import { useMaterials } from "./MaterialsContext";
-import { MILLWORK_TYPES, ROOMS } from "@/constants";
+import { MILLWORK_TYPES, ROOMS_AREAS } from "@/constants";
 import { parseMaterials } from "@/lib/utils";
-import { Material } from "@/app/proposals/materials-columns";
+import { Material } from "@/app/proposals/create-proposal/[proposalId]/materials-columns";
 import calculateEstimate from "@/app/proposals/create-proposal/[proposalId]/actions/calculateEstimate";
-import { EstimateComponents, LaborCostInputs, MaterialsCostTotals } from "@/app/proposals/create-proposal/[proposalId]/types";
+import {
+  EstimateComponents,
+  LaborCostInputs,
+  MaterialsCostTotals,
+} from "@/app/proposals/create-proposal/[proposalId]/types";
 import updateEstimateCalculations from "@/actions/updateEstimateCalculations";
+import { toast } from "sonner";
+import updateProposalTotalCost from "@/actions/updateProposalTotalCost";
+import SaveSendProposalDialog from "./SaveSendProposalDialog";
 
 const inputClassName =
   "h-6 text-[10px] 2xl:h-10 2xl:text-[17px] text-textColor-700 focus:text-textColor-800 font-medium placeholder:text-sm 2xl:placeholder:text-base placeholder:text-textColor-600/40 bg-ACCENT-200/15 border-transparent rounded-md \
@@ -59,14 +66,14 @@ export default function CreateEstimate({
   const { setMaterials } = useMaterials();
 
   let materials: Material[] = [];
-  if (currentItem.materials) {
+  if (currentItem && currentItem.materials) {
     materials = parseMaterials(currentItem.materials);
   }
 
   type MaterialSumByType = { [key: string]: number };
   let materialSumsArray = [{ label: "NA", value: 0 }];
 
-  if (currentItem.materials) {
+  if (currentItem && currentItem.materials) {
     const materialSumsByType: MaterialSumByType = materials.reduce(
       (acc, material) => {
         const type = material.type as string; // Assuming type will always be present if amount is present
@@ -90,17 +97,15 @@ export default function CreateEstimate({
       })
     );
   }
-
-  // console.log(materialSumsArray);
-
-  console.log("This is the current chosen proposal item: ", currentItem);
-  console.log("These are the proposal items: ", proposalItems);
-  // console.log(currentItem.item_name, currentItem);
-  const [itemName, setItemName] = useState(currentItem.item_name);
-  const [type, setType] = useState(currentItem.type);
-  const [room, setRoom] = useState(currentItem.room);
+  // console.log("Current Item in Create Estimate: ", currentItem, " Selected Item: ", selectedProposalItem);
+  const [itemName, setItemName] = useState(
+    currentItem ? currentItem.item_name : ""
+  );
+  const [type, setType] = useState(currentItem ? currentItem.type : "");
+  const [room, setRoom] = useState(currentItem ? currentItem.room : "");
   const [openMaterialsForm, setOpenMaterialsForm] = useState<boolean>(false);
   const [editPressed, setEditPressed] = useState<boolean>(false);
+  const [openSaveSendDialog, setOpenSaveSendDialog] = useState(false);
 
   const itemNameInputRef = useRef<HTMLInputElement>(null);
   const itemNameLength = itemName.length;
@@ -111,16 +116,49 @@ export default function CreateEstimate({
 
   useEffect(() => itemNameInputRef.current?.focus(), [editPressed]);
   useEffect(() => {
-    setItemName(currentItem.item_name);
-    setType(currentItem.type);
-    setRoom(currentItem.room);
+    if (currentItem) {
+      // console.log("Use Effect on SelectedProposalItem\nItem Name: ", currentItem.item_name);
+      setItemName(currentItem ? currentItem.item_name : "");
+      setType(currentItem ? currentItem.type : "");
+      setRoom(currentItem ? currentItem.room : "");
+      setEstimateInputs({
+        fabricationHours: currentItem ? currentItem.fabrication_hours ?? 0 : 0,
+        installationHours: currentItem
+          ? currentItem.installation_hours ?? 0
+          : 0,
+        subcontractorCost: currentItem
+          ? currentItem.subcontractor_cost ?? 0
+          : 0,
+        independentContractorCost: currentItem
+          ? currentItem.independent_contractor_cost ?? 0
+          : 0,
+        deliveryCost: currentItem ? currentItem.delivery_cost ?? 0 : 0,
+        gasCost: currentItem ? currentItem.gas_cost ?? 0 : 0,
+        equipmentRentalCost: currentItem
+          ? currentItem.equipment_rental_cost ?? 0
+          : 0,
+        miscellaneousCost: currentItem
+          ? currentItem.miscellaneous_cost ?? 0
+          : 0,
+        materialsCost: currentItem ? currentItem.materials_cost ?? 0 : 0,
+        materialMarkupRate: currentItem
+          ? currentItem.materials_markup_rate ?? 0
+          : 0,
+        profitMarginRate: currentItem ? currentItem.profit_margin_rate ?? 0 : 0,
+      });
+    }
   }, [selectedProposalItem]);
+
+  useEffect(() => {
+    if (proposalItems.findIndex((item) => item.status === "Draft") === -1)
+      setOpenSaveSendDialog((openSaveSendDialog) => !openSaveSendDialog);
+  }, [proposalItems]);
 
   function handleItemNameEnterPress(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter") setEditPressed((editPressed) => !editPressed);
   }
 
-  async function handleSaveItem(){
+  async function handleSaveItem() {
     const laborCostInputs: LaborCostInputs = {
       fabricationHours: estimateInputs.fabricationHours,
       installationHours: estimateInputs.installationHours,
@@ -131,32 +169,104 @@ export default function CreateEstimate({
       equipmentRentalCost: estimateInputs.equipmentRentalCost,
       miscellaneousCost: estimateInputs.miscellaneousCost,
     };
+
     const materialsCostTotals: MaterialsCostTotals = {
       totalMaterialsCost: currentItem.materials_cost ?? 0,
-      materialsMarkup: currentItem.materials_markup_rate ?? 0,
-      totalMaterialsCostNoMarkup: currentItem.materials_cost ?
-        currentItem.materials_cost /
-        (1 + 0.01 * currentItem.materials_markup_rate) : 0,
+      materialsMarkup: currentItem ? currentItem.materials_markup_rate ?? 0 : 0,
+      totalMaterialsCostNoMarkup: currentItem
+        ? currentItem.materials_cost
+          ? currentItem.materials_cost /
+            (1 + 0.01 * currentItem.materials_markup_rate)
+          : 0
+        : 0,
     };
+
     const estimateComponents: EstimateComponents = {
       laborCostInputs: laborCostInputs,
       materialsCostTotals: materialsCostTotals,
-      profitMargin: 0.2,
+      profitMarginRate: estimateInputs.profitMarginRate,
     };
+
     const estimateCalculations = await calculateEstimate(estimateComponents);
-    if(currentItem.id) updateEstimateCalculations(currentItem.id, itemName, type, room, estimateInputs, estimateCalculations)
-      setSelectedProposalItem((selectedProposalItem) => {
-        if (selectedProposalItem === proposalItems.length - 1)
-        {
-        return 0;
-        }
-        else return selectedProposalItem + 1
-      })
-    refreshProposalItems()
+    if (currentItem.id) {
+      updateEstimateCalculations(
+        currentItem.id,
+        itemName,
+        type,
+        room,
+        estimateInputs,
+        estimateCalculations
+      );
+      let newTotalCost = proposalItems.reduce((sum, item, index) => {
+        return index !== selectedProposalItem
+          ? sum + (item.total_cost ?? 0)
+          : sum;
+      }, 0);
+      newTotalCost += estimateCalculations.totalCost;
+      updateProposalTotalCost(currentItem.proposal, newTotalCost);
+    }
+
+    //******************* NEXT ITEM SELECTED LOGIC
+    console.log("CURRENT SELECTED ITEM: ", selectedProposalItem);
+    const itemsWithIndexes = proposalItems.map((item, index) => {
+      return { index: index, item: item };
+    });
+    console.log("ITEMS WITH INDEXES: ", itemsWithIndexes);
+    const draftItems = itemsWithIndexes.filter(
+      (itemWithIndex) =>
+        itemWithIndex.item.status === "Draft" &&
+        itemWithIndex.index !== selectedProposalItem
+    );
+    console.log("DRAFT ITEMS: ", draftItems);
+    const nextItemIndex =
+      draftItems.length > 0
+        ? draftItems.find((item) => item.index > selectedProposalItem)!.index ??
+          0
+        : 0;
+    console.log("NEXT ITEM INDEX: ", nextItemIndex);
+
+    const nextSelectedItem =
+      nextItemIndex !== -1
+        ? nextItemIndex
+        : draftItems.find((draftItem) => draftItem.item.status === "Draft")
+            ?.index ?? 0;
+    //****************
+
+    setSelectedProposalItem(nextSelectedItem);
+    refreshProposalItems();
+    setEstimateInputs({
+      fabricationHours: proposalItems[nextSelectedItem].fabrication_hours ?? 0,
+      installationHours:
+        proposalItems[nextSelectedItem].installation_hours ?? 0,
+      subcontractorCost:
+        proposalItems[nextSelectedItem].subcontractor_cost ?? 0,
+      independentContractorCost:
+        proposalItems[nextSelectedItem].independent_contractor_cost ?? 0,
+      deliveryCost: proposalItems[nextSelectedItem].delivery_cost ?? 0,
+      gasCost: proposalItems[nextSelectedItem].gas_cost ?? 0,
+      equipmentRentalCost:
+        proposalItems[nextSelectedItem].equipment_rental_cost ?? 0,
+      miscellaneousCost:
+        proposalItems[nextSelectedItem].miscellaneous_cost ?? 0,
+      materialsCost: proposalItems[nextSelectedItem].materials_cost ?? 0,
+      materialMarkupRate:
+        proposalItems[nextSelectedItem].materials_markup_rate ?? 0,
+      profitMarginRate: proposalItems[nextSelectedItem].profit_margin_rate ?? 0,
+    });
+    const nextItemName = proposalItems[nextSelectedItem].item_name;
+    toast("Item " + itemName + " has been saved", {
+      description: "Now working on Item " + nextItemName,
+    });
   }
 
   return (
-    <div className="flex flex-col gap-3 2xl:gap-5 justify-between">
+    <div className="flex flex-col gap-2 2xl:gap-5 justify-between">
+      {openSaveSendDialog && (
+        <SaveSendProposalDialog
+          isOpen={openSaveSendDialog}
+          setIsOpen={setOpenSaveSendDialog}
+        />
+      )}
       <div className="text-base 2xl:text-2xl font-bold text-textColor-base flex gap-1 items-center 2xl:mb-1.5">
         Item{" "}
         {editPressed ? (
@@ -223,7 +333,7 @@ export default function CreateEstimate({
               onSelectedValueChange={(value: string) => setRoom(value)}
               searchValue={room}
               onSearchValueChange={(value: string) => setRoom(value)}
-              items={ROOMS}
+              items={ROOMS_AREAS}
               shouldFilter
             />
           </div>
@@ -234,7 +344,7 @@ export default function CreateEstimate({
         <h2 className="text-[11px] 2xl:text-base font-bold text-textColor-700 mb-3 2xl:mb-5">
           Material Cost
         </h2>
-        <div className="bg-ACCENT-200/15 w-full h-[20vh] 2xl:h-[18vh] rounded-2xl drop-shadow-sm flex flex-col gap-1 2xl:gap-3 p-3 2xl:p-4">
+        <div className="bg-ACCENT-200/15 w-full h-[164px] 2xl:h-[18vh] rounded-2xl drop-shadow-sm flex flex-col gap-1 2xl:gap-3 p-3 2xl:p-4">
           <span className="flex justify-between items-center">
             <h2 className="text-[11px] 2xl:text-[16.5px] font-bold text-textColor-800">
               Materials Summary
@@ -254,7 +364,7 @@ export default function CreateEstimate({
                 <span>View/Edit</span>
               </DialogTrigger>
               <DialogContent className="max-w-full w-[100vw] h-[100vh]">
-                <DialogHeader className="mt-10 flex flex-row items-baseline gap-2 2xl:gap-3">
+                <DialogHeader className="mt-5 -mb-3 flex flex-row items-baseline gap-2 2xl:gap-3">
                   <div className="rounded-xl text-textColor-800 border-textColor-200/50 drop-shadow-md border p-2 grid grid-cols-2 grid-rows-2 gap-1">
                     <MdHardware className="h-[13px] w-[13px] 2xl:h-[18px] 2xl:w-[18px]" />
                     <BiSolidCabinet className="h-[13px] w-[13px] 2xl:h-[18px] 2xl:w-[18px]" />
@@ -289,12 +399,14 @@ export default function CreateEstimate({
               </span>
               <span className="font-medium text-[20px] 2xl:text-3xl flex items-center gap-1">
                 <span className="text-[17px] 2xl:text-[26px]">$ </span>
-                {currentItem.materials_cost
-                  ? currentItem.materials_cost.toFixed(2)
+                {currentItem
+                  ? currentItem.materials_cost
+                    ? currentItem.materials_cost.toFixed(2)
+                    : "0.00"
                   : "0.00"}
               </span>
             </div>
-            {currentItem.materials ? (
+            {currentItem && currentItem.materials ? (
               <ProportionBar
                 mainLabel={"Materials Breakdown"}
                 barHeightClassName={"h-3.5 2xl:h-4"}
@@ -305,7 +417,7 @@ export default function CreateEstimate({
         </div>
       </div>
       <div>
-        <h2 className="text-xs 2xl:text-base font-bold text-textColor-700 mb-3 2xl:mb-5">
+        <h2 className="text-xs 2xl:text-base font-bold text-textColor-700 mb-2.5 2xl:mb-5">
           Labor Cost
         </h2>
         <div className="flex justify-between gap-4">
@@ -344,7 +456,7 @@ export default function CreateEstimate({
         </div>
       </div>
       <div>
-        <h2 className="text-xs 2xl:text-base font-bold text-textColor-700 mb-3 2xl:mb-5">
+        <h2 className="text-xs 2xl:text-base font-bold text-textColor-700 mb-2.5 2xl:mb-5">
           Contractor Cost
         </h2>
         <div className="flex justify-between gap-4">
@@ -383,7 +495,7 @@ export default function CreateEstimate({
         </div>
       </div>
       <div>
-        <h2 className="text-xs 2xl:text-base font-bold text-textColor-700 mb-3 2xl:mb-5">
+        <h2 className="text-xs 2xl:text-base font-bold text-textColor-700 mb-2.5 2xl:mb-5">
           Additional Cost
         </h2>
         <div className="flex justify-between gap-4">
@@ -453,7 +565,7 @@ export default function CreateEstimate({
       </div>
       <span className="flex justify-end">
         <Button
-        onClick={handleSaveItem}
+          onClick={handleSaveItem}
           className="h-8 2xl:h-11 bg-white border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg w-[88px] 2xl:w-[120px] text-[11px] 2xl:text-base text-textColor-600 font-medium tracking-wide duration-150
         hover:border-ACCENT-600/60 hover:text-textColor-900"
         >

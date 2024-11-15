@@ -1,10 +1,10 @@
 "use client";
-import React, { Dispatch, SetStateAction } from "react";
-
+import React, { Dispatch, SetStateAction, } from "react";
 import { motion } from "framer-motion";
 import { FaLocationCrosshairs } from "react-icons/fa6";
 import { BsFilePerson, BsFilePersonFill } from "react-icons/bs";
 import { Project } from "@/types";
+import Spinner from "@/components/Spinner";
 
 const container = {
   hidden: { opacity: 1, scale: 0 },

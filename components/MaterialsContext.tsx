@@ -1,5 +1,5 @@
 "use client";
-import { Material } from "@/app/proposals/materials-columns";
+import { Material } from "@/app/proposals/create-proposal/[proposalId]/materials-columns";
 import { createContext, useState, ReactNode, useContext } from "react";
 interface MaterialContextType {
   materials: Material[];

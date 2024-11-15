@@ -1,5 +1,6 @@
 import { Estimate, Proposal } from "@/types";
 import React from "react";
+import { Separator } from "./ui/separator";
 
 //Total:Amount 2.84615
 //Subtotals:Amount 2.08695
@@ -24,8 +25,9 @@ export default function ProposalTotals({ proposalItems }: ProposalTotalsProps) {
   }, 0);
 
   return (
-    <div className="w-full h-full justify-center flex flex-col gap-2 2xl:gap-4 overflow-hidden">
-      <div className="flex flex-col gap-1.5 2xl:gap-2.5">
+    
+      <div className="flex gap-[10.5%] 2xl:gap-[6.5%] items-center justify-center w-full h-full">
+      <div className="flex flex-col">
         <span className="text-[8.5px] font-bold 2xl:text-[13px] 2xl:font-semibold tracking-wide">
           Total
         </span>
@@ -33,7 +35,7 @@ export default function ProposalTotals({ proposalItems }: ProposalTotalsProps) {
           {"$" + total.toFixed(2)}
         </span>
       </div>
-      <div className="flex gap-[5.5%] 2xl:gap-[6.5%]">
+      <Separator orientation="vertical" className="h-9" />
         <div className="flex flex-col">
           <span className="text-[7.5px] 2xl:text-[11.5px] text-textColor-800/85 font-medium tracking-wide">
             Breakeven
@@ -59,6 +61,6 @@ export default function ProposalTotals({ proposalItems }: ProposalTotalsProps) {
           </span>
         </div>
       </div>
-    </div>
+    
   );
 }

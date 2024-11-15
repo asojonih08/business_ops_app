@@ -15,7 +15,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { AutoComplete } from "@/components/ui/autocomplete";
-import { useProposalDetails } from "@/components/ProposalDetailsContext";
 
 interface EditableCellProps {
   variant: string;

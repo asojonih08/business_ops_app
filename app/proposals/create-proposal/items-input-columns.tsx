@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { AutoComplete } from "@/components/ui/autocomplete";
 import { useItemClassifications } from "@/components/ItemClassificationsContext";
+import { MILLWORK_TYPES, ROOMS_AREAS } from "@/constants";
 
 interface EditableCellProps {
   variant: string;
@@ -119,52 +120,6 @@ function EditableCell({
   }
 }
 
-const TYPES = [
-  {
-    value: "Cabinet",
-    label: "Cabinet",
-  },
-  {
-    value: "Deck",
-    label: "Deck",
-  },
-  {
-    value: "Table",
-    label: "Table",
-  },
-  {
-    value: "Flooring",
-    label: "Flooring",
-  },
-  {
-    value: "Siding",
-    label: "Siding",
-  },
-];
-
-const ROOMS = [
-  {
-    value: "Master Bedroom",
-    label: "Master Bedroom",
-  },
-  {
-    value: "Master Bathroom",
-    label: "Master Bathroom",
-  },
-  {
-    value: "Living Room",
-    label: "Living Room",
-  },
-  {
-    value: "Kitchen",
-    label: "Kitchen",
-  },
-  {
-    value: "Dining Room",
-    label: "Dining Room",
-  },
-];
-
 export type ItemClassification = {
   num: number | null;
   name: string | null;
@@ -175,7 +130,7 @@ export type ItemClassification = {
 export const columns: ColumnDef<ItemClassification>[] = [
   {
     accessorKey: "num",
-    header: () => <div className="text-right font-bold">#</div>,
+    header: () => <div className="text-right font-semibold">#</div>,
     cell: ({ row }) => (
       <div className="h-6 2xl:h-7 text-right font-medium">
         {row.getValue("num")}
@@ -184,11 +139,11 @@ export const columns: ColumnDef<ItemClassification>[] = [
   },
   {
     accessorKey: "name",
-    header: () => <div className="font-bold">Name</div>,
+    header: () => <div className="font-semibold">Name</div>,
     cell: ({ row, column, table }) => (
       <EditableCell
         variant={"input"}
-        className="h-6 2xl:h-7 text-[14px] text-left font-medium overflow-hidden items-center  rounded-none  w-full
+        className="h-6 2xl:h-7 text-[12.5px] text-left font-medium overflow-hidden items-center  rounded-none  w-full
         hover:shadow-md hover:border-textColor-300 hover:border-[1.5px] 
         focus-visible:shadow-md focus-visible:ring-PRIMARY-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
         getValue={() => row.getValue("name")}
@@ -198,36 +153,36 @@ export const columns: ColumnDef<ItemClassification>[] = [
   },
   {
     accessorKey: "type",
-    header: () => <div className="font-bold">Type</div>,
+    header: () => <div className="font-semibold">Type</div>,
     cell: ({ row, column, table }) => (
       <EditableCell
         variant={"autocomplete"}
-        className="h-6 2xl:h-7 text-[14px] text-left font-medium overflow-hidden px-1.5 rounded-none text-textColor-500
+        className="h-6 2xl:h-7 text-[12.5px] text-left font-medium overflow-hidden px-1.5 rounded-none text-textColor-500
         hover:shadow-md hover:border-textColor-300 hover:border-[1.5px] 
         focus-visible:shadow-md focus-visible:ring-PRIMARY-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
         placeholder=""
         emptyMessageItemName={"type"}
         getValue={() => row.getValue("type")}
         cellProps={{ row, column, table }}
-        items={TYPES}
+        items={MILLWORK_TYPES}
       />
     ),
   },
   {
     accessorKey: "room",
-    header: () => <div className="text-left font-bold">Room</div>,
+    header: () => <div className="text-left font-semibold">Room</div>,
     size: 20,
     cell: ({ row, column, table }) => (
       <EditableCell
         variant={"autocomplete"}
-        className="h-6 2xl:h-7 text-[14px] text-left font-medium overflow-hidden px-1.5 rounded-none text-textColor-500
+        className="h-6 2xl:h-7 text-[12.5px] text-left font-medium overflow-hidden px-1.5 rounded-none text-textColor-500
         hover:shadow-md hover:border-textColor-300 hover:border-[1.5px] 
         focus-visible:shadow-md focus-visible:ring-PRIMARY-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
         placeholder=""
         emptyMessageItemName={"room"}
         getValue={() => row.getValue("room")}
         cellProps={{ row, column, table }}
-        items={ROOMS}
+        items={ROOMS_AREAS}
       />
     ),
   },
@@ -263,7 +218,7 @@ export const columns: ColumnDef<ItemClassification>[] = [
           className="text-center h-5"
         >
           <Button className="h-5 text-textColor-300 hover:text-textColor-500 hover:duration-300">
-            <RiDeleteBin4Line className="h-[18px] w-[18px] 2xl:h-5 2xl:w-5" />
+            <RiDeleteBin4Line className="h-[16px] w-[16px] 2xl:h-5 2xl:w-5" />
           </Button>
         </div>
       );

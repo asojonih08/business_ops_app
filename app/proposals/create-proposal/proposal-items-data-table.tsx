@@ -19,16 +19,21 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  refreshProposalItems: () => void;
 }
 
 export function ProposalItemsDataTable<TData, TValue>({
   columns,
   data,
+  refreshProposalItems,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    meta: {
+      refreshItems: refreshProposalItems,
+    }
   });
 
   return (

@@ -110,7 +110,7 @@ export function AutoComplete<T extends string>({
                 e.preventDefault();
               }
             }}
-            className="w-[--radix-popover-trigger-width] p-0"
+            className={`w-[--radix-popover-trigger-width] p-0`}
           >
             <CommandList>
               {isLoading && (
@@ -124,6 +124,7 @@ export function AutoComplete<T extends string>({
                 <CommandGroup>
                   {items.map((option) => (
                     <CommandItem
+                      className="text-xs 2xl:text-sm"
                       key={option.value}
                       value={option.value}
                       onMouseDown={(e) => e.preventDefault()}

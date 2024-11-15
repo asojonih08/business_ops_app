@@ -32,6 +32,7 @@ import SiteSearch from "./SiteSearch";
 import LogoIcon from "./LogoIcon";
 import NavigationLink from "./NavigationLink";
 import { BiDetail } from "react-icons/bi";
+import { start } from "repl";
 
 // TODO: fix transition for logo scaling
 
@@ -105,7 +106,7 @@ const linksAmount = navigationLinks.length;
 
 const sidebarAnimation = {
   open: {
-    width: "20%",
+    width: "18%",
     transition: {
       ease: [0.17, 0.67, 0.83, 0.67],
       duration: 0.3,
@@ -124,13 +125,13 @@ const sidebarAnimation = {
 export default function Sidebar() {
   const pathname = usePathname();
 
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <motion.nav
       variants={sidebarAnimation}
       animate={isExpanded ? "open" : "closed"}
-      className="text-sm 2xl:text-[19px] text-textColor-600 font-semibold h-[97vh] my-auto ml-4 w-[20rem] bg-white rounded-2xl shadow-sm overflow-hidden"
+      className="text-sm 2xl:text-[19px] text-textColor-600 font-semibold h-[97vh] my-auto ml-4 bg-white rounded-2xl shadow-sm overflow-hidden"
     >
       <AnimatePresence>
         <ul

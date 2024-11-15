@@ -4,6 +4,8 @@ import { ItemClassificationsProvider } from "@/components/ItemClassificationsCon
 import SupabaseProvider from "@/providers/SupabaseProvider";
 import { EstimateInputsProvider } from "@/components/EstimateInputsContext";
 import { SelectedProposalItemProvider } from "@/components/SelectedItemContext";
+import { Toaster } from "@/components/ui/sonner";
+import { ProposalItemsDetailsProvider } from "@/components/ProposalItemsDetailsContext";
 
 export const metadata = {
   title: "Pacific Fine Millwork",
@@ -22,17 +24,20 @@ export default function RootLayout({
         <SupabaseProvider>
           <Sidebar />
           <main className="h-[97vh] w-[94vw] px-6 mx-auto overflow-hidden">
-            <ItemClassificationsProvider>
-              <MaterialsProvider>
-                <EstimateInputsProvider>
-                  <SelectedProposalItemProvider>
-                    {children}
-                  </SelectedProposalItemProvider>
-                </EstimateInputsProvider>
-              </MaterialsProvider>
-            </ItemClassificationsProvider>
+            <ProposalItemsDetailsProvider>
+              <ItemClassificationsProvider>
+                <MaterialsProvider>
+                  <EstimateInputsProvider>
+                    <SelectedProposalItemProvider>
+                      {children}
+                    </SelectedProposalItemProvider>
+                  </EstimateInputsProvider>
+                </MaterialsProvider>
+              </ItemClassificationsProvider>
+            </ProposalItemsDetailsProvider>
           </main>
         </SupabaseProvider>
+        <Toaster />
       </body>
     </html>
   );

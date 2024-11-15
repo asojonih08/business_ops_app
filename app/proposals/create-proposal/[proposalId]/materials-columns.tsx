@@ -13,7 +13,7 @@ import {
 
 import { ColumnDef } from "@tanstack/react-table";
 import { useMaterials } from "@/components/MaterialsContext";
-import { MATERIAL_TYPES } from "@/constants";
+import { MATERIAL_TYPES, MILLWORK_TYPES } from "@/constants";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { AutoComplete } from "@/components/ui/autocomplete";
@@ -31,6 +31,7 @@ interface EditableCellProps {
     column: any;
     table: any;
   };
+  items?: any;
 }
 
 function EditableCell({
@@ -42,6 +43,7 @@ function EditableCell({
   emptyMessageItemName = "",
   getValue,
   cellProps,
+  items,
 }: EditableCellProps) {
   const initialValue = !getValue() ? "" : getValue();
   const { row, column, table } = cellProps;
@@ -50,14 +52,7 @@ function EditableCell({
   const [searchValue, setSearchValue] = useState<string>("");
 
   const onBlur = () => {
-    // console.log(
-    //   "type",
-    //   row.getValue("type"),
-    //   "description",
-    //   row.getValue("description")
-    // );
     table.options.meta?.updateData(row.index, column.id, value);
-    // console.log(value);
 
     const isType = column.id === "type";
     if (
@@ -176,7 +171,7 @@ function EditableCell({
           onSelectedValueChange={setValue}
           searchValue={value}
           onSearchValueChange={setValue}
-          items={MATERIAL_TYPES}
+          items={items}
           emptyMessage={`No ${emptyMessageItemName} found.`}
           shouldFilter
           className={className}
@@ -199,18 +194,20 @@ export type Material = {
 export const columns: ColumnDef<Material>[] = [
   {
     accessorKey: "num",
-    header: () => <div className="text-right font-bold">#</div>,
+    header: () => <div className="text-right font-semibold">#</div>,
     cell: ({ row }) => (
-      <div className="text-right font-medium">{row.getValue("num")}</div>
+      <div className="h-6 2xl:h-7 text-xs 2xl:text-sm text-right font-medium">
+        {row.getValue("num")}
+      </div>
     ),
   },
   {
     accessorKey: "description",
-    header: () => <div className="font-bold">Description</div>,
+    header: () => <div className="font-semibold w-28">Description</div>,
     cell: ({ row, column, table }) => (
       <EditableCell
-        variant={"autocomplete"}
-        className="text-left font-medium overflow-hidden h-7 px-1.5 rounded-none text-textColor-500
+        variant={"input"}
+        className="text-xs 2xl:text-sm text-left font-medium overflow-hidden h-6 2xl:h-7 px-1.5 rounded-none text-textColor-500
         hover:shadow-md hover:border-textColor-300 hover:border-[1.5px] 
         focus-visible:shadow-md focus-visible:ring-PRIMARY-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
         placeholder=""
@@ -222,26 +219,27 @@ export const columns: ColumnDef<Material>[] = [
   },
   {
     accessorKey: "type",
-    header: () => <div className="font-bold">Type</div>,
+    header: () => <div className="font-semibold w-28">Type</div>,
     cell: ({ row, column, table }) => (
       <EditableCell
         variant={"autocomplete"}
-        className="text-left font-medium overflow-hidden h-7 px-1.5 rounded-none text-textColor-500
+        className="text-xs 2xl:text-sm text-left font-medium overflow-hidden h-6 2xl:h-7 px-1.5 rounded-none text-textColor-500
         hover:shadow-md hover:border-textColor-300 hover:border-[1.5px] 
         focus-visible:shadow-md focus-visible:ring-PRIMARY-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
         placeholder=""
         emptyMessageItemName={"type"}
         getValue={() => row.getValue("type")}
         cellProps={{ row, column, table }}
+        items={MATERIAL_TYPES}
       />
     ),
   },
   {
     accessorKey: "quantity",
-    header: () => <div className="text-right font-bold">Quantity</div>,
+    header: () => <div className="text-right font-semibold">Quantity</div>,
     cell: ({ row, column, table }) => (
       <EditableCell
-        className="text-right font-medium overflow-hidden h-7 px-1.5 rounded-none
+        className="text-xs 2xl:text-sm text-right font-medium overflow-hidden h-6 2xl:h-7 px-1.5 rounded-none
         hover:shadow-md  hover:border-textColor-300 hover:border-[1.5px] 
         focus-visible:shadow-md focus-visible:ring-primary-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
         variant="input"
@@ -252,11 +250,11 @@ export const columns: ColumnDef<Material>[] = [
   },
   {
     accessorKey: "rate",
-    header: () => <div className="text-right font-bold">Rate</div>,
+    header: () => <div className="text-right font-semibold">Rate</div>,
     cell: ({ row, column, table }) => {
       return (
         <EditableCell
-          className="text-right font-medium overflow-hidden h-7 px-1.5 rounded-none
+          className="text-xs 2xl:text-sm text-right font-medium overflow-hidden h-6 2xl:h-7 px-1.5 rounded-none
           hover:shadow-md hover:border-textColor-300 hover:border-[1.5px] 
           focus-visible:shadow-md focus-visible:ring-primary-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
           variant="input"
@@ -269,11 +267,11 @@ export const columns: ColumnDef<Material>[] = [
   {
     accessorKey: "amount",
 
-    header: () => <div className="text-right font-bold">Amount</div>,
+    header: () => <div className="text-right font-semibold">Amount</div>,
     cell: ({ row, column, table }) => {
       return (
         <EditableCell
-          className="disabled:cursor-default disabled:opacity-100 text-right font-medium overflow-hidden h-7 px-1.5 rounded-none
+          className="text-xs 2xl:text-sm disabled:cursor-default disabled:opacity-100 text-right font-medium overflow-hidden h-6 2xl:h-7 px-1.5 rounded-none
         
           focus-visible:shadow-md focus-visible:ring-primary-500/70 focus-visible:ring-[1.5px] focus-visible:-ring-offset-1"
           disabled
@@ -317,10 +315,10 @@ export const columns: ColumnDef<Material>[] = [
       return (
         <div
           onClick={() => handleDeleteMaterial(row.getValue("num"))}
-          className="text-center h-5"
+          className="text-center h-4"
         >
-          <Button className="h-5 text-textColor-300 hover:text-textColor-500 hover:duration-300">
-            <RiDeleteBin4Line className="h-5 w-5" />
+          <Button className="h-4 text-textColor-300 hover:text-textColor-500 hover:duration-300">
+            <RiDeleteBin4Line className="h-4 w-4" />
           </Button>
         </div>
       );

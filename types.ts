@@ -1,4 +1,3 @@
-import { Material } from "./app/proposals/materials-columns";
 import { Json } from "./types_db";
 
 export interface UserDetails {
@@ -69,14 +68,17 @@ export interface OverheadCost {
 
 export interface Proposal {
   id?: number;
+  client: string;
+  client_name: string;
   created_at: string;
   created_by: string;
   project: number;
+  project_name: string;
   is_subdivided: boolean;
   status: string;
   total_cost: number;
   date_sent: string[];
-  sent_to: JSON[];
+  sent_to: Json[];
   estimates: number[];
   proposal_doc_path: string;
 }
@@ -109,7 +111,7 @@ export interface Estimate {
   type: string;
   total_cost: number;
   profit: number;
-  profit_rate: number;
+  profit_margin_rate: number;
   sales_tax: number;
   sales_tax_rate: number;
   breakeven: number;
@@ -129,4 +131,13 @@ export interface EstimateInputs {
   gasCost: number;
   equipmentRentalCost: number;
   miscellaneousCost: number;
+  profitMarginRate: number;
+}
+
+export interface ScheduledEmail {
+  id: number;
+  createdAt: string;
+  emailDetails: Json;
+  scheduledDate: string;
+  proposal: number;
 }

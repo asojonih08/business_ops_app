@@ -61,13 +61,13 @@ export function MaterialsDataTable() {
     <Table ref={bottomOfTableRef} className="border-b">
       <TableHeader>
         {table.getHeaderGroups().map((headerGroup) => (
-          <TableRow className="h-12" key={headerGroup.id}>
+          <TableRow className="h-7" key={headerGroup.id}>
             {headerGroup.headers.map((header, index) => {
               return (
                 <TableHead
-                  className={`w-20 p-2.5 ${
+                  className={`w-20 p-2.5 text-[13px] 2xl:text-base ${
                     index !== 0 ? "border-l-2" : ""
-                  } border-textColor-100 font-bold`}
+                  } border-textColor-100 font-semibold`}
                   key={header.id}
                 >
                   {header.isPlaceholder
@@ -82,11 +82,11 @@ export function MaterialsDataTable() {
           </TableRow>
         ))}
       </TableHeader>
-      <TableBody className="w-36 text-textColor-500 font-medium">
+      <TableBody className="text-textColor-500 font-medium">
         {table.getRowModel().rows?.length ? (
           table.getRowModel().rows.map((row, index) => (
             <TableRow
-              className={`w-36 h-12 2xl:h-14 hover:bg-PRIMARY-50/40 ${
+              className={`h-10 2xl:h-14 hover:bg-PRIMARY-50/40 ${
                 index % 2 === 1 ? "bg-ACCENT-50/50" : ""
               }`}
               key={row.id}

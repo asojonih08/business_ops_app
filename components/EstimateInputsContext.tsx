@@ -18,6 +18,7 @@ const initialState: EstimateInputs = {
   gasCost: 0,
   equipmentRentalCost: 0,
   miscellaneousCost: 0,
+  profitMarginRate: 0.20,
 };
 
 const EstimateInputsContext = createContext<

@@ -24,9 +24,12 @@ import { FaEdit, FaRegEdit } from "react-icons/fa";
 import { GrTrash } from "react-icons/gr";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { useSelecetedProposalItem } from "@/components/SelectedItemContext";
+import deleteEstimate from "@/actions/deleteEstimate";
+import { toast } from "sonner";
 
 export type ProposalItem = {
   num: number | null;
+  id: number | null | undefined;
   name: string | null;
   room: string | null;
   fixture: string | null;
@@ -44,6 +47,15 @@ export const columns: ColumnDef<ProposalItem>[] = [
       <div className="font-semibold text-[13px] text-textColor-600/85 capitalize">
         {row.getValue("num")}
       </div>
+    ),
+  },
+  {
+    accessorKey: "id",
+    header: () => (
+      null
+    ),
+    cell: ({ row }) => (
+      null
     ),
   },
   {
@@ -86,7 +98,7 @@ export const columns: ColumnDef<ProposalItem>[] = [
     ),
     cell: ({ row }) => (
       <div className="text-[11.5px] 2xl:text-[13px] text-textColor-600/85 capitalize font-medium">
-        ${row.getValue("amount")}
+        ${Number(row.getValue("amount")).toFixed(2)}
       </div>
     ),
   },
@@ -112,35 +124,26 @@ export const columns: ColumnDef<ProposalItem>[] = [
 
   {
     id: "action",
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const { selectedProposalItem, setSelectedProposalItem } =
         useSelecetedProposalItem();
-      // const {estimateCalculations, setEstimateCalculations} = useEstimateCalculations()
-      const { materials, setMaterials } = useMaterials();
-      function handleDeleteMaterial(num: number) {
-        if (materials.length === 1) return;
-        // console.log(
-        //   "num",
-        //   num,
-        //   "type",
-        //   row.getValue("type"),
-        //   "description",
-        //   row.getValue("description"),
-        //   "quantity",
-        //   row.getValue("quantity"),
-        //   "rate",
-        //   row.getValue("rate"),
-        //   "amount",
-        //   row.getValue("amount")
-        // );
-
-        const newMaterials = materials.filter(
-          (material) => num !== material["num"]
-        );
-        const updatedNumMaterials = newMaterials.map((material, index) => {
-          return { ...material, num: index + 1 };
-        });
-        setMaterials(updatedNumMaterials);
+      
+      async function handleDeleteItem() {
+        console.log("delete id: ", row.getValue("id"));
+        const deletedNum: number = row.getValue("num");
+        const deletedName: string = row.getValue("name");
+        deleteEstimate(row.getValue("id"));
+        if (selectedProposalItem === deletedNum - 1){
+          if (selectedProposalItem === 0){
+            setSelectedProposalItem(0);
+          }
+          else {
+            setSelectedProposalItem(0);
+          }
+        }
+        table.options.meta?.refreshItems();
+        
+        toast("Item " + deletedName + " was deleted");
       }
       return (
         <DropdownMenu>
@@ -163,7 +166,9 @@ export const columns: ColumnDef<ProposalItem>[] = [
               </div>
             </DropdownMenuItem>
             <DropdownMenuSeparator className="mx-1.5 bg-textColor-900/10 h-[0.7px]" />
-            <DropdownMenuItem className="hover:bg-accent-200/30 hover:cursor-pointer -my-0.5">
+            <DropdownMenuItem 
+              onClick={handleDeleteItem}
+              className="hover:bg-accent-200/30 hover:cursor-pointer -my-0.5">
               <div className="w-full flex justify-between items-center">
                 <span className="text-[13px] text-[#FD4238]">Delete</span>
                 <RiDeleteBin6Line className="text-[#FF3B30]" size={13.5} />

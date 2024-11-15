@@ -316,15 +316,7 @@ export type Database = {
           start_date?: string | null
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "fixedcosts_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       invoices: {
         Row: {
@@ -537,6 +529,8 @@ export type Database = {
       }
       proposals: {
         Row: {
+          client: string | null
+          client_name: string | null
           created_at: string
           created_by: string | null
           date_sent: string[] | null
@@ -544,12 +538,15 @@ export type Database = {
           id: number
           is_subdivided: boolean | null
           project: number | null
+          project_name: string | null
           proposal_doc_path: string | null
           sent_to: Json[] | null
           status: string | null
           total_cost: number | null
         }
         Insert: {
+          client?: string | null
+          client_name?: string | null
           created_at?: string
           created_by?: string | null
           date_sent?: string[] | null
@@ -557,12 +554,15 @@ export type Database = {
           id?: number
           is_subdivided?: boolean | null
           project?: number | null
+          project_name?: string | null
           proposal_doc_path?: string | null
           sent_to?: Json[] | null
           status?: string | null
           total_cost?: number | null
         }
         Update: {
+          client?: string | null
+          client_name?: string | null
           created_at?: string
           created_by?: string | null
           date_sent?: string[] | null
@@ -570,12 +570,20 @@ export type Database = {
           id?: number
           is_subdivided?: boolean | null
           project?: number | null
+          project_name?: string | null
           proposal_doc_path?: string | null
           sent_to?: Json[] | null
           status?: string | null
           total_cost?: number | null
         }
         Relationships: [
+          {
+            foreignKeyName: "proposals_client_fkey"
+            columns: ["client"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "proposals_created_by_fkey"
             columns: ["created_by"]
@@ -588,6 +596,38 @@ export type Database = {
             columns: ["project"]
             isOneToOne: false
             referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      scheduled_emails: {
+        Row: {
+          created_at: string
+          email_details: Json | null
+          id: number
+          proposal: number | null
+          scheduled_date: string | null
+        }
+        Insert: {
+          created_at?: string
+          email_details?: Json | null
+          id?: number
+          proposal?: number | null
+          scheduled_date?: string | null
+        }
+        Update: {
+          created_at?: string
+          email_details?: Json | null
+          id?: number
+          proposal?: number | null
+          scheduled_date?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scheduled_emails_proposal_fkey"
+            columns: ["proposal"]
+            isOneToOne: false
+            referencedRelation: "proposals"
             referencedColumns: ["id"]
           },
         ]
@@ -617,15 +657,7 @@ export type Database = {
           is_admin_user?: boolean | null
           last_name?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "users_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       variablecosts: {
         Row: {
@@ -658,15 +690,7 @@ export type Database = {
           start_date?: string | null
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "variablecosts_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {
@@ -764,4 +788,19 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never

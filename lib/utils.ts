@@ -1,4 +1,4 @@
-import { Material } from "@/app/proposals/materials-columns";
+import { Material } from "@/app/proposals/create-proposal/[proposalId]/materials-columns";
 import { Json } from "@/types_db";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -43,3 +43,11 @@ export function convertMaterialsToJson(materials: Material[]): Json[] {
     } as Json;
   });
 }
+
+export const validateEmail = (email: string) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};

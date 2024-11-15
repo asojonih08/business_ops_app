@@ -13,6 +13,9 @@ const insertProposal = async (formData: FormData): Promise<Proposal[]> => {
     .from("proposals")
     .insert({
       project: formData.get("project"),
+      project_name: formData.get("projectName"),
+      client: formData.get("client"),
+      client_name: formData.get("clientName"),
       status: formData.get("status"),
       is_subdivided: true,
     })

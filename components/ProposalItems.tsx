@@ -1,13 +1,21 @@
+"use client";
 import React from "react";
 import { Separator } from "./ui/separator";
 import { IoSearch } from "react-icons/io5";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { ProposalItemsDataTable } from "@/app/proposals/proposal-items-data-table";
-import { columns, ProposalItem } from "@/app/proposals/proposal-items-columns";
+import { ProposalItemsDataTable } from "@/app/proposals/create-proposal/proposal-items-data-table";
+import {
+  columns,
+  ProposalItem,
+} from "@/app/proposals/create-proposal/proposal-items-columns";
 import { FiSend } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa6";
 import { Estimate } from "@/types";
+import insertEstimatesItemClassifications from "@/actions/insertEstimatesItemClassifications";
+import { useSelecetedProposalItem } from "./SelectedItemContext";
+import { toast } from "sonner";
+import { useRouter, usePathname } from "next/navigation";
 
 const mockProjectItemsData = [
   {
@@ -57,27 +65,53 @@ const ICON_SIZE_xl = 19;
 
 interface ProposalItemsProps {
   proposalItems: Estimate[];
+  refreshProposalItems: () => void;
 }
 
-export default function ProposalItems({ proposalItems }: ProposalItemsProps) {
+export default function ProposalItems({
+  proposalItems,
+  refreshProposalItems,
+}: ProposalItemsProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const { selectedProposalItem, setSelectedProposalItem } =
+    useSelecetedProposalItem();
   const proposalItemsList: ProposalItem[] = proposalItems.map(
     (proposalItem, index) => {
+      // console.log("id: ", proposalItem.id)
       return {
         num: index + 1,
-        room: proposalItem.room,
+        id: proposalItem.id,
+        room: proposalItem.room === "" ? "[No Room]" : proposalItem.room,
         name: proposalItem.item_name,
-        fixture:
-          proposalItem.status === "Completed"
-            ? proposalItem.is_fixture
-              ? "Yes"
-              : "No"
-            : "NA",
+        fixture: proposalItem.is_fixture ? "Yes" : "No",
         amount: proposalItem.total_cost ? proposalItem.total_cost : 0,
 
         status: proposalItem.status,
       };
     }
   );
+  async function handleAddItem() {
+    const data = new FormData();
+    data.append("item0", "[No Name]");
+    data.append("item0", "");
+    data.append("item0", "");
+
+    if (proposalItems[0].project)
+      data.append("project", proposalItems[0].project.toString());
+    if (proposalItems[0].client) data.append("client", proposalItems[0].client);
+    if (proposalItems[0].proposal)
+      data.append("proposal", proposalItems[0].proposal.toString());
+    data.append("itemClassificationsCount", "1");
+
+    const estimates = await insertEstimatesItemClassifications(data);
+    // console.log("Estimates after add item: ", estimates);
+    // console.log("Estimates length: ", proposalItems.length);
+    const nextSelectedItem = proposalItems.length;
+    refreshProposalItems();
+    toast("New item added");
+  }
+
   return (
     <div className=" h-full w-full flex flex-col justify-between">
       <div className="flex flex-col gap-4 2xl:gap-6">
@@ -101,6 +135,7 @@ export default function ProposalItems({ proposalItems }: ProposalItemsProps) {
             />
           </span>
           <Button
+            onClick={handleAddItem}
             className="h-7 2xl:h-8 flex items-center justify-center gap-1 px-1 font-medium border-[1.5px] 2xl:border-[1.8px] border-textColor-300/50 shadow-sm rounded-lg w-[70px] 2xl:w-[102px] text-textColor-600 tracking-wide duration-150
           hover:border-ACCENT-600/60 hover:text-textColor-900"
           >
@@ -109,7 +144,11 @@ export default function ProposalItems({ proposalItems }: ProposalItemsProps) {
           </Button>
         </div>
         <Separator className="w-full h-[1.3px] 2xl:h-[1.8px] -mt-2 2xl:-mt-3 mx-auto bg-textColor-300/10" />
-        <ProposalItemsDataTable data={proposalItemsList} columns={columns} />
+        <ProposalItemsDataTable
+          data={proposalItemsList}
+          columns={columns}
+          refreshProposalItems={refreshProposalItems}
+        />
       </div>
       <div className="flex flex-col gap-3.5 2xl:gap-7">
         <div>
@@ -117,12 +156,16 @@ export default function ProposalItems({ proposalItems }: ProposalItemsProps) {
         </div>
         <span className="flex justify-end items-center gap-5 bg-white rounded-2xl pr-8">
           <Button
+            onClick={() => router.push("/proposals")}
             className="w-24 h-7 2xl:w-28 2xl:h-8 shadow-md text-[13.5px] 2xl:text-base border-2 border-textColor-700 text-textColor-700 rounded-sm font-medium tracking-wide duration-150 
-        hover:bg-slate-100"
+          hover:bg-slate-100"
           >
             Save
           </Button>
-          <Button className="w-24 h-7 2xl:w-28 2xl:h-8 shadow-md text-[13.5px] 2xl:text-base from-ACCENT-100 to-ACCENT-400/65 bg-gradient-to-r text-textColor-800 rounded-sm  hover:text-textColor-base hover:bg-PRIMARY-300/80 hover:border-textColor-400/20 duration-150 font-medium tracking-wide">
+          <Button
+            onClick={() => router.push(`${pathname}/send`)}
+            className="w-24 h-7 2xl:w-28 2xl:h-8 shadow-md text-[13.5px] 2xl:text-base from-ACCENT-100 to-ACCENT-400/65 bg-gradient-to-r text-textColor-800 rounded-sm  hover:text-textColor-base hover:bg-PRIMARY-300/80 hover:border-textColor-400/20 duration-150 font-medium tracking-wide"
+          >
             <span className="flex items-center gap-1.5">
               <span>Proposal</span>
               <FiSend size={16} />

@@ -39,7 +39,7 @@ export interface MaterialsCostTotals {
 export interface EstimateComponents {
   laborCostInputs: LaborCostInputs;
   materialsCostTotals: MaterialsCostTotals;
-  profitMargin: number;
+  profitMarginRate: number;
 }
 
 export interface EstimateTotals {
@@ -47,12 +47,13 @@ export interface EstimateTotals {
   materialsCostTotals: MaterialsCostTotals;
   fixtureRatio: number;
   fixture: boolean;
-  fixedCosts: number;
+  overheadRate: number;
+  overheadCost: number;
   salesTaxRate: number;
   salesTax: number;
   breakevenNoTaxProfit: number;
   breakevenTaxNoProfit: number;
-  profitMargin: number;
+  profitMarginRate: number;
   profit: number;
   totalCostNoTax: number;
   totalCost: number;

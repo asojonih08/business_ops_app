@@ -97,6 +97,14 @@ export default function CreateProposal({
     const proposalData = new FormData();
     if (selectedProject?.id)
       proposalData.append("project", (selectedProject?.id).toString());
+    if (selectedProject.name)
+      proposalData.append("projectName", selectedProject.name);
+    if (selectedClient.id) proposalData.append("client", selectedClient?.id);
+    if (selectedClient.company_name || selectedClient.primary_contact_name)
+      proposalData.append(
+        "clientName",
+        selectedClient.company_name ?? selectedClient.primary_contact_name ?? ""
+      );
     proposalData.append("status", "Draft");
     const proposals = await insertProposal(proposalData);
     // console.log(proposals)
@@ -156,6 +164,7 @@ export default function CreateProposal({
 
     router.push(`/proposals/create-proposal/proposal-${newProposalId}`);
   }
+  console.log(selectedProject);
 
   return (
     <div className="flex flex-col gap-8 items-center justify-center w-full h-full">

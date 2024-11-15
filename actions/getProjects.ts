@@ -13,6 +13,9 @@ const getProjects = async (): Promise<Project[]> => {
     .select("*")
     .order("created_at", { ascending: false });
 
+    // //For testing
+    // await new Promise((res)=> setTimeout(res, 2000));
+
   if (error) {
     console.log(error);
   }

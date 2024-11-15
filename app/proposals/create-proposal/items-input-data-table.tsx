@@ -62,13 +62,13 @@ export function ItemClassificationsDataTable() {
     <Table ref={bottomOfTableRef} className="border-b">
       <TableHeader>
         {table.getHeaderGroups().map((headerGroup) => (
-          <TableRow className="h-12" key={headerGroup.id}>
+          <TableRow className="h-4" key={headerGroup.id}>
             {headerGroup.headers.map((header, index) => {
               return (
                 <TableHead
                   className={`w-20 p-2.5 ${
                     index !== 0 ? "border-l-2" : ""
-                  } border-textColor-100 font-bold`}
+                  } border-textColor-100 font-semibold text-[13px]`}
                   key={header.id}
                 >
                   {header.isPlaceholder
@@ -87,7 +87,7 @@ export function ItemClassificationsDataTable() {
         {table.getRowModel().rows?.length ? (
           table.getRowModel().rows.map((row, index) => (
             <TableRow
-              className={`h-12 2xl:h-14 hover:bg-PRIMARY-50/40 ${
+              className={`h-7 2xl:h-14 hover:bg-PRIMARY-50/40 ${
                 index % 2 === 1 ? "bg-ACCENT-50/50" : ""
               }`}
               key={row.id}

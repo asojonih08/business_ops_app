@@ -1,7 +1,10 @@
 "use client";
 
-import { Material, columns } from "@/app/proposals/materials-columns";
-import { MaterialsDataTable } from "@/app/proposals/materials-data-table";
+import {
+  Material,
+  columns,
+} from "@/app/proposals/create-proposal/[proposalId]/materials-columns";
+import { MaterialsDataTable } from "@/app/proposals/create-proposal/[proposalId]/materials-data-table";
 import React, {
   ChangeEvent,
   Dispatch,
@@ -13,14 +16,6 @@ import React, {
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
 import { FiPlus, FiSave } from "react-icons/fi";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
-
 import { useMaterials } from "./MaterialsContext";
 import { PiFloppyDisk, PiFloppyDiskBold } from "react-icons/pi";
 import { ScrollArea } from "./ui/scroll-area";
@@ -32,6 +27,7 @@ import { Estimate } from "@/types";
 import { Json } from "@/types_db";
 import { convertMaterialsToJson, parseMaterials } from "@/lib/utils";
 import updateEstimateMaterials from "@/actions/updateEstimateMaterials";
+import ItemsInput from "./ItemsInput";
 
 const initialMaterialsState: Material = {
   num: 1,
@@ -97,6 +93,7 @@ export default function AddMaterialsForm({
         proposalItem?.id,
         convertMaterialsToJson(materials),
         materialsMarkupRate,
+        subtotal,
         total
       );
     }
@@ -112,23 +109,45 @@ export default function AddMaterialsForm({
 
   return (
     <div className="flex flex-col gap-2 2xl:gap-4 h-[100vh]">
-      <ScrollArea className="bg-textColor-50/40 pt-5 border-y-[3px] border-textColor-300/50 h-[38%] max-h-[38%] 2xl:h-[46%] 2xl:max-h-[46%]">
+      <ScrollArea className="bg-textColor-50/40 py-4 border-y-[3px] border-textColor-300/50 h-[45%] max-h-[45%] 2xl:h-[46%] 2xl:max-h-[46%] w-full">
         <MaterialsDataTable />
-        <span className="h-0"></span>
       </ScrollArea>
+      {/* <ItemsInput
+        selectedProject={{
+          additional_contacts: undefined,
+          amount_paid: 0,
+          apartment_or_suite_number: 12,
+          client: "7cf8b825-2d2a-445d-bb61-572fe58673ea",
+          created_at: "2024-10-22T04:00:25.10195+00:00",
+          created_by: "",
+          date_closed: "",
+          date_completed: "null",
+          id: 61,
+          invoices: [],
+          name: "123 Redwood Street",
+          overhead_costs: "",
+          paid_in_full: false,
+          proposals: [],
+          state: "CA",
+          status: "pending approval",
+          street_address: "123 Redwood Street",
+          total_cost: 0,
+          zip_or_postal_code: 90011,
+        }}
+      /> */}
       <span className="flex justify-between items-start mt-3 gap-8">
         <div className="flex flex-col gap-9">
           <div className="flex items-center gap-2">
             <Separator className="bg-textColor-100 w-[12vw] h-[1.8px]" />
             <Button
               onClick={handleAddMaterialClick}
-              className="h-7 bg-white border-textColor-100 border-[1.8px] shadow-sm rounded-none flex gap-1 items-center p-2.5  
+              className="h-6 bg-white border-textColor-100 border-[1.8px] shadow-sm rounded-none flex gap-1 items-center p-2.5  
             hover:shadow-sm hover:border-textColor-300/60 hover:border-[1.5px] hover:duration-100"
             >
-              <span className="text-textColor-600 text-[14.5]">
+              <span className="text-textColor-600">
                 <FiPlus />
               </span>{" "}
-              <span className="font-bold text-[12.5px] text-textColor-700 tracking-wide">
+              <span className="font-bold text-[11px] text-textColor-700 tracking-wide">
                 Add Material
               </span>
             </Button>
@@ -150,7 +169,7 @@ export default function AddMaterialsForm({
           <span className="order-3 flex flex-col gap-1.5 items-end justify-end">
             <span className="text-xs font-medium">Material Markup %</span>
             <Input
-              className="w-16 h-9"
+              className="w-16 h-7 text-[11px]"
               type="number"
               min={0}
               value={materialsMarkupRate}

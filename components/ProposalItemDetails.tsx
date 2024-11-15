@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Label } from "./ui/label";
+"use client";
+import React, { useEffect, useState } from "react";
 import { ProposalDetailsDataTable } from "@/app/proposals/create-proposal/[proposalId]/send/proposal-details-data-table";
 import {
   columns,
@@ -8,14 +8,27 @@ import {
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { FiPlus } from "react-icons/fi";
+import { Estimate } from "@/types";
+import { parseMaterials } from "@/lib/utils";
+import { useProposalItemsDetails } from "@/components/ProposalItemsDetailsContext";
 
-export default function ProposalItemDetails() {
+interface ProposalItemDetailsProps {
+  proposalItem: Estimate;
+}
+
+export default function ProposalItemDetails({
+  proposalItem,
+}: ProposalItemDetailsProps) {
+  const { proposalItemsDetails, setProposalItemsDetails } =
+    useProposalItemsDetails();
+  const materials = parseMaterials(proposalItem.materials);
+  const proposalItemDetailsData = materials.map((material, index) => {
+    return { num: index + 1, description: material.description ?? "" };
+  });
+  // console.log("initial proposalItemsDetailsData: ", proposalItemDetailsData);
   const [proposalItemDetails, setProposalItemDetails] = useState<
     ProposalDetail[]
-  >([
-    { num: 1, description: null },
-    { num: 2, description: null },
-  ]);
+  >(proposalItemDetailsData);
 
   function handleDeleteProposalItemDetail(id: number) {
     let newProposalItemDetails = proposalItemDetails.filter(
@@ -36,6 +49,26 @@ export default function ProposalItemDetails() {
     ];
     setProposalItemDetails(newProposalItemDetails);
   }
+
+  useEffect(() => {
+    const newproposalItemsDetails = { ...proposalItemsDetails };
+
+    if (proposalItem.id)
+      newproposalItemsDetails[proposalItem.id] = proposalItemDetailsData;
+    // console.log(
+    //   "Initial load useEffect, proposalItemsDetails: ",
+    //   newproposalItemsDetails
+    // );
+    setProposalItemsDetails(newproposalItemsDetails);
+  }, []);
+
+  useEffect(() => {
+    // console.log("useEffect proposalItemDetail changed: ", proposalItemsDetails);
+    const newproposalItemsDetails = { ...proposalItemsDetails };
+    if (proposalItem.id)
+      newproposalItemsDetails[proposalItem.id] = proposalItemDetails;
+    setProposalItemsDetails(newproposalItemsDetails);
+  }, [proposalItemDetails]);
 
   return (
     <>

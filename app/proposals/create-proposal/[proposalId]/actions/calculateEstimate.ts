@@ -45,7 +45,7 @@ const calculateEstimate = async (estimateInputs: EstimateComponents) => {
   }
 
   // const overheadCostRate = await getOverheadCostsRate();
-  const overheadCostRate = totalFixedCostsMonthly / expectedWorkingHours;
+  const overheadRate = totalFixedCostsMonthly / expectedWorkingHours;
 
   const laborCost: LaborCostTotals = calculateLaborCost(
     estimateInputs.laborCostInputs
@@ -66,12 +66,13 @@ const calculateEstimate = async (estimateInputs: EstimateComponents) => {
     materialsCostTotals: materialsCostTotals,
     fixtureRatio: 0,
     fixture: false,
-    fixedCosts: overheadCostRate * laborCost.totalLaborHours,
+    overheadRate: overheadRate,
+    overheadCost: overheadRate * laborCost.totalLaborHours,
     salesTaxRate: salesTaxRate,
     salesTax: 0,
     breakevenNoTaxProfit: 0,
     breakevenTaxNoProfit: 0,
-    profitMargin: estimateInputs.profitMargin,
+    profitMarginRate: estimateInputs.profitMarginRate,
     profit: 0,
     totalCostNoTax: 0,
     totalCost: 0,
@@ -86,7 +87,7 @@ const calculateEstimate = async (estimateInputs: EstimateComponents) => {
   estimate.breakevenNoTaxProfit =
     laborCost.totalLaborCost +
     materialsCostTotals.totalMaterialsCost +
-    estimate.fixedCosts +
+    estimate.overheadCost +
     laborCost.subcontractorCost +
     laborCost.independentContractorCost +
     laborCost.deliveryFee +
@@ -95,9 +96,9 @@ const calculateEstimate = async (estimateInputs: EstimateComponents) => {
     laborCost.miscellaneousFees;
 
   estimate.profit =
-    estimate.profitMargin *
+    estimate.profitMarginRate *
     (laborCost.totalLaborCost +
-      estimate.fixedCosts +
+      estimate.overheadCost +
       laborCost.subcontractorCost +
       laborCost.independentContractorCost);
   estimate.totalCostNoTax = estimate.breakevenNoTaxProfit + estimate.profit;

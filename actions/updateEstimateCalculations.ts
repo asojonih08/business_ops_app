@@ -46,17 +46,20 @@ const updateEstimateCalculations = async (
       yearly_expected_working_hours: 153, // Needs to be saved in DB
       fixture_ratio: estimateCalculations.fixtureRatio,
       is_fixture: estimateCalculations.fixture,
+      overhead_rate: estimateCalculations.overheadRate,
+      overhead_cost: estimateCalculations.overheadCost,
       sales_tax_rate: 0.1, // Needs to be saved in DB
       sales_tax: estimateCalculations.salesTax,
       breakeven_no_tax_profit: estimateCalculations.breakevenNoTaxProfit,
       breakeven_tax_no_profit: estimateCalculations.breakevenTaxNoProfit,
-      profit_margin_rate: estimateCalculations.profitMargin,
+      profit_margin_rate: estimateCalculations.profitMarginRate,
       profit: estimateCalculations.profit,
       total_cost_no_tax: estimateCalculations.totalCostNoTax,
       total_cost: estimateCalculations.totalCost
     })
     .eq("id", Number(id));
-
+    //For testing
+    const waiting = await new Promise((res)=> setTimeout(res, 3000));
   if (error) {
     console.log(error);
   }

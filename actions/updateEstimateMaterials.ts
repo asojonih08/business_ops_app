@@ -8,6 +8,7 @@ const updateEstimateMaterials = async (
   id: number,
   materials: Json[],
   materialsMarkupRate: number,
+  materialsCostNoMarkup: number,
   materialsCost: number
 ): Promise<Estimate> => {
   const supabase = createServerComponentClient({
@@ -20,6 +21,7 @@ const updateEstimateMaterials = async (
       materials: materials,
       materials_cost: materialsCost,
       materials_markup_rate: materialsMarkupRate,
+      materials_cost_no_markup: materialsCostNoMarkup
     })
     .eq("id", Number(id));
 
