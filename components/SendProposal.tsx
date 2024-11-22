@@ -1,32 +1,46 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import ProposalItemsDetailsList from "@/components/ProposalItemsDetailsList";
 import EmailDetails from "@/components/EmailDetails";
-import ProposalPDFBuilder from "@/components/ProposalPDFBuilder";
 import { Client, Estimate, Project, Proposal } from "@/types";
 
 import { useProposalItemsDetails } from "@/components/ProposalItemsDetailsContext";
 import { toast } from "sonner";
-import { usePDF } from "@react-pdf/renderer";
 import uploadProposalDoc from "@/actions/uploadProposalDoc";
-import { Item } from "./ui/fancy-multi-select";
+import { Item } from "@/components/ui/fancy-multi-select";
 import insertScheduledEmail from "@/actions/insertScheduledEmail";
 import { Json } from "@/types_db";
 import getScheduledEmails from "@/actions/getScheduledEmails";
 import { useRouter } from "next/navigation";
 import updateProposalEmailSentDetails from "@/actions/updateProposalEmailSentDetails";
-
+import ProposalPDFBuilderForUsePdf from "./ProposalPDFBuilderForUsePdf";
+import { usePDF } from "@react-pdf/renderer";
+import dynamic from "next/dynamic";
+// import SendProposalActions from "./SendProposalActions";
 // Import `PDFViewer` dynamically to avoid server-side rendering issues
 const ProposalPDFViewer = dynamic(
-  () => import("@/components/ProposalPDFViewer"),
+  () => import("@/components/ProposalPDFViewer").then(),
   {
     ssr: false,
+    loading: () => <p>Loading...</p>,
   }
 );
+
+// console.log("PROPOSAL PDF BUILDER: ", ProposalPDFBuilder);
+
+// console.log("PROPOSAL PDF Viewer: ", ProposalPDFViewer);
+// console.log("Separator:", Separator);
+// console.log("ScrollArea:", ScrollArea);
+// console.log("Button:", Button);
+// console.log("ProposalItemsDetailsList:", ProposalItemsDetailsList);
+// console.log("EmailDetails:", EmailDetails);
+// console.log("ProposalPDFViewer:", ProposalPDFViewer);
+// console.log("usePDF:", usePDF);
+// console.log("useProposalItemsDetails:", useProposalItemsDetails);
 
 interface SendProposalProps {
   proposal: Proposal;
@@ -56,25 +70,17 @@ export default function SendProposal({
   );
   const [scheduledDate, setScheduledDate] = useState<Date>();
 
-  const [instance, updateInstance] = usePDF({
-    document: (
-      <ProposalPDFBuilder
-        proposal={proposal}
-        proposalItems={proposalItems}
-        client={client}
-        proposalItemsDetails={proposalItemsDetails}
-      />
-    ),
-  });
   const router = useRouter();
+
+  const [instance, updateInstance] = usePDF();
 
   useEffect(
     () =>
       updateInstance(
-        <ProposalPDFBuilder
-          proposal={proposal}
-          proposalItems={proposalItems}
-          client={client}
+        <ProposalPDFBuilderForUsePdf
+          proposal={proposal ?? []}
+          proposalItems={proposalItems ?? []}
+          client={client ?? null}
           proposalItemsDetails={proposalItemsDetails}
         />
       ),
@@ -272,9 +278,22 @@ export default function SendProposal({
         </ScrollArea>
         <Separator className="h-[2px] 2xl:h-[3px] bg-gradient-to-r from-ACCENT-50 via-ACCENT-700 to-ACCENT-50 w-[97%] my-3 bg" />
         <div className="flex justify-end mr-5 mt-[4.5%]">
+          {/* <SendProposalActions
+            bcc={bcc}
+            cc={cc}
+            client={client}
+            message={message}
+            project={project}
+            proposal={proposal}
+            proposalItems={proposalItems}
+            proposalItemsDetails={proposalItemsDetails}
+            scheduledDate={scheduledDate}
+            subject={subject}
+            to={to}
+          /> */}
           <Button
             className="text-textColor-700 font-bold w-[100px] h-8 2xl:w-32 2xl:h-9 text-[14.5px] 2xl:text-[18px] tracking-wide
-            hover:text-black hover:duration-300"
+          hover:text-black hover:duration-300"
           >
             <p className="underline underline-offset-2">Save</p>
           </Button>

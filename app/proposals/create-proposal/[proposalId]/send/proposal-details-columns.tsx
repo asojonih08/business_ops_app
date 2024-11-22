@@ -143,6 +143,9 @@ export type ProposalDetail = {
   description: string | null;
 };
 
+function deleteTableRow(rowIndex: number, table: any) {
+  table.options.meta?.deleteRow(rowIndex);
+}
 export const columns: ColumnDef<ProposalDetail>[] = [
   {
     accessorKey: "num",
@@ -178,7 +181,7 @@ export const columns: ColumnDef<ProposalDetail>[] = [
         //   "room",
         //   row.getValue("room")
         // );
-        table.options.meta?.deleteRow(row.index);
+        deleteTableRow(row.index, table);
       }
       return (
         <div

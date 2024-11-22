@@ -5,22 +5,21 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
+  TableMeta as ReactTableMeta,
 } from "@tanstack/react-table";
 import { ProposalDetail } from "./proposal-details-columns";
-import { Dispatch, SetStateAction, useEffect, useRef } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Dispatch, SetStateAction, useRef } from "react";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   deleteDataRow: (id: number) => void;
   setData: Dispatch<SetStateAction<ProposalDetail[]>>;
+}
+
+interface TableMeta {
+  deleteRow: (rowIndex: number) => void;
+  updateData: (rowIndex: number, columnId: number, value: any) => void;
 }
 
 // TODO: check quantity and rate for valid number input
@@ -50,6 +49,9 @@ export function ProposalDetailsDataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
     meta: {
+      deleteRow: (rowIndex: number) => {
+        deleteDataRow(rowIndex);
+      },
       updateData: (rowIndex: number, columnId: number, value: any) => {
         setData((old) =>
           old.map((row, index) => {
@@ -63,10 +65,7 @@ export function ProposalDetailsDataTable<TData, TValue>({
           })
         );
       },
-      deleteRow: (rowIndex: number) => {
-        deleteDataRow(rowIndex);
-      },
-    },
+    } as TableMeta,
   });
 
   return (

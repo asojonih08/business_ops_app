@@ -208,7 +208,7 @@ const items = [
   "Media Console",
 ];
 
-interface ProposalPDFBuilderProps {
+interface ProposalPDFBuilderForUsePdfProps {
   proposal: Proposal;
   proposalItems: Estimate[];
   client: Client;
@@ -216,12 +216,12 @@ interface ProposalPDFBuilderProps {
 }
 
 // Create Document Component
-export default function ProposalPDFBuilder({
+export default function ProposalPDFBuilderForUsePdf({
   proposal,
   proposalItems,
   client,
   proposalItemsDetails,
-}: ProposalPDFBuilderProps) {
+}: ProposalPDFBuilderForUsePdfProps) {
   // console.log("proposalItemsDetails: ", proposalItemsDetails);
   const loadFonts = useCallback(async () => {
     await Promise.all([

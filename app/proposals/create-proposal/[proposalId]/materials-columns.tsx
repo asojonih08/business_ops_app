@@ -286,6 +286,7 @@ export const columns: ColumnDef<Material>[] = [
   {
     id: "delete",
     cell: ({ row }) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       const { materials, setMaterials } = useMaterials();
       function handleDeleteMaterial(num: number) {
         if (materials.length === 1) return;

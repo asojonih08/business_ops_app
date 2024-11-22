@@ -27,6 +27,10 @@ import { useSelecetedProposalItem } from "@/components/SelectedItemContext";
 import deleteEstimate from "@/actions/deleteEstimate";
 import { toast } from "sonner";
 
+function refreshTableItems(table: any) {
+  table.options.meta?.refreshItems();
+}
+
 export type ProposalItem = {
   num: number | null;
   id: number | null | undefined;
@@ -51,12 +55,8 @@ export const columns: ColumnDef<ProposalItem>[] = [
   },
   {
     accessorKey: "id",
-    header: () => (
-      null
-    ),
-    cell: ({ row }) => (
-      null
-    ),
+    header: () => null,
+    cell: ({ row }) => null,
   },
   {
     accessorKey: "room",
@@ -126,23 +126,23 @@ export const columns: ColumnDef<ProposalItem>[] = [
     id: "action",
     cell: ({ row, table }) => {
       const { selectedProposalItem, setSelectedProposalItem } =
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         useSelecetedProposalItem();
-      
+
       async function handleDeleteItem() {
         console.log("delete id: ", row.getValue("id"));
         const deletedNum: number = row.getValue("num");
         const deletedName: string = row.getValue("name");
         deleteEstimate(row.getValue("id"));
-        if (selectedProposalItem === deletedNum - 1){
-          if (selectedProposalItem === 0){
+        if (selectedProposalItem === deletedNum - 1) {
+          if (selectedProposalItem === 0) {
             setSelectedProposalItem(0);
-          }
-          else {
+          } else {
             setSelectedProposalItem(0);
           }
         }
-        table.options.meta?.refreshItems();
-        
+        refreshTableItems(table);
+
         toast("Item " + deletedName + " was deleted");
       }
       return (
@@ -166,9 +166,10 @@ export const columns: ColumnDef<ProposalItem>[] = [
               </div>
             </DropdownMenuItem>
             <DropdownMenuSeparator className="mx-1.5 bg-textColor-900/10 h-[0.7px]" />
-            <DropdownMenuItem 
+            <DropdownMenuItem
               onClick={handleDeleteItem}
-              className="hover:bg-accent-200/30 hover:cursor-pointer -my-0.5">
+              className="hover:bg-accent-200/30 hover:cursor-pointer -my-0.5"
+            >
               <div className="w-full flex justify-between items-center">
                 <span className="text-[13px] text-[#FD4238]">Delete</span>
                 <RiDeleteBin6Line className="text-[#FF3B30]" size={13.5} />

@@ -94,7 +94,7 @@ export default function UserAccountMenu() {
         ))}
 
         {toggles.map((toggle, index) => (
-          <li>
+          <li key={toggle.title}>
             <span
               className="flex gap-2 items-center justify-between p-1.5 ml-2 "
               key={toggle.title}

@@ -7,18 +7,16 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Label } from "./ui/label";
-import { FancyMultiSelect, Item } from "./ui/fancy-multi-select";
-import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
-import { Button } from "./ui/button";
+import { Label } from "@/components/ui/label";
+import { FancyMultiSelect, Item } from "@/components/ui/fancy-multi-select";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 import { FaRegEdit } from "react-icons/fa";
 import { Client, Project, Proposal } from "@/types";
 import validator from "validator";
-import { TimePickerInput } from "./ui/time-picker-input";
-import { TimePickerDemo } from "./ui/time-picker-demo";
-import { DateTimePicker } from "./ui/date-time-picker";
+import { DateTimePicker } from "@/components/ui/date-time-picker";
 
 interface EmailDetailsProps {
   proposal: Proposal;

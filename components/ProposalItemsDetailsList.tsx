@@ -1,13 +1,13 @@
 "use client";
 import React, { useEffect } from "react";
-import { Label } from "./ui/label";
-import { Separator } from "./ui/separator";
-import ProposalItemDetails from "./ProposalItemDetails";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import ProposalItemDetails from "@/components/ProposalItemDetails";
 import { Estimate } from "@/types";
 import {
   ProposalItemsDetails,
   useProposalItemsDetails,
-} from "./ProposalItemsDetailsContext";
+} from "@/components/ProposalItemsDetailsContext";
 import { parseMaterials } from "@/lib/utils";
 
 interface ProposalItemDetailsListProps {

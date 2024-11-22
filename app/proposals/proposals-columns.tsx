@@ -197,6 +197,7 @@ export const proposal_columns: ColumnDef<Proposal>[] = [
     id: "action",
     cell: ({ row, table }) => {
       const { selectedProposalItem, setSelectedProposalItem } =
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         useSelecetedProposalItem();
 
       async function handleDeleteItem() {

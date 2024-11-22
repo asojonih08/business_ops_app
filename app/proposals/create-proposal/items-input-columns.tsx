@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/select";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { useMaterials } from "@/components/MaterialsContext";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { AutoComplete } from "@/components/ui/autocomplete";
@@ -189,7 +188,9 @@ export const columns: ColumnDef<ItemClassification>[] = [
   {
     id: "delete",
     cell: ({ row }) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       const { itemClassifications, setItemClassifications } =
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         useItemClassifications();
       function handleDeleteItemClassification(num: number) {
         if (itemClassifications.length === 1) return;

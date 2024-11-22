@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
-import ProposalPDFBuilder from "./ProposalPDFBuilder";
-import { PDFViewer } from "@react-pdf/renderer";
+import ProposalPDFBuilder from "@/components/ProposalPDFBuilder";
 import { Proposal, Estimate, Client } from "@/types";
-import { ProposalItemsDetails } from "./ProposalItemsDetailsContext";
+import { ProposalItemsDetails } from "@/components/ProposalItemsDetailsContext";
+import { PDFViewer } from "@react-pdf/renderer";
 
 interface ProposalPDFViewerProps {
   proposal: Proposal;

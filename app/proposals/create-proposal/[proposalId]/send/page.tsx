@@ -5,8 +5,13 @@ import getClient from "@/actions/getClient";
 import getProject from "@/actions/getProject";
 import getEstimatesByProposal from "@/actions/getEstimatesByProposal";
 
-import SendProposal from "@/components/SendProposal";
+// import SendProposal from "@/components/SendProposal";
 import getClients from "@/actions/getClients";
+import dynamic from "next/dynamic";
+const SendProposal = dynamic(() => import("@/components/SendProposal").then(), {
+  ssr: false,
+  loading: () => <p>Loading...</p>,
+});
 
 export default async function page({ params }: any) {
   const proposalId = Number(params.proposalId?.slice(9));
