@@ -23,7 +23,7 @@ import dynamic from "next/dynamic";
 // import SendProposalActions from "./SendProposalActions";
 // Import `PDFViewer` dynamically to avoid server-side rendering issues
 const ProposalPDFViewer = dynamic(
-  () => import("@/components/ProposalPDFViewer").then(),
+  () => import("@/components/ProposalPDFViewer"),
   {
     ssr: false,
     loading: () => <p>Loading...</p>,
