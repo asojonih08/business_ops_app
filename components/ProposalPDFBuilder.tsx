@@ -12,10 +12,12 @@ import {
 } from "@react-pdf/renderer";
 import { pdfjs } from "react-pdf";
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.mjs",
-  import.meta.url
-).toString();
+if (typeof window !== "undefined" && "Worker" in window) {
+  pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+    "pdfjs-dist/build/pdf.worker.min.js",
+    window.location.href
+  ).toString();
+}
 
 import PDFSvgLogo from "@/components/PdfSvgLogo";
 import { Client, Estimate, Proposal } from "@/types";
